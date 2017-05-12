@@ -1,3 +1,4 @@
+sasengine_output <- function() {
 engine_output <- function (options, code, out, extra = NULL) 
 {
   if (!is.logical(options$echo)) 
@@ -22,4 +23,6 @@ engine_output <- function (options, code, out, extra = NULL)
     if (options$results != "hide" && !knitr:::is_blank(out)) {
       if (options$engine == "highlight") out else knitr:::wrap.character(out, options)
     }, extra), collapse = "\n")
+}
+engine_output
 }

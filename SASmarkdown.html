@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Doug Hemken" />
+
+
+<title>SAS Using R Markdown (Windows)</title>
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">SAS Using R Markdown (Windows)</h1>
+<h4 class="author"><em>Doug Hemken</em></h4>
+<h4 class="date"><em>May 2017</em></h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#background">Background</a></li>
+<li><a href="#including-your-sas-code">Including Your SAS Code</a><ul>
+<li><a href="#basic-limitations">Basic Limitations</a></li>
+<li><a href="#html-or-pdf-as-a-final-target">HTML or PDF as a Final Target?</a></li>
+<li><a href="#file-locations">File locations</a></li>
+<li><a href="#code-setup">Code Setup</a></li>
+</ul></li>
+<li><a href="#running-sas">Running SAS</a></li>
+<li><a href="#html-output-and-graphics">HTML Output and Graphics</a></li>
+</ul>
+</div>
+
+<pre class="r"><code>  require(SASmarkdown)</code></pre>
+<pre><code>## Loading required package: SASmarkdown</code></pre>
+<pre class="r"><code>  backtick &lt;- &quot;`&quot;
+  engine_output &lt;- sasengine_output()
+  sashtmlengine()
+  saslogengine()
+  sas_collectcode()
+  source(&quot;./R/SasMDsetup.r&quot;)</code></pre>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This is an introduction to using R Markdown to produce documents based on SAS.</p>
+<p>Using SAS with R Markdown gives you a method of writing simple documents that include the results of executing SAS commands, with both the document text and the source SAS code in one file.</p>
+<p>This is especially good for writing simple documents that explain statistical coding tasks. One way to think of this is as an extended and more readable version of writing comments in your source code.</p>
+<p>This process uses Rstudio (or just R) to create documents that depend upon SAS code. The source for <strong>this</strong> document is <a href="SASmarkdown.rmd" class="uri">SASmarkdown.rmd</a></p>
+</div>
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p><em>Markdown</em> is a language for formatting fairly simple documents using just a few text symbols. It is designed to be easy to read and write. If you are not already familiar with Markdown see John Gruber's <a href="https://daringfireball.net/projects/markdown/">Markdown article</a>.</p>
+<p><em>R Markdown</em> extends Markdown by allowing you to include blocks of code in one of several programming languages. The code is evaluated, and both the code and it's results are included in a Markdown document. To read more about the details of R Markdown see RStudio's <a href="http://rmarkdown.rstudio.com/lesson-1.html">R Markdown webpages</a></p>
+<p><em>RStudio</em> uses an R package called <code>knitr</code> (this could also be called directly from R), which includes the ability to evaluate SAS code. We will refine this in subsequent articles.</p>
+<p>The documentation for <code>knitr</code> can be found in R's Help, from <a href="https://yihui.name/knitr/">this web page</a>, or in Yihui Xie's book, <em>Dynamic Documents with R and Knitr</em>.</p>
+<p>RStudio makes it easy to process your R Markdown document, execute the source code, and produce a final HTML, pdf, or Word document. After you have written your R Markdown document, RStudio processes it with a simple click of a button! The focus in these articles will be on producing HTML (web) pages.</p>
+<p>Using SAS with R Markdown is not quite as graceful as using R with R Markdown, but we have automated some techniques for putting together simple documents.</p>
+<p>Note that this is not a friendly environment for extensively debugging problems in your SAS code. If your code is at all complicated, you should work out the details in SAS first, then bring it into RStudio to develop your documentation!</p>
+</div>
+<div id="including-your-sas-code" class="section level2">
+<h2>Including Your SAS Code</h2>
+<p>SAS code is included in your R Markdown document in a block called a &quot;code chunk&quot;. When you click on Rstudio's Knit button, your initial document, what you actually write out, is processed by the R function <code>knitr</code>, evaluating your code, collecting the output, and producing a Markdown document. This Markdown document is then processed by a program called <em>Pandoc</em> to produce your final HTML document.</p>
+<p>It helps to understand how knitr evaluates your SAS code. Knitr writes out your code into a file, and then submits that file to SAS to be run in batch mode. This produces SAS log and SAS &quot;listing&quot; output. The listing output is then read back into knitr and used to produce an block of output in the Markdown document. (These files are all temporary.)</p>
+<div id="basic-limitations" class="section level3">
+<h3>Basic Limitations</h3>
+<p>There are two basic limitations that you will have to work with:</p>
+<ul>
+<li><p>Each code chunk runs separately as a SAS batch job, they are not processed as a single running session like R code. Interspersing text with executed code is not as simple as when running R code.</p>
+<p>For example, suppose you have a DATA step early in your document, and then want to use that data in a later code chunk. In the later code chunk, SAS will have begun a new session (a new batch job) and &quot;forgotten&quot; the first DATA step. SAS will not find the data, so SAS will send an error message to R Markdown. The message R Markdown passes back to you will only tell you that SAS did not exit properly.</p>
+<p>(Unlike calling R from SAS's <code>PROC IML</code> (see the <a href="../SASWindows/RfromSAS.html"><em>Calling R from SAS</em> KB</a>), when calling SAS from R you cannot just hand off your data).</p>
+<p>Some of this difficulty can be overcome with the strategic use of a SAS autoexec file (which we automate in <a href="SASmdlinkcode.html">another article</a>) or by echoing only part of the code through the <code>echo</code> code chunk option.</p></li>
+<li><p>If you want to use SAS's html output instead of the listing output, or if you want to include SAS graphics in your final document, a different version of knitr's SAS engine makes this fairly simple (again, a topic for <a href="SAShtmlengine.html">another article</a>).</p></li>
+</ul>
+</div>
+<div id="html-or-pdf-as-a-final-target" class="section level3">
+<h3>HTML or PDF as a Final Target?</h3>
+<p>Longtime SAS users will find that SAS listing output looks as expected in both html and pdf documents. (Newer SAS users may not be familiar with listing output, since it is no longer the default when using SAS interactively. R Markdown runs SAS in batch mode, so listing output is produced by default.)</p>
+<p>SAS html output can be included in a final html document, but renders poorly as a pdf document when run through R Markdown. To do much more than simply display listing output in pdf documents, you will want to investigate SAS's <a href="http://support.sas.com/resources/papers/proceedings12/324-2012.pdf">StatRep</a> or Lenth's <a href="http://homepage.cs.uiowa.edu/~rlenth/SASweave/">SASWeave</a>.</p>
+</div>
+<div id="file-locations" class="section level3">
+<h3>File locations</h3>
+<p>Because I am running this on my office (SSCC) desktop and on Winstat, everything goes on the Z: drive. As long as I specify the root of Z: in the <code>engine.opts</code>, both R Markdown and SAS default to the folder where the markdown file is saved.</p>
+<p>(I don't have this fully worked out for non-SSCC scenarios. If you are working in another environment, you will have to be more careful about where SAS writes its output files, and where R looks for them.)</p>
+<p>(Also keep in mind that for the Windows OS, SAS will use backslashes in file paths, while R will use forward slashes. Note in the <strong>code chunk</strong> options below we are specifying paths to R, so use forward slashes.)</p>
+</div>
+<div id="code-setup" class="section level3">
+<h3>Code Setup</h3>
+<p>The code chunk setup to run SAS is not too difficult. But as long as SAS is not in your operating system's <code>PATH</code> variable, you need to specify its full path with the <code>engine.path</code> option (all on one line), e.g.</p>
+<pre><code>```{r, engine=&quot;sas&quot;, engine.path=&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;}
+
+-- SAS code here --
+
+```</code></pre>
+<p>You will also want to add an <code>engine.opts</code> option, so that SAS will save the listing output (and the log) to a location where R will handle it gracefully, including it in the final document automatically and deleting the SAS output file when finished, e.g.</p>
+<pre><code>```{r, engine=&#39;sas&#39;, engine.path=&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;, engine.opts=&quot;-nosplash -log &#39;z:&#39; -print &#39;Z:&#39;&quot;, comment=&quot;&quot;}
+
+-- SAS code here --
+
+```</code></pre>
+<p>If you have several code chunks you can automate this with a preliminary code chunk in R as</p>
+<pre><code>```{r}
+saspath &lt;- &quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;
+sasopts &lt;- &quot;-nosplash -log &#39;z:&#39; -print &#39;Z:&#39; -ls 75&quot;
+```
+
+```{r, engine=&#39;sas&#39;, engine.path=saspath, engine.opts=sasopts, comment=&quot;&quot;}
+
+-- SAS code here --
+
+```</code></pre>
+<p>Finally, if all of your executable code is sent to SAS you can just set the chunk options as defaults:</p>
+<pre><code>```{r, message=FALSE}
+require(knitr)
+saspath &lt;- &quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;
+sasopts &lt;- &quot;-nosplash -log &#39;z:&#39; -print &#39;Z:&#39; -ls 75&quot;
+opts_chunk$set(engine=&quot;sas&quot;, engine.path=saspath, 
+    engine.opts=sasopts, comment=&quot;&quot;)
+```
+
+```{r}
+
+-- SAS code here --
+
+```</code></pre>
+</div>
+</div>
+<div id="running-sas" class="section level2">
+<h2>Running SAS</h2>
+<p>Here then, is an example as it might appear in your final document.</p>
+<pre class="sas"><code>proc means data=sashelp.class;
+run;
+
+proc freq data=sashelp.class;
+    tables sex;
+run;</code></pre>
+<pre><code>                            The MEANS Procedure
+
+ Variable    N           Mean        Std Dev        Minimum        Maximum
+ -------------------------------------------------------------------------
+ Age        19     13.3157895      1.4926722     11.0000000     16.0000000
+ Height     19     62.3368421      5.1270752     51.3000000     72.0000000
+ Weight     19    100.0263158     22.7739335     50.5000000    150.0000000
+ -------------------------------------------------------------------------
+ 
+                                                                           
+ 
+                            The FREQ Procedure
+
+                                         Cumulative    Cumulative
+         Sex    Frequency     Percent     Frequency      Percent
+         --------------------------------------------------------
+         F             9       47.37             9        47.37  
+         M            10       52.63            19       100.00  </code></pre>
+</div>
+<div id="html-output-and-graphics" class="section level2">
+<h2>HTML Output and Graphics</h2>
+<p>There are two advantages to using SAS's html output, rather than the listing output. First, results tables become html tables instead of strategically spaced text, and will dynamically size themselves to the end user's window. Second, you can include SAS graphics in your final document with a minimum of fuss.</p>
+<p>To use SAS's html output, use <code>sashtml</code> engine, as described in a later article.</p>
+<pre><code>```{r, engine=&#39;sashtml&#39;, engine.path=saspath, engine.opts=sasopts, results=&#39;asis&#39;}
+-- SAS code here --
+```</code></pre>
+<p>As an example,</p>
+<pre class="sashtml"><code>proc corr data=sashelp.class plots=matrix;
+run;
+</code></pre>
+<div class="branch">
+<a name="IDX"></a>
+<div>
+<div align="center">
+<!--BEGINTABLE-->
+<table class="table" cellspacing="0" cellpadding="7" rules="groups" frame="hsides" summary="Procedure Corr: Variables Information">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">
+3 Variables:
+</th>
+<td class="l data">
+Age Height Weight
+</td>
+</tr>
+</tbody>
+</table>
+<!--ENDTABLE-->
+</div>
+</div>
+<br> <a name="IDX1"></a>
+<div>
+<div align="center">
+<!--BEGINTABLE-->
+<table class="table" cellspacing="0" cellpadding="7" rules="groups" frame="hsides" summary="Procedure Corr: Simple Statistics">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="7" scope="colgroup">
+Simple Statistics
+</th>
+</tr>
+<tr>
+<th class="l b header" scope="col">
+Variable
+</th>
+<th class="r b header" scope="col">
+N
+</th>
+<th class="r b header" scope="col">
+Mean
+</th>
+<th class="r b header" scope="col">
+Std Dev
+</th>
+<th class="r b header" scope="col">
+Sum
+</th>
+<th class="r b header" scope="col">
+Minimum
+</th>
+<th class="r b header" scope="col">
+Maximum
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">
+Age
+</th>
+<td class="r data">
+19
+</td>
+<td class="r data">
+13.31579
+</td>
+<td class="r data">
+1.49267
+</td>
+<td class="r data">
+253.00000
+</td>
+<td class="r data">
+11.00000
+</td>
+<td class="r data">
+16.00000
+</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">
+Height
+</th>
+<td class="r data">
+19
+</td>
+<td class="r data">
+62.33684
+</td>
+<td class="r data">
+5.12708
+</td>
+<td class="r data">
+1184
+</td>
+<td class="r data">
+51.30000
+</td>
+<td class="r data">
+72.00000
+</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">
+Weight
+</th>
+<td class="r data">
+19
+</td>
+<td class="r data">
+100.02632
+</td>
+<td class="r data">
+22.77393
+</td>
+<td class="r data">
+1901
+</td>
+<td class="r data">
+50.50000
+</td>
+<td class="r data">
+150.00000
+</td>
+</tr>
+</tbody>
+</table>
+<!--ENDTABLE-->
+</div>
+</div>
+<br> <a name="IDX2"></a>
+<div>
+<div align="center">
+<!--BEGINTABLE-->
+<table class="table" cellspacing="0" cellpadding="7" rules="groups" frame="hsides" summary="Procedure Corr: Pearson Correlations">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="4" scope="colgroup">
+Pearson Correlation Coefficients, N = 19 <br/>Prob &gt; |r| under H0: Rho=0
+</th>
+</tr>
+<tr>
+<th class="c headerempty" scope="col">
+</th>
+<th class="r b header" scope="col">
+Age
+</th>
+<th class="r b header" scope="col">
+Height
+</th>
+<th class="r b header" scope="col">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="l rowheader" scope="row">
+Age
+</th>
+<td class="r stacked_cell data">
+<table width="100%" border="0" cellpadding="7" cellspacing="0">
+<tr>
+<td class="r data top_stacked_value">
+1.00000
+</td>
+</tr>
+<tr>
+<td class="r data bottom_stacked_value">
+</td>
+</tr>
+</table>
+</td>
+<td class="r stacked_cell data">
+<table width="100%" border="0" cellpadding="7" cellspacing="0">
+<tr>
+<td class="r data top_stacked_value">
+0.81143
+</td>
+</tr>
+<tr>
+<td class="r data bottom_stacked_value">
+&lt;.0001
+</td>
+</tr>
+</table>
+</td>
+<td class="r stacked_cell data">
+<table width="100%" border="0" cellpadding="7" cellspacing="0">
+<tr>
+<td class="r data top_stacked_value">
+0.74089
+</td>
+</tr>
+<tr>
+<td class="r data bottom_stacked_value">
+0.0003
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">
+Height
+</th>
+<td class="r stacked_cell data">
+<table width="100%" border="0" cellpadding="7" cellspacing="0">
+<tr>
+<td class="r data top_stacked_value">
+0.81143
+</td>
+</tr>
+<tr>
+<td class="r data bottom_stacked_value">
+&lt;.0001
+</td>
+</tr>
+</table>
+</td>
+<td class="r stacked_cell data">
+<table width="100%" border="0" cellpadding="7" cellspacing="0">
+<tr>
+<td class="r data top_stacked_value">
+1.00000
+</td>
+</tr>
+<tr>
+<td class="r data bottom_stacked_value">
+</td>
+</tr>
+</table>
+</td>
+<td class="r stacked_cell data">
+<table width="100%" border="0" cellpadding="7" cellspacing="0">
+<tr>
+<td class="r data top_stacked_value">
+0.87779
+</td>
+</tr>
+<tr>
+<td class="r data bottom_stacked_value">
+&lt;.0001
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<th class="l rowheader" scope="row">
+Weight
+</th>
+<td class="r stacked_cell data">
+<table width="100%" border="0" cellpadding="7" cellspacing="0">
+<tr>
+<td class="r data top_stacked_value">
+0.74089
+</td>
+</tr>
+<tr>
+<td class="r data bottom_stacked_value">
+0.0003
+</td>
+</tr>
+</table>
+</td>
+<td class="r stacked_cell data">
+<table width="100%" border="0" cellpadding="7" cellspacing="0">
+<tr>
+<td class="r data top_stacked_value">
+0.87779
+</td>
+</tr>
+<tr>
+<td class="r data bottom_stacked_value">
+&lt;.0001
+</td>
+</tr>
+</table>
+</td>
+<td class="r stacked_cell data">
+<table width="100%" border="0" cellpadding="7" cellspacing="0">
+<tr>
+<td class="r data top_stacked_value">
+1.00000
+</td>
+</tr>
+<tr>
+<td class="r data bottom_stacked_value">
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<!--ENDTABLE-->
+</div>
+</div>
+<br> <a name="IDX3"></a>
+<div>
+<div class="c">
+<p><img alt="Scatter Plot Matrix" src="unnamed-chunk-3.png" style=" height: 640px; width: 640px;" border="0" class="c"></p>
+</div>
+</div>
+<br>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

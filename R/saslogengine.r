@@ -1,3 +1,4 @@
+saslogengine <- function () {
 knitr::knit_engines$set(saslog=function (options)
 {
   code = {
@@ -37,3 +38,4 @@ knitr::knit_engines$set(saslog=function (options)
   engine_output(options, out.log, out.listing)
 }
 )
+}

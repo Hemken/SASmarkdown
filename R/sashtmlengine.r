@@ -1,3 +1,4 @@
+sashtmlengine <- function () {
 knitr::knit_engines$set(sashtml=function (options)
 {
   #print(options)
@@ -51,3 +52,4 @@ knitr::knit_engines$set(sashtml=function (options)
   engine_output(options, options$code, out.html)
 }
 )
+}
