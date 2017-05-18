@@ -7,6 +7,6 @@ if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
   saspath <- "sas"
 }
 
-sasopts <- "-nosplash -log 'z:' -print 'Z:' -ls 75"
+sasopts <- "-nosplash -ls 75"
 
 knitr::opts_chunk$set(engine="sas", engine.path=saspath, engine.opts=sasopts, comment="")
