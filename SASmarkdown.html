@@ -15,17 +15,20 @@
 
 <title>SAS Using R Markdown (Windows)</title>
 
+<!--#include virtual="/sscc/pubs/Rmd/headInclKB.html" -->
 
 
 
 
 
+<link rel="stylesheet" href="..\..\Rmd\Rmd.css" type="text/css" />
 
 </head>
 
 <body>
 
 
+<!--#include virtual="/sscc/pubs/Rmd/topInclKB.html" -->
 
 
 <h1 class="title toc-ignore">SAS Using R Markdown (Windows)</h1>
@@ -41,21 +44,14 @@
 <li><a href="#basic-limitations">Basic Limitations</a></li>
 <li><a href="#html-or-pdf-as-a-final-target">HTML or PDF as a Final Target?</a></li>
 <li><a href="#file-locations">File locations</a></li>
-<li><a href="#code-setup">Code Setup</a></li>
+<li><a href="#code-chunk-setup">Code Chunk Setup</a></li>
 </ul></li>
 <li><a href="#running-sas">Running SAS</a></li>
 <li><a href="#html-output-and-graphics">HTML Output and Graphics</a></li>
 </ul>
 </div>
 
-<pre class="r"><code>  require(SASmarkdown)</code></pre>
-<pre><code>## Loading required package: SASmarkdown</code></pre>
-<pre class="r"><code>  backtick &lt;- &quot;`&quot;
-  engine_output &lt;- sasengine_output()
-  sashtmlengine()
-  saslogengine()
-  sas_collectcode()
-  source(&quot;./R/SasMDsetup.r&quot;)</code></pre>
+<p><a href="../sas.html#writing-sas-documentation">Writing SAS Documentation index</a> <a href="../sas.html">SAS workshop notes</a></p>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>This is an introduction to using R Markdown to produce documents based on SAS.</p>
@@ -65,9 +61,9 @@
 </div>
 <div id="background" class="section level2">
 <h2>Background</h2>
-<p><em>Markdown</em> is a language for formatting fairly simple documents using just a few text symbols. It is designed to be easy to read and write. If you are not already familiar with Markdown see John Gruber's <a href="https://daringfireball.net/projects/markdown/">Markdown article</a>.</p>
+<p><em>Markdown</em> is a language for formatting fairly simple documents using just a few text symbols. It is designed to be easy to read and write. You may already be using Markdown (in email, for instance) and not even realize it - it's that simple! If you are not already familiar with Markdown see John Gruber's <a href="https://daringfireball.net/projects/markdown/">Markdown article</a>.</p>
 <p><em>R Markdown</em> extends Markdown by allowing you to include blocks of code in one of several programming languages. The code is evaluated, and both the code and it's results are included in a Markdown document. To read more about the details of R Markdown see RStudio's <a href="http://rmarkdown.rstudio.com/lesson-1.html">R Markdown webpages</a></p>
-<p><em>RStudio</em> uses an R package called <code>knitr</code> (this could also be called directly from R), which includes the ability to evaluate SAS code. We will refine this in subsequent articles.</p>
+<p><em>RStudio</em> uses an R package called <code>knitr</code> (this could also be called directly from R code), which includes the ability to evaluate SAS code. We will refine this in subsequent articles.</p>
 <p>The documentation for <code>knitr</code> can be found in R's Help, from <a href="https://yihui.name/knitr/">this web page</a>, or in Yihui Xie's book, <em>Dynamic Documents with R and Knitr</em>.</p>
 <p>RStudio makes it easy to process your R Markdown document, execute the source code, and produce a final HTML, pdf, or Word document. After you have written your R Markdown document, RStudio processes it with a simple click of a button! The focus in these articles will be on producing HTML (web) pages.</p>
 <p>Using SAS with R Markdown is not quite as graceful as using R with R Markdown, but we have automated some techniques for putting together simple documents.</p>
@@ -75,8 +71,8 @@
 </div>
 <div id="including-your-sas-code" class="section level2">
 <h2>Including Your SAS Code</h2>
-<p>SAS code is included in your R Markdown document in a block called a &quot;code chunk&quot;. When you click on Rstudio's Knit button, your initial document, what you actually write out, is processed by the R function <code>knitr</code>, evaluating your code, collecting the output, and producing a Markdown document. This Markdown document is then processed by a program called <em>Pandoc</em> to produce your final HTML document.</p>
-<p>It helps to understand how knitr evaluates your SAS code. Knitr writes out your code into a file, and then submits that file to SAS to be run in batch mode. This produces SAS log and SAS &quot;listing&quot; output. The listing output is then read back into knitr and used to produce an block of output in the Markdown document. (These files are all temporary.)</p>
+<p>SAS code is included in your R Markdown document in a block called a &quot;code chunk&quot;. When you click on Rstudio's Knit button, your initial document, what you actually wrote out, is processed by the R function <code>knitr</code>, evaluating your code, collecting the output, and producing a Markdown document. This Markdown document is then processed by a program called <em>Pandoc</em> to produce your final HTML document.</p>
+<p>It helps to understand how knitr evaluates your SAS code. Knitr writes out your code into a file, and then submits that file to SAS to be run in batch mode. This produces SAS log and SAS &quot;listing&quot; output. The listing output is then read back into knitr and used to produce a block of output in the Markdown document. (These files are all temporary.)</p>
 <div id="basic-limitations" class="section level3">
 <h3>Basic Limitations</h3>
 <p>There are two basic limitations that you will have to work with:</p>
@@ -85,7 +81,7 @@
 <p>For example, suppose you have a DATA step early in your document, and then want to use that data in a later code chunk. In the later code chunk, SAS will have begun a new session (a new batch job) and &quot;forgotten&quot; the first DATA step. SAS will not find the data, so SAS will send an error message to R Markdown. The message R Markdown passes back to you will only tell you that SAS did not exit properly.</p>
 <p>(Unlike calling R from SAS's <code>PROC IML</code> (see the <a href="../SASWindows/RfromSAS.html"><em>Calling R from SAS</em> KB</a>), when calling SAS from R you cannot just hand off your data).</p>
 <p>Some of this difficulty can be overcome with the strategic use of a SAS autoexec file (which we automate in <a href="SASmdlinkcode.html">another article</a>) or by echoing only part of the code through the <code>echo</code> code chunk option.</p></li>
-<li><p>If you want to use SAS's html output instead of the listing output, or if you want to include SAS graphics in your final document, a different version of knitr's SAS engine makes this fairly simple (again, a topic for <a href="SAShtmlengine.html">another article</a>).</p></li>
+<li><p>Although text output is simple to use, other types of output require more thought. If you want to use SAS's html output instead of the listing output, or if you want to include SAS graphics in your final document, a different version of knitr's SAS engine makes this fairly simple (again, a topic for <a href="SAShtmlengine.html">another article</a>).</p></li>
 </ul>
 </div>
 <div id="html-or-pdf-as-a-final-target" class="section level3">
@@ -95,20 +91,21 @@
 </div>
 <div id="file-locations" class="section level3">
 <h3>File locations</h3>
-<p>Because I am running this on my office (SSCC) desktop and on Winstat, everything goes on the Z: drive. As long as I specify the root of Z: in the <code>engine.opts</code>, both R Markdown and SAS default to the folder where the markdown file is saved.</p>
-<p>(I don't have this fully worked out for non-SSCC scenarios. If you are working in another environment, you will have to be more careful about where SAS writes its output files, and where R looks for them.)</p>
-<p>(Also keep in mind that for the Windows OS, SAS will use backslashes in file paths, while R will use forward slashes. Note in the <strong>code chunk</strong> options below we are specifying paths to R, so use forward slashes.)</p>
+<p>Both R and SAS need to be able to read and write files in a shared location. This is simplest when your R Markdown file is located in the directory where you want your final document to be written, and all other files used by both R and SAS (like graphics files) are also in that directory.</p>
+<p>Files used solely by R (I have some setup and style files I use) could be located anywhere, they only have to be specified in your R code. Likewise, files used solely by SAS (pehaps data or formats) could be located anywhere, and they are addressed the usual way in your SAS code.</p>
+<p>Also keep in mind that for the Windows OS, SAS will use backslashes in file paths, while R will use forward slashes. Note in the code chunk <strong>options</strong> below we are specifying paths to R, so use forward slashes.)</p>
+<p>Other file arrangements are possible - perhaps all your graphics in a &quot;graphics&quot; folder - just keep in mind that you'll need to specify alternate locations to both R and SAS.</p>
 </div>
-<div id="code-setup" class="section level3">
-<h3>Code Setup</h3>
+<div id="code-chunk-setup" class="section level3">
+<h3>Code Chunk Setup</h3>
 <p>The code chunk setup to run SAS is not too difficult. But as long as SAS is not in your operating system's <code>PATH</code> variable, you need to specify its full path with the <code>engine.path</code> option (all on one line), e.g.</p>
 <pre><code>```{r, engine=&quot;sas&quot;, engine.path=&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;}
 
 -- SAS code here --
 
 ```</code></pre>
-<p>You will also want to add an <code>engine.opts</code> option, so that SAS will save the listing output (and the log) to a location where R will handle it gracefully, including it in the final document automatically and deleting the SAS output file when finished, e.g.</p>
-<pre><code>```{r, engine=&#39;sas&#39;, engine.path=&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;, engine.opts=&quot;-nosplash -log &#39;z:&#39; -print &#39;Z:&#39;&quot;, comment=&quot;&quot;}
+<p>(This is a little awkward to show you, because the code chunk setup, the part in curly braces, must all be on one line.) You will also want to add an <code>engine.opts</code> option, so that SAS will produce output with reasonable line lengths.</p>
+<pre><code>```{r, engine=&#39;sas&#39;, engine.path=&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;, engine.opts=&quot;-nosplash -linesize 75&quot;, comment=&quot;&quot;}
 
 -- SAS code here --
 
@@ -116,7 +113,7 @@
 <p>If you have several code chunks you can automate this with a preliminary code chunk in R as</p>
 <pre><code>```{r}
 saspath &lt;- &quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;
-sasopts &lt;- &quot;-nosplash -log &#39;z:&#39; -print &#39;Z:&#39; -ls 75&quot;
+sasopts &lt;- &quot;-nosplash -ls 75&quot;
 ```
 
 ```{r, engine=&#39;sas&#39;, engine.path=saspath, engine.opts=sasopts, comment=&quot;&quot;}
@@ -128,7 +125,7 @@ sasopts &lt;- &quot;-nosplash -log &#39;z:&#39; -print &#39;Z:&#39; -ls 75&quot;
 <pre><code>```{r, message=FALSE}
 require(knitr)
 saspath &lt;- &quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;
-sasopts &lt;- &quot;-nosplash -log &#39;z:&#39; -print &#39;Z:&#39; -ls 75&quot;
+sasopts &lt;- &quot;-nosplash -ls 75&quot;
 opts_chunk$set(engine=&quot;sas&quot;, engine.path=saspath, 
     engine.opts=sasopts, comment=&quot;&quot;)
 ```
@@ -513,6 +510,7 @@ Weight
 </div>
 </div>
 
+<!--#include virtual="/sscc/pubs/Rmd/bottomInclKB.html" -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
