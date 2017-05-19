@@ -1,0 +1,39 @@
+---
+title: "A Test of SASmarkdown"
+author: "Ken Kleinman"
+date: "May 19, 2017"
+output: html_document
+---
+
+## In a first code chunk set up with
+```{r}
+require(SASmarkdown)
+sashtmlengine()
+saslogengine()
+engine_output <- sasengine_output()
+
+sasexe <- "D:/SASHome/SASFoundation/9.4/sas.exe"
+sasopts <- "-nosplash -ls 75"
+
+```
+## Then set up SAS code chunks with
+```{r example1, engine="sas", engine.path=sasexe, engine.opts=sasopts, comment=""}
+proc means data=sashelp.class (keep = age);
+run;
+```
+## Rerun with html output
+```{r example2, engine="sashtml", engine.path=sasexe, engine.opts=sasopts, comment="", echo=FALSE}
+proc means data=sashelp.class (keep = age);
+run;
+```
+## Run an html example with graphics
+```{r example3, engine="sashtml", engine.path=sasexe, engine.opts=sasopts, comment="", results="asis"}
+proc corr data=sashelp.class nosimple plots=matrix;
+run;
+```
+## And finally a log example
+```{r example4, engine="saslog", engine.path=sasexe, engine.opts=sasopts, comment=""}
+proc means data=sashelp.class (keep = age);
+run;
+```
+
