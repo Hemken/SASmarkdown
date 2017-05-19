@@ -35,6 +35,7 @@ Doug Hemken
 \code{\link{saslogengine}}
 }
 \examples{
+\dontrun{
 # In a first code chunk do
 ```{r}
 require(SASmarkdown)
@@ -49,4 +50,5 @@ sasopts <- "-nosplash -ls 75"
 ```{r, engine="sashtml", engine.path=sasexe, engine.opts=sasopts}
 # SAS code here
 ```
+}
 }
