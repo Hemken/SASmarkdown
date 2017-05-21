@@ -1,3 +1,5 @@
+#' @export
+
 saslogengine <- function () {
 knitr::knit_engines$set(saslog=function (options)
 {
@@ -35,11 +37,7 @@ knitr::knit_engines$set(saslog=function (options)
   #commandlines <- grep("^[[:digit:]]", out.log)
   #if (length(commandlines)>0) {out.log <- out.log[-commandlines]}
   
-  if (exists("engine_output")) {
-      return(engine_output(options, out.log, out.listing))
-  } else {
-      return(knitr::engine_output(options, out.log, out.listing))
-  }
+  return(sas_output(options, out.log, out.listing))
 }
 )
 }

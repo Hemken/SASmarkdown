@@ -10,29 +10,35 @@ output: html_document
 require(SASmarkdown)
 sashtmlengine()
 saslogengine()
-engine_output <- sasengine_output()
+# engine_output <- sasengine_output()
 
-sasexe <- "D:/SASHome/SASFoundation/9.4/sas.exe"
+if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+} else if (file.exists("D:/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
+} else {
+  saspath <- "sas"
+}
 sasopts <- "-nosplash -ls 75"
 
 ```
 ## Then set up SAS code chunks with
-```{r example1, engine="sas", engine.path=sasexe, engine.opts=sasopts, comment=""}
+```{r example1, engine="sas", engine.path=saspath, engine.opts=sasopts, comment=""}
 proc means data=sashelp.class (keep = age);
 run;
 ```
 ## Rerun with html output
-```{r example2, engine="sashtml", engine.path=sasexe, engine.opts=sasopts, comment="", echo=FALSE}
+```{r example2, engine="sashtml", engine.path=saspath, engine.opts=sasopts, comment="", echo=FALSE}
 proc means data=sashelp.class (keep = age);
 run;
 ```
 ## Run an html example with graphics
-```{r example3, engine="sashtml", engine.path=sasexe, engine.opts=sasopts, comment="", results="asis"}
+```{r example3, engine="sashtml", engine.path=saspath, engine.opts=sasopts, comment="", results="asis"}
 proc corr data=sashelp.class nosimple plots=matrix;
 run;
 ```
 ## And finally a log example
-```{r example4, engine="saslog", engine.path=sasexe, engine.opts=sasopts, comment=""}
+```{r example4, engine="saslog", engine.path=saspath, engine.opts=sasopts, comment=""}
 proc means data=sashelp.class (keep = age);
 run;
 ```

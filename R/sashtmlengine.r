@@ -1,5 +1,5 @@
 sashtmlengine <- function () {
-knitr::knit_engines$set(sashtml=function (options)
+knitr::knit_engines$set(sashtml=function (options) 
 {
   #print(options)
   code <- {
@@ -49,11 +49,8 @@ knitr::knit_engines$set(sashtml=function (options)
     out.html <- c(readLines(htmlf), out)
   out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
   out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
-  if (exists("engine_output")) {
-      engine_output(options, options$code, out.html)
-  } else {
-      knitr::engine_output(options, options$code, out.html)
-  }
+
+  sas_output(options, options$code, out.html)
 }
 )
     

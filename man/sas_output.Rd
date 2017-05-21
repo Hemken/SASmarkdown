@@ -1,25 +1,27 @@
-\name{sasengine_output}
-\alias{sasengine_output}
+\name{sas_output}
+\alias{sas_output}
 \title{
 A function to provide cleaner output for knitr's SAS engines.
 }
 \description{
-DEPRECATED.
+When knitr calls SAS to produce various forms of output, that output
+is often more cluttered than what you want to show in your SAS 
+markdown documentation.
+
+This function redefines knitr's \code{engine_output()} function to filter out
+the clutter.
 }
 \usage{
-sasengine_output()
+sas_output()
 }
 \details{
 This redefinition adds a filter to the standard \code{engine_output()}.
 At this early stage, the same filtering can be used for both SAS ODS
 and SAS log output.  If I do more development, I would add more choice
 and nuance here.
-
-Note you can always invoke the original engine_output() function by
-copying it from knitr to your global environment.
 }
 \value{
-This returns a function, which *must* be named \code{engine_output}.
+This returns text to insert in a document, like \code{knitr::engine_output}.
 }
 \author{
 Doug Hemken
@@ -36,7 +38,6 @@ Doug Hemken
 require(SASmarkdown)
 sashtmlengine()
 saslogengine()
-engine_output <- sasengine_output()
 
 sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"
