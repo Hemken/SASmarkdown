@@ -1,2 +1,7 @@
 # Export all names
-exportPattern(".")
+# exportPattern(".")
+export(sas_collectcode)
+export(sas_output)
+export(sas_enginesetup)
+export(sashtml)
+export(saslog)

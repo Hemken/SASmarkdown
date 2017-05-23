@@ -1,10 +1,9 @@
 Package: SASmarkdown
-Version: 0.1.5
-Date: 2017-05-20
+Version: 0.2.0
+Date: 2017-05-23
 Title: SAS Markdown
 Description: Settings and functions to extend the SAS engine.
 Imports: knitr
 Author: Doug Hemken <hemken@wisc.edu>
 Maintainer: Doug Hemken <hemken@wisc.edu>
 License: MIT + file LICENSE
-RoxygenNote: 6.0.1
