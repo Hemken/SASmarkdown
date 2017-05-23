@@ -7,9 +7,11 @@ date: "May 2017"
 [Writing SAS Documentation index](../sas.html#writing-sas-documentation)
 [SAS workshop notes](../sas.html)
 
-```{r, echo=FALSE}
+```{r init, echo=FALSE, message=FALSE}
   backtick <- "`"
-  source("../SasMDsetup.r")
+  source("../R/SasMDsetup.r")
+  require(SASmarkdown)
+  sas_enginesetup(sashtml=sashtml)
 ```
 
 ## Introduction
@@ -208,7 +210,7 @@ options as defaults:
 
 ## Running SAS
 Here then, is a simple example as it might appear in your final document.
-```{r, engine='sas', engine.path=saspath, engine.opts=sasopts, comment=""}
+```{r ex1, engine='sas', engine.path=saspath, engine.opts=sasopts, comment=""}
 proc means data=sashelp.class;
 run;
 
@@ -232,7 +234,7 @@ article.
     `r backtick```
 
 As an example,
-```{r, engine='sashtml', engine.path=saspath, engine.opts=sasopts, results='asis'}
+```{r ex2, engine='sashtml', engine.path=saspath, engine.opts=sasopts, results='asis'}
 proc corr data=sashelp.class plots=matrix;
 run;
 

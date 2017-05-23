@@ -9,9 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Ken Kleinman" />
+<meta name="author" content="Doug Hemken and Ken Kleinman" />
 
-<meta name="date" content="2017-05-19" />
+<meta name="date" content="2017-05-23" />
 
 <title>A Test of SASmarkdown</title>
 
@@ -118,25 +118,30 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">A Test of SASmarkdown</h1>
-<h4 class="author"><em>Ken Kleinman</em></h4>
-<h4 class="date"><em>May 19, 2017</em></h4>
+<h4 class="author"><em>Doug Hemken and Ken Kleinman</em></h4>
+<h4 class="date"><em>May 23, 2017</em></h4>
 
 </div>
 
 
-<div id="in-a-first-code-chunk-set-up-with" class="section level2">
-<h2>In a first code chunk set up with</h2>
+<div id="in-a-first-code-chunk-set-up-the-sas-engines." class="section level2">
+<h2>In a first code chunk, set up the SAS engines.</h2>
 <pre class="r"><code>require(SASmarkdown)</code></pre>
 <pre><code>## Loading required package: SASmarkdown</code></pre>
-<pre class="r"><code>sashtmlengine()
-saslogengine()
-engine_output &lt;- sasengine_output()
+<pre class="r"><code>sas_enginesetup(sashtml=sashtml)
+sas_enginesetup(saslog=saslog)
 
-sasexe &lt;- &quot;D:/SASHome/SASFoundation/9.4/sas.exe&quot;
+if (file.exists(&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;)) {
+  saspath &lt;- &quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;
+} else if (file.exists(&quot;D:/SASHome/SASFoundation/9.4/sas.exe&quot;)) {
+  saspath &lt;- &quot;D:/SASHome/SASFoundation/9.4/sas.exe&quot;
+} else {
+  saspath &lt;- &quot;sas&quot;
+}
 sasopts &lt;- &quot;-nosplash -ls 75&quot;</code></pre>
 </div>
-<div id="then-set-up-sas-code-chunks-with" class="section level2">
-<h2>Then set up SAS code chunks with</h2>
+<div id="then-set-up-sas-code-chunks." class="section level2">
+<h2>Then set up SAS code chunks.</h2>
 <pre class="sas"><code>proc means data=sashelp.class (keep = age);
 run;</code></pre>
 <pre><code>                            The MEANS Procedure
@@ -148,8 +153,8 @@ run;</code></pre>
     19      13.3157895       1.4926722      11.0000000      16.0000000
     ------------------------------------------------------------------</code></pre>
 </div>
-<div id="rerun-with-html-output" class="section level2">
-<h2>Rerun with html output</h2>
+<div id="rerun-with-html-output." class="section level2">
+<h2>Rerun with html output.</h2>
 <div class="branch">
 <a name="IDX"></a>
 <div>
@@ -213,8 +218,8 @@ Maximum
 <br>
 </div>
 </div>
-<div id="run-an-html-example-with-graphics" class="section level2">
-<h2>Run an html example with graphics</h2>
+<div id="run-an-html-example-with-graphics." class="section level2">
+<h2>Run an html example with graphics.</h2>
 <pre class="sashtml"><code>proc corr data=sashelp.class nosimple plots=matrix;
 run;</code></pre>
 <div class="branch">
@@ -429,8 +434,8 @@ Weight
 <br>
 </div>
 </div>
-<div id="and-finally-a-log-example" class="section level2">
-<h2>And finally a log example</h2>
+<div id="and-finally-a-log-example." class="section level2">
+<h2>And finally a log example.</h2>
 <pre class="saslog"><code>2          proc means data=sashelp.class (keep = age);
 3          run;
 
