@@ -1,5 +1,3 @@
-#' @export
-
 sas_output <- function (options, code, out, extra = NULL) 
 {
   if (!is.logical(options$echo)) 

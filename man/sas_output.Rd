@@ -12,39 +12,45 @@ This function redefines knitr's \code{engine_output()} function to filter out
 the clutter.
 }
 \usage{
-sas_output()
+sas_output(options, code, out, extra = NULL)
 }
+\arguments{
+\item{options}{options object passed from a sas engine.}
+\item{code}{code object passed from a sas engine.}
+\item{out}{out object passed from a sas engine.}
+\item{extra}{anything else to add to the document.}.
+}
+
 \details{
 This redefinition adds a filter to the standard \code{engine_output()}.
-At this early stage, the same filtering can be used for both SAS ODS
+At present, the same filtering can be used for both SAS ODS
 and SAS log output.  If I do more development, I would add more choice
 and nuance here.
 }
 \value{
-This returns text to insert in a document, like \code{knitr::engine_output}.
+This returns text to insert in a document, like \code{knitr::engine_output} does.
 }
 \author{
 Doug Hemken
 }
 \seealso{
-\code{\link{sashtmlengine}},
+\code{\link{sas_enginesetup}},
 
-\code{\link{saslogengine}}
 }
 \examples{
 \dontrun{
-# In a first code chunk do
+# In a first code chunk, set up with
 ```{r}
 require(SASmarkdown)
-sashtmlengine()
-saslogengine()
+sas_enginesetup(sashtml=sashtml)
 
 sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"
 ```
 # Then set up SAS code chunks with
 ```{r, engine="sashtml", engine.path=sasexe, engine.opts=sasopts}
-# SAS code here
+proc means data=sashelp.class;
+run;
 ```
 }
 }
