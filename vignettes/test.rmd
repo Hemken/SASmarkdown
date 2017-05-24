@@ -1,15 +1,16 @@
 ---
 title: "A Test of SASmarkdown"
 author: "Doug Hemken and Ken Kleinman"
-date: "May 23, 2017"
+date: "May 24, 2017"
 output: html_document
 ---
 
 ## In a first code chunk, set up the SAS engines.
 ```{r}
 require(SASmarkdown)
-sas_enginesetup(sashtml=sashtml)
-sas_enginesetup(saslog=saslog)
+# sas_enginesetup(sashtml=sashtml)
+# sas_enginesetup(saslog=saslog)
+sas_enginesetup(sashtml=sashtml, saslog=saslog)
 
 if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
   saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
