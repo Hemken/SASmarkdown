@@ -30,8 +30,6 @@ saslog <- function (options) {
     out.log = c(readLines(logf), out)
   out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
   out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
-  #commandlines <- grep("^[[:digit:]]", out.log)
-  #if (length(commandlines)>0) {out.log <- out.log[-commandlines]}
   
   return(sas_output(options, out.log, out.listing))
 }
