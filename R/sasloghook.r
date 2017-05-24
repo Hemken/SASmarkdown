@@ -1,4 +1,4 @@
-loghook <- function(x, options) {
+sasloghook <- function(x, options) {
     # print(grep("output", match.call()))
     # print(options$engine)
   if ((length(grep("output", match.call()))>=1 && options$engine=="R") ||

@@ -1,5 +1,5 @@
-\name{loghook}
-\alias{loghook}
+\name{sasloghook}
+\alias{sasloghook}
 \title{A function to clean SAS log files}
 \description{
 This function is mainly intended as a "hook" for knitr.  It can serve

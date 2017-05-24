@@ -129,7 +129,7 @@ $(document).ready(function () {
 <p>In addition to the usual set up code for working with SAS (the &quot;sas&quot; or &quot;sashtml&quot; engines), we need to define an <em>output</em> hook.</p>
 <pre class="r"><code>  # require(SASmarkdown)
   hook_orig &lt;- knitr::knit_hooks$get(&quot;output&quot;)
-  knitr::knit_hooks$set(output = SASmarkdown::loghook)</code></pre>
+  knitr::knit_hooks$set(output = SASmarkdown::sasloghook)</code></pre>
 <p>Note that <strong>all</strong> R output is run through the output hook, but our alterations are specific to the SAS log (none of the things we are searching for and removing appear in R output), so SAS output is untouched.</p>
 <pre class="sas"><code>proc printto log=&quot;saslog.log&quot; new;
 proc means data=sashelp.class;
@@ -156,7 +156,7 @@ NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
       real time           0.04 seconds
-      cpu time            0.03 seconds
+      cpu time            0.01 seconds
       </code></pre>
 <p>Some variations. No processing times, SASproctime=FALSE.</p>
 <pre><code>3          proc means data=sashelp.class;
@@ -176,7 +176,7 @@ NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
       real time           0.04 seconds
-      cpu time            0.03 seconds
+      cpu time            0.01 seconds
       </code></pre>
 <p>Some variations. No SAS NOTES, SASnotes=FALSE.</p>
 <pre><code>      real time           0.00 seconds
@@ -187,7 +187,7 @@ NOTE: PROCEDURE MEANS used (Total process time):
 4          run;
 
       real time           0.04 seconds
-      cpu time            0.03 seconds
+      cpu time            0.01 seconds
       </code></pre>
 <p>Clean up.</p>
 <pre class="r"><code># Do not forget to remove the log file when you are done!
@@ -205,7 +205,7 @@ unlink(&quot;saslog.log&quot;)</code></pre>
 <pre class="r"><code>knitr::knit_hooks$set(output=hook_orig)
 
 hook_orig &lt;- knitr::knit_hooks$get(&quot;source&quot;)
-knitr::knit_hooks$set(source = loghook)</code></pre>
+knitr::knit_hooks$set(source = sasloghook)</code></pre>
 </div>
 <div id="hook-use" class="section level3">
 <h3>Hook Use</h3>
@@ -220,7 +220,7 @@ NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
       real time           0.03 seconds
-      cpu time            0.03 seconds
+      cpu time            0.04 seconds
       
 </code></pre>
 <pre><code> 
@@ -247,7 +247,7 @@ NOTE: The PROCEDURE MEANS printed page 1.
 <h3>Interactions (or Lack Thereof)</h3>
 <p>Chunks in other languages are unaffected.</p>
 <pre class="r"><code>runif(5)</code></pre>
-<pre><code>[1] 0.1156091 0.9326284 0.4899236 0.5968644 0.8084723</code></pre>
+<pre><code>[1] 0.5705492 0.5269281 0.5855832 0.4438775 0.8808663</code></pre>
 <p>and, with the &quot;sas&quot; engine.</p>
 <pre class="sas"><code>proc means data=sashelp.class;
 run;</code></pre>
