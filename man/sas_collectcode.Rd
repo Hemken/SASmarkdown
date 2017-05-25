@@ -10,7 +10,7 @@ writes the contents of the current chunk to the end of a SAS
 \code{autoexec.sas} file.
 
 This may be used with any of the SAS language engines:  "sas",
-"sashtmlengine", or "saslogengine".
+"sashtml", "saslog",  or "sashtmllog".
 }
 \usage{
 sas_collectcode()

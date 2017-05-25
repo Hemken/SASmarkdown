@@ -1,5 +1,5 @@
 .onLoad <- function (libname, pkgname) {
-    packageStartupMessage("SASmarkdown loading ....\n")
+    packageStartupMessage("SASmarkdown loading ....")
     
     knitr::knit_engines$set(sashtml=sashtml, saslog=saslog, sashtmllog=sashtmllog)
 
@@ -10,6 +10,8 @@
         }
             options
     })
+    
+    # sas_collectcode()
     
     packageStartupMessage("saslog, sashtml, and sashtmllog engines")
     packageStartupMessage("   are now ready to use.")

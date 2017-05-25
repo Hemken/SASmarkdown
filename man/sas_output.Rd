@@ -25,7 +25,7 @@ sas_output(options, code, out, extra = NULL)
 This redefinition adds a filter to the standard \code{engine_output()}.
 At present, the same filtering can be used for both SAS ODS
 and SAS log output.  If I do more development, I would add more choice
-and nuance here.
+and nuance here.  The user should not need to invoke this directly.
 }
 \value{
 This returns text to insert in a document, like \code{knitr::engine_output} does.
@@ -42,7 +42,6 @@ Doug Hemken
 # In a first code chunk, set up with
 ```{r}
 require(SASmarkdown)
-sas_enginesetup(sashtml=sashtml)
 
 sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"

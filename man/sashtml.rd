@@ -1,18 +1,21 @@
 \name{sashtml}
 \alias{sashtml}
 \alias{saslog}
+\alias{sashtmllog}
 \title{SAS engines for knitr}
 \description{
-In addition to knitr's built in SAS engine, these functions are two
+In addition to knitr's built in SAS engine, these functions are three
 additional engines for SAS.  Once set up, these engines may be
 invoked like any other knitr engine to generate different forms of
 SAS output.
 
-Used once per session (i.e. document) during set up.
+Used once per session (i.e. document) during set up.  Ordinarily this
+is automated when \code{SASmarkdown} is loaded.
 }
 \usage{
 sashtml(options)
 saslog(options)
+sashtmllog(options)
 }
 
 \arguments{
@@ -42,7 +45,7 @@ Doug Hemken
 # In a first code chunk, set up with
 ```{r}
 require(SASmarkdown)
-sas_enginesetup(sashtml=sashtml)
+# sas_enginesetup(sashtml=sashtml) # Executed automatically
 
 sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"

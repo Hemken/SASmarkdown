@@ -33,6 +33,16 @@ The end user should not need to use \code{sasloghook} directly.
 This is a
 workhorse function used to process selected log output.  The main use
 is when set up within \code{knit_hooks$set(source=loghook)}
+
+Once this hook is set, the user may then set any chunk options
+
+SASproctime
+
+SASecho
+
+SASnotes
+
+to FALSE to suppress that part of the SAS log.
 }
 \value{
 \code{saslog_hookset} is used for it's side effect of resetting
@@ -53,13 +63,12 @@ Doug Hemken
 # In a first code chunk, set up with
 ```{r}
 require(SASmarkdown)
-sas_enginesetup(sashtml=sashtml)
 
 sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"
 ```
 # Then set up SAS code chunks with
-```{r, engine="sashtml", engine.path=sasexe, engine.opts=sasopts}
+```{r, engine="saslog", SASproctime=FALSE, engine.path=sasexe, engine.opts=sasopts}
 proc means data=sashelp.class;
 run;
 ```
