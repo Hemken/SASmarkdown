@@ -10,8 +10,8 @@ In this approach, we use SAS code to save a log file.  In a separate code
 chunk we use R code to read this log file and place it in our document.
 
 ```{r setup, echo=FALSE}
-  # saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
+  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+  # saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
   sasopts <- "-nosplash -ls 75"
   knitr::opts_chunk$set(engine.path=saspath, engine.opts=sasopts, comment="")
 ```
@@ -19,9 +19,10 @@ chunk we use R code to read this log file and place it in our document.
 In addition to the usual set up code for working with SAS (the \"sas\" or
 \"sashtml\" engines), we need to define an *output* hook.
 ```{r outputhook, message=FALSE}
-  # require(SASmarkdown)
-  hook_orig <- knitr::knit_hooks$get("output")
-  knitr::knit_hooks$set(output = SASmarkdown::sasloghook)
+  require(SASmarkdown)
+  # hook_orig <- knitr::knit_hooks$get("output")
+  # knitr::knit_hooks$set(output = SASmarkdown::sasloghook)
+  saslog_hookset("output")
 ```
 
 Note that **all** R output is run through the output hook, but our alterations
@@ -73,8 +74,7 @@ displayed. (Notice we reset the \"output\" hook, from above.)
 ```{r sourcehook, echo=TRUE}
 knitr::knit_hooks$set(output=hook_orig)
 
-hook_orig <- knitr::knit_hooks$get("source")
-knitr::knit_hooks$set(source = sasloghook)
+saslog_hookset("source")
 ```
 
 ### Hook Use
