@@ -8,7 +8,7 @@ sas_output <- function (options, code, out, extra = NULL)
       length(out) > 1L && 
       !grepl("[[:alnum:]]", out[2])) 
     out = tail(out, -3L)
-  if (options$engine == "sashtml") {
+  if (options$engine %in% c("sashtml", "sashtmllog")) {
     #print(sum(grepl("nbsp", out)))
     out <- gsub("&nbsp;", " ", out)
   }

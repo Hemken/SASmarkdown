@@ -1,6 +1,6 @@
 ---
 title: "A Test of SASmarkdown"
-author: "Doug Hemken and Ken Kleinman"
+author: "Doug Hemken"
 date: "May 25, 2017"
 output: html_document
 ---
@@ -26,18 +26,17 @@ proc means data=sashelp.class (keep = age);
 run;
 ```
 ## Rerun with html output.
-```{r example2, engine="sashtml", engine.path=saspath, engine.opts=sasopts, comment="", echo=FALSE}
-proc means data=sashelp.class (keep = age);
-run;
+```{r example1, engine="sashtml", engine.path=saspath, engine.opts=sasopts, comment="", echo=FALSE}
 ```
 ## Run an html example with graphics.
-```{r example3, engine="sashtml", engine.path=saspath, engine.opts=sasopts, comment=""}
+```{r example2, engine="sashtml", engine.path=saspath, engine.opts=sasopts, comment=""}
 proc corr data=sashelp.class nosimple plots=matrix;
 run;
 ```
 ## And finally a log example.
-```{r example4, engine="saslog", engine.path=saspath, engine.opts=sasopts, comment=""}
-proc means data=sashelp.class (keep = age);
-run;
+```{r example1, engine="saslog", engine.path=saspath, engine.opts=sasopts, comment=""}
+```
+## Repeat with both log and html output.
+```{r example1, engine="sashtmllog", engine.path=saspath, engine.opts=sasopts, comment=""}
 ```
 

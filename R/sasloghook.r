@@ -2,7 +2,8 @@ sasloghook <- function(x, options) {
     # print(grep("output", match.call()))
     # print(options$engine)
   if ((length(grep("output", match.call()))>=1 && options$engine=="R") ||
-      (length(grep("source", match.call()))>=1 && options$engine=="saslog")) {
+      (length(grep("source", match.call()))>=1 && 
+       options$engine %in% c("saslog", "sashtmllog"))) {
      # print("Using loghook")
     y <- strsplit(x, "\n")[[1]]
     # print(y)
