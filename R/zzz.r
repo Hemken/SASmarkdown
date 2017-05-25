@@ -14,3 +14,10 @@
     packageStartupMessage("saslog, sashtml, and sashtmllog engines")
     packageStartupMessage("   are now ready to use.")
 }
+
+is_blank <- function (x) 
+{
+    if (length(x)) 
+        all(grepl("^\\s*$", x))
+    else TRUE
+}

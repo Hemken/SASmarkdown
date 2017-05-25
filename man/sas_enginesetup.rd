@@ -7,7 +7,8 @@ additional engines for SAS.  Once created, these engines may be
 invoked like any other knitr engine to generate different forms of
 SAS output.
 
-Set up once per session (i.e. document).
+Set up once per session (i.e. document).  Ordinarily this is run
+automatically when \code{SASmarkdown} is loaded.
 }
 \usage{
 sas_enginesetup(...)
@@ -19,14 +20,15 @@ These take the form
 }
 
 \details{
-These are convenience functions that use
+This is a convenience function that use
 \code{knit_engines$set()}
 to define knitr language engines.
 
 \code{sas_enginesetup(...)} passes it's arguments to \code{knit_engines$set()}
-in the form of \code{enginename=enginefunction} pairs.  Two pre-defined
-engine functions are in this package:  \code{sashtml} and \code{saslog}.
-these functions are used as follows.
+in the form of \code{enginename=enginefunction} pairs.  Three pre-defined
+engine functions are in this package:  \code{sashtml}, \code{sashtmlog}, 
+and \code{saslog}.
+These functions are used as follows.
 
 \code{sas_enginesetup(sashtml=sashtml)}
 creates a language engine that returns SAS html output
@@ -36,9 +38,16 @@ you can use them as is.
 
 \code{sas_enginesetup(saslog=saslog)}
 creates a language engine that returns SAS log output instead
-of the code that is usually echoed, as well as listing output.  The engine
+of the plain code that is usually echoed, as well as listing output.  The engine
 created is called "saslog"
+
+\code{sas_enginesetup(sashtmllog=sashtmllog)}
+creates a language engine that returns SAS log output instead
+of the plain code that is usually echoed, as well as html output.  The engine
+created is called "sashtmllog"
+
 }
+
 \value{
 There are no return values, engine creation is a side effect here.
 }

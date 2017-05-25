@@ -19,7 +19,7 @@ sas_output <- function (options, code, out, extra = NULL)
   #                         psql = "sql", Rscript = "r", options$engine)
   paste(c(if (length(options$echo) > 1L || options$echo) 
     (knitr::knit_hooks$get("source"))(code, options), 
-    if (options$results != "hide" && !knitr:::is_blank(out)) {
+    if (options$results != "hide" && !is_blank(out)) {
       if (options$engine == "highlight") out else knitr:::wrap.character(out, options)
     }, extra), collapse = "\n")
 }

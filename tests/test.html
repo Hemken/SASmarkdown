@@ -9,9 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Doug Hemken and Ken Kleinman" />
+<meta name="author" content="Doug Hemken" />
 
-<meta name="date" content="2017-05-23" />
+<meta name="date" content="2017-05-25" />
 
 <title>A Test of SASmarkdown</title>
 
@@ -118,18 +118,15 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">A Test of SASmarkdown</h1>
-<h4 class="author"><em>Doug Hemken and Ken Kleinman</em></h4>
-<h4 class="date"><em>May 23, 2017</em></h4>
+<h4 class="author"><em>Doug Hemken</em></h4>
+<h4 class="date"><em>May 25, 2017</em></h4>
 
 </div>
 
 
-<div id="in-a-first-code-chunk-set-up-the-sas-engines." class="section level2">
-<h2>In a first code chunk, set up the SAS engines.</h2>
-<pre class="r"><code>require(SASmarkdown)</code></pre>
-<pre><code>## Loading required package: SASmarkdown</code></pre>
-<pre class="r"><code>sas_enginesetup(sashtml=sashtml)
-sas_enginesetup(saslog=saslog)
+<div id="in-a-first-code-chunk-set-up-typical-sas-engine-configuration." class="section level2">
+<h2>In a first code chunk, set up typical SAS engine configuration.</h2>
+<pre class="r"><code>require(SASmarkdown)
 
 if (file.exists(&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;)) {
   saspath &lt;- &quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;
@@ -138,6 +135,7 @@ if (file.exists(&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;))
 } else {
   saspath &lt;- &quot;sas&quot;
 }
+
 sasopts &lt;- &quot;-nosplash -ls 75&quot;</code></pre>
 </div>
 <div id="then-set-up-sas-code-chunks." class="section level2">
@@ -445,10 +443,7 @@ NOTE: PROCEDURE MEANS used (Total process time):
       real time           0.03 seconds
       cpu time            0.01 seconds
       </code></pre>
-<pre><code> 
-                                                                           
- 
-                            The MEANS Procedure
+<pre><code>                            The MEANS Procedure
 
                          Analysis Variable : Age 
  
@@ -456,6 +451,79 @@ NOTE: PROCEDURE MEANS used (Total process time):
     ------------------------------------------------------------------
     19      13.3157895       1.4926722      11.0000000      16.0000000
     ------------------------------------------------------------------</code></pre>
+</div>
+<div id="repeat-with-both-log-and-html-output." class="section level2">
+<h2>Repeat with both log and html output.</h2>
+<pre class="sashtmllog"><code>6          proc means data=sashelp.class (keep = age);
+7          run;
+
+NOTE: There were 19 observations read from the data set SASHELP.CLASS.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.01 seconds
+      </code></pre>
+<div class="branch">
+<a name="IDX"></a>
+<div>
+<div align="center">
+<!--BEGINTABLE-->
+<table class="table" cellspacing="0" cellpadding="7" rules="groups" frame="hsides" summary="Procedure Means: Summary statistics">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">
+Analysis Variable : Age
+</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">
+N
+</th>
+<th class="r b header" scope="col">
+Mean
+</th>
+<th class="r b header" scope="col">
+Std Dev
+</th>
+<th class="r b header" scope="col">
+Minimum
+</th>
+<th class="r b header" scope="col">
+Maximum
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">
+19
+</td>
+<td class="r data">
+13.3157895
+</td>
+<td class="r data">
+1.4926722
+</td>
+<td class="r data">
+11.0000000
+</td>
+<td class="r data">
+16.0000000
+</td>
+</tr>
+</tbody>
+</table>
+<!--ENDTABLE-->
+</div>
+</div>
+<br>
+</div>
 </div>
 
 
