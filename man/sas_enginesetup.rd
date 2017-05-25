@@ -1,7 +1,5 @@
 \name{sas_enginesetup}
 \alias{sas_enginesetup}
-\alias{sashtmlengine}
-\alias{saslogengine}
 \title{Create SAS engines for knitr}
 \description{
 In addition to knitr's built in SAS engine, this function creates
@@ -13,10 +11,6 @@ Set up once per session (i.e. document).
 }
 \usage{
 sas_enginesetup(...)
-
-sashtmlengine() # deprecated for sas_enginesetup(sashtml=sashtml)
-
-saslogengine() # deprecated for sas_enginesetup(saslog=saslog)
 }
 \arguments{
 \item{...}{arguments to be passed to \code{knit_engines$set(...)}.  

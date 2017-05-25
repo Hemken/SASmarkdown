@@ -156,8 +156,8 @@ run;</code></pre>
 NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
-      real time           0.09 seconds
-      cpu time            0.04 seconds
+      real time           0.14 seconds
+      cpu time            0.10 seconds
       </code></pre>
 <p>Some variations. No processing times, SASproctime=FALSE.</p>
 <pre><code>3          proc means data=sashelp.class;
@@ -176,8 +176,8 @@ NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
-      real time           0.09 seconds
-      cpu time            0.04 seconds
+      real time           0.14 seconds
+      cpu time            0.10 seconds
       </code></pre>
 <p>Some variations. No SAS NOTES, SASnotes=FALSE.</p>
 <pre><code>      real time           0.00 seconds
@@ -187,8 +187,8 @@ NOTE: PROCEDURE MEANS used (Total process time):
 3          proc means data=sashelp.class;
 4          run;
 
-      real time           0.09 seconds
-      cpu time            0.04 seconds
+      real time           0.14 seconds
+      cpu time            0.10 seconds
       </code></pre>
 <p>Clean up.</p>
 <pre class="r"><code># Do not forget to remove the log file when you are done!
@@ -219,7 +219,7 @@ NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
       real time           0.10 seconds
-      cpu time            0.09 seconds
+      cpu time            0.10 seconds
       
 </code></pre>
 <pre><code> 
@@ -246,7 +246,7 @@ NOTE: The PROCEDURE MEANS printed page 1.
 <h3>Interactions (or Lack Thereof)</h3>
 <p>Chunks in other languages are unaffected.</p>
 <pre class="r"><code>runif(5)</code></pre>
-<pre><code>[1] 0.71621019 0.07626281 0.65113694 0.08983751 0.26819626</code></pre>
+<pre><code>[1] 0.7360597 0.7027927 0.9757331 0.9880462 0.7542487</code></pre>
 <p>and, with the &quot;sas&quot; engine.</p>
 <pre class="sas"><code>proc means data=sashelp.class;
 run;</code></pre>

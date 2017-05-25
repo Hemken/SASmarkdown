@@ -34,9 +34,7 @@ There are no return values, chunk hook creation is a side effect here..
 Doug Hemken
 }
 \seealso{
-\code{\link{sashtmlengine}},
-
-\code{\link{saslogengine}}
+\code{\link{sas_enginesetup}},
 }
 \examples{
 \dontrun{

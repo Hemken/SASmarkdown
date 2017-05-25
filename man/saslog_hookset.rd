@@ -1,31 +1,44 @@
-\name{sasloghook}
+\name{saslog_hookset}
+\alias{saslog_hookset}
 \alias{sasloghook}
 \title{A function to clean SAS log files}
 \description{
-This function is mainly intended as a "hook" for knitr.  It can serve
-as a "source" hook to clean up SAS logs for the \code{saslog} engine,
-or as an "output" hook to clean up SAS logs written to files and read
-in using R code.
+The main function here is \code{saslog_hookset}, which sets
+"hooks" for knitr.  It can set
+a "source" hook to clean up SAS logs for the \code{saslog} engine,
+or set an "output" hook to clean up SAS logs written to 
+files and read in using R code.
 
 Used once per hook type per session (i.e. document), during set up.
 }
 \usage{
-loghook(x, options)
+saslog_hookset(hooktype)
+
+sasloghook(x, options)
 }
 
 \arguments{
+\item{hooktype}{Declare which type of hook to set, "source" (the
+default) or "output".}
 \item{options}{\code{options} are passed to these functions when they
 are actually invoked within \code{knitr}.}
 \item{x}{The log text which is to be cleaned up}
 }
 
 \details{
-The end user should not need to use this function directly.  This is a
+The main function is used with either "source" or "output" as 
+the value of \code{hooktype}.
+
+The end user should not need to use \code{sasloghook} directly.  
+This is a
 workhorse function used to process selected log output.  The main use
 is when set up within \code{knit_hooks$set(source=loghook)}
 }
 \value{
-This return SAS log output internally to \code{knitr}.
+\code{saslog_hookset} is used for it's side effect of resetting
+a knitr hook.
+
+\code{sasloghook} returns SAS log output internally to \code{knitr}.
 }
 \author{
 Doug Hemken
