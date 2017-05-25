@@ -4,14 +4,15 @@ author: "Doug Hemken"
 date: "May 2017"
 ---
 
-[Writing SAS Documentation index](../sas.html#writing-sas-documentation)
-[SAS workshop notes](../sas.html)
+[Writing SAS Documentation index](http://www.ssc.wisc.edu/~hemken/SASworkshops/sas.html#writing-sas-documentation)
+
+[SAS workshop notes](http://www.ssc.wisc.edu/~hemken/SASworkshops/sas.html)
 
 ```{r init, echo=FALSE, message=FALSE}
   backtick <- "`"
-  source("../R/SasMDsetup.r")
+  source("../R/SasMDsetup.r") # my personal setup file
   require(SASmarkdown)
-  sas_enginesetup(sashtml=sashtml)
+  # sas_enginesetup(sashtml=sashtml)
 ```
 
 ## Introduction
