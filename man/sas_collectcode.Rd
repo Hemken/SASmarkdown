@@ -22,11 +22,10 @@ from a prevous chunk, code needs to be repeated and re-evaluated.
 
 This function creates a knitr chunk hook that signals when one
 chunk's code should be saved for re-use later.  The code ends up
-in a SAS \code{autoexec.sas} file.
+in a temporary SAS \code{autoexec.sas} file.
 
-Note you usually want to remove the \code{autoexec.sas} file later,
-if you have actually invoked \code{collectcode}.
 }
+
 \value{
 There are no return values, chunk hook creation is a side effect here..
 }
@@ -50,11 +49,10 @@ sasopts <- "-nosplash -ls 75"
 ```{r, engine="sas", engine.path=sasexe, engine.opts=sasopts, collectcode=TRUE}
 # SAS code here
 ```
-# etc etc.
 
-# At the end of a document, cleanup
-```{r}
-unlink("autoexec.sas")
+# A later chunk that depends on the first.
+```{r, engine="sas", engine.path=sasexe, engine.opts=sasopts}
+# dependent SAS code here
 ```
 }
 }
