@@ -41,6 +41,8 @@ Doug Hemken
 \code{\link{knit_engines}}
 }
 \examples{
+sas_enginesetup(sashtml=sashtml)
+
 \dontrun{
 # In a first code chunk, set up with
 ```{r}

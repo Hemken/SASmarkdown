@@ -60,6 +60,8 @@ Doug Hemken
 
 }
 \examples{
+saslog_hookset("source")
+
 \dontrun{
 # In a first code chunk, set up with
 ```{r}

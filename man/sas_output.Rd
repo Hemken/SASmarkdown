@@ -34,10 +34,12 @@ This returns text to insert in a document, like \code{knitr::engine_output} does
 Doug Hemken
 }
 \seealso{
-\code{\link{sas_enginesetup}},
+\code{\link{SASmarkdown}},
 
 }
 \examples{
+sas_enginesetup(sashtml=sashtml)
+
 \dontrun{
 # In a first code chunk, set up with
 ```{r}

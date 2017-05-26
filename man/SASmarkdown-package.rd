@@ -1,6 +1,7 @@
 \docType{package}
 \name{SASmarkdown-package}
 \alias{SASmarkdown-package}
+\alias{SASmarkdown}
 
 \title{Settings and functions to extend the knitr SAS engine.}
 

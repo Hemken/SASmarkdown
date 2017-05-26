@@ -7,3 +7,4 @@ Imports: knitr
 Author: Doug Hemken <hemken@wisc.edu>
 Maintainer: Doug Hemken <hemken@wisc.edu>
 License: MIT + file LICENSE
+RoxygenNote: 6.0.1
