@@ -20,6 +20,7 @@ sasloghook(x, options)
 \arguments{
 \item{hooktype}{Declare which type of hook to set, "source" (the
 default) or "output".}
+
 \item{options}{\code{options} are passed to these functions when they
 are actually invoked within \code{knitr}.}
 \item{x}{The log text which is to be cleaned up}
@@ -36,11 +37,11 @@ is when set up within \code{knit_hooks$set(source=loghook)}
 
 Once this hook is set, the user may then set any chunk options
 
-SASproctime
-
-SASecho
-
-SASnotes
+\itemize{
+  \item{SASproctime}
+  \item{SASecho}
+  \item{SASnotes}
+}
 
 to FALSE to suppress that part of the SAS log.
 }
@@ -66,6 +67,7 @@ require(SASmarkdown)
 
 sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"
+saslog_hookset("source")
 ```
 # Then set up SAS code chunks with
 ```{r, engine="saslog", SASproctime=FALSE, engine.path=sasexe, engine.opts=sasopts}

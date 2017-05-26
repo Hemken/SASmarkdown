@@ -37,9 +37,11 @@ There are no return values, chunk hook creation is a side effect here..
 Doug Hemken
 }
 \seealso{
-\code{\link{sas_enginesetup}}
+\code{\link{SASmarkdown-package}}
 }
 \examples{
+sas_collectcode()
+
 \dontrun{
 # In a first code chunk do
 ```{r}

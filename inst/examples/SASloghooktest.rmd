@@ -20,8 +20,6 @@ In addition to the usual set up code for working with SAS (the \"sas\" or
 \"sashtml\" engines), we need to define an *output* hook.
 ```{r outputhook, message=FALSE}
   require(SASmarkdown)
-  # hook_orig <- knitr::knit_hooks$get("output")
-  # knitr::knit_hooks$set(output = SASmarkdown::sasloghook)
   saslog_hookset("output")
 ```
 
@@ -61,19 +59,18 @@ unlink("saslog.log")
 
 ## A Source Hook for the \"saslog\" Engine
 with the \"saslog\" engine, we would need to use the same function as 
-a *source* hook.  Again, the usual SAS set up is needed, including
-setting up the engine.
+a *source* hook.  Again, the usual SAS set up is needed, as above.
 ```{r enginesetup}
-require(SASmarkdown)
-sas_enginesetup(saslog=saslog)
+# require(SASmarkdown)
+# sas_enginesetup(saslog=saslog)
 ```
 
 ### Hook Specification
 Next we redefine how \"source\" is
 displayed. (Notice we reset the \"output\" hook, from above.  In
-general you will use one or the other, and not need to reset.)
+general you will NOT need to reset, you will use one or the other.)
 ```{r sourcehook, echo=TRUE}
-knitr::knit_hooks$set(output=hook_orig)
+knitr::knit_hooks$set(output=hook_orig) # just for this example
 
 saslog_hookset("source")
 ```
@@ -86,7 +83,7 @@ run;
 ```
 
 And in use.  (Notice there is no file to clean up.)
-(There is also no code for PROC PRINTTO.)
+(There is also no code echo for PROC PRINTTO.)
 ```{r procmeans2, engine='saslog'}
 ```
 
