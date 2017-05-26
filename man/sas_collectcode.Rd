@@ -33,7 +33,7 @@ There are no return values, chunk hook creation is a side effect here..
 Doug Hemken
 }
 \seealso{
-\code{\link{sas_enginesetup}},
+\code{\link{sas_enginesetup}}
 }
 \examples{
 \dontrun{
