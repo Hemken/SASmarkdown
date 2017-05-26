@@ -25,7 +25,11 @@ chunk's code should be saved for re-use later.  The code ends up
 in a temporary SAS \code{autoexec.sas} file.
 
 }
-
+\note{
+If there is already an \file{autoexec.sas} in the directory where
+the document source is located, you will not be allowed to set
+this hook - remove or rename \file{autoexec.sas}.
+}
 \value{
 There are no return values, chunk hook creation is a side effect here..
 }
