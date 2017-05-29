@@ -62,6 +62,12 @@ Doug Hemken
 sas_enginesetup(sashtml=sashtml, saslog=saslog)
 
 \dontrun{
+indoc <- '
+---
+title: "Basic SASmarkdown Doc"
+author: "Doug Hemken"
+output: html_document
+---
 # In a first code chunk, set up with
 ```{r}
 require(SASmarkdown)
@@ -75,5 +81,8 @@ sasopts <- "-nosplash -ls 75"
 proc means data=sashelp.class;
 run;
 ```
+'
+knitr::knit(text=indoc, output="test.md")
+rmarkdown::render("test.md")
 }
 }

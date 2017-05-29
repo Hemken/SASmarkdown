@@ -43,7 +43,13 @@ Doug Hemken
 sas_collectcode()
 
 \dontrun{
-# In a first code chunk do
+indoc <- '
+---
+title: "Basic SASmarkdown Doc"
+author: "Doug Hemken"
+output: html_document
+---
+# In a first code chunk, set up with
 ```{r}
 require(SASmarkdown)
 sas_collectcode()
@@ -53,12 +59,19 @@ sasopts <- "-nosplash -ls 75"
 ```
 # Then mark SAS code chunks with
 ```{r, engine="sas", engine.path=sasexe, engine.opts=sasopts, collectcode=TRUE}
-# SAS code here
+data class;
+    set sashelp.class;
+    keep age;
+    run;
 ```
 
 # A later chunk that depends on the first.
 ```{r, engine="sas", engine.path=sasexe, engine.opts=sasopts}
-# dependent SAS code here
+proc means data=class; /* not SASHELP.class */
+run;
 ```
+'
+knitr::knit(text=indoc, output="test.md")
+rmarkdown::render("test.md")
 }
 }
