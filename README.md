@@ -8,7 +8,7 @@ devtools::install_github("Hemken/SASmarkdown")
 Then you can check with
 ```
 library(SASmarkdown)
-help(saslogengine)
+help(sas_enginesetup)
 ```
 If the package installed correctly, you should see an R Help page.
 
