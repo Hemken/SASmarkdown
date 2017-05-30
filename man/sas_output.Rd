@@ -38,12 +38,18 @@ Doug Hemken
 
 }
 \examples{
-sas_enginesetup(sashtml=sashtml)
 
 \dontrun{
+indoc <- '
+---
+title: "Basic SASmarkdown Doc"
+author: "Doug Hemken"
+output: html_document
+---
 # In a first code chunk, set up with
 ```{r}
 require(SASmarkdown)
+sas_enginesetup(sashtml=sashtml)
 
 sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"
@@ -53,5 +59,8 @@ sasopts <- "-nosplash -ls 75"
 proc means data=sashelp.class;
 run;
 ```
+'
+knitr::knit(text=indoc, output="test.md")
+rmarkdown::render("test.md")
 }
 }

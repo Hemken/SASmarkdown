@@ -63,18 +63,28 @@ Doug Hemken
 saslog_hookset("source")
 
 \dontrun{
+indoc <- '
+---
+title: "Basic SASmarkdown Doc"
+author: "Doug Hemken"
+output: html_document
+---
 # In a first code chunk, set up with
 ```{r}
 require(SASmarkdown)
+saslog_hookset("source")
 
 sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"
-saslog_hookset("source")
 ```
 # Then set up SAS code chunks with
-```{r, engine="saslog", SASproctime=FALSE, engine.path=sasexe, engine.opts=sasopts}
+```{r, engine="saslog", engine.path=sasexe, engine.opts=sasopts, SASecho=FALSE}
 proc means data=sashelp.class;
 run;
 ```
+'
+knitr::knit(text=indoc, output="test.md")
+rmarkdown::render("test.md")
+}
 }
 }
