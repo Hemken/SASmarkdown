@@ -1,5 +1,8 @@
 \name{sas_enginesetup}
 \alias{sas_enginesetup}
+\alias{sashtml}
+\alias{saslog}
+\alias{sashtmllog}
 \title{Create SAS engines for knitr}
 \description{
 In addition to knitr's built in SAS engine, this function creates
@@ -12,15 +15,21 @@ automatically when \code{SASmarkdown} is loaded.
 }
 \usage{
 sas_enginesetup(...)
+
+sashtml(options)
+saslog(options)
+sashtmllog(options)
 }
 \arguments{
 \item{...}{arguments to be passed to \code{knit_engines$set(...)}.  
-These take the form
-\code{enginename=enginefunction}}
+These take the form \code{enginename=enginefunction}}
+\item{options}{\code{options} are passed to the engine 
+functions when they
+are actually invoked within \code{knitr}.}
 }
 
 \details{
-This is a convenience function that use
+This is a convenience function that uses
 \code{knit_engines$set()}
 to define knitr language engines.
 
@@ -30,26 +39,36 @@ engine functions are in this package:  \code{sashtml}, \code{sashtmlog},
 and \code{saslog}.
 These functions are used as follows.
 
+\itemize{
+\item{
 \code{sas_enginesetup(sashtml=sashtml)}
 creates a language engine that returns SAS html output
 using SAS's ODS system.  The engine created is called "sashtml".  An additional
 side effect is that the html results are used "asis" - you can hide them or
-you can use them as is.
-
+you can use them as is.}
+\item{
 \code{sas_enginesetup(saslog=saslog)}
 creates a language engine that returns SAS log output instead
 of the plain code that is usually echoed, as well as listing output.  The engine
-created is called "saslog"
-
+created is called "saslog".}
+\item{
 \code{sas_enginesetup(sashtmllog=sashtmllog)}
 creates a language engine that returns SAS log output instead
 of the plain code that is usually echoed, as well as html output.  The engine
-created is called "sashtmllog"
-
+created is called "sashtmllog".}
+}
+The end user should not need to use the language engine 
+functions directly.  These are the
+workhorse functions that actually call SAS and return output.  Their main use
+is when set up within \code{sas_enginesetup(sashtml=sashtml)}
 }
 
 \value{
-There are no return values, engine creation is a side effect here.
+There are no return values for \code{sas_enginesetup}, engine creation is a side effect here.
+
+The individual language engine functions return SAS code 
+and SAS output internally to \code{knitr}.
+
 }
 \author{
 Doug Hemken

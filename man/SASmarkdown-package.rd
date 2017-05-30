@@ -16,8 +16,9 @@ document, as well as enabling SAS log output to be returned.  These
 language engines are automatically created when the package is loaded,
 and are called "sashtml", "saslog", and "sashtmllog".
 
-Another function here sets up a chunk hook, allowing selected code chunks
-to be repeated at the beginning of later code chunks.  This allows
+Another function here sets up a chunk hook, that repeats selected 
+code chunks
+at the beginning of later code chunks.  This allows
 the code in one chunk to use the results of a previous chunk.  See
 \code{\link{sas_collectcode}}.
 
