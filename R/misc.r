@@ -1,6 +1,9 @@
+
 .onLoad <- function (libname, pkgname) {
-    packageStartupMessage("SASmarkdown loading ....")
-    
+    utils::globalVariables("hook_orig") # to suppress CHECK note
+}
+
+.onAttach <- function (libname, pkgname) {
     knitr::knit_engines$set(sashtml=sashtml, saslog=saslog, sashtmllog=sashtmllog)
 
     knitr::opts_hooks$set(results = function(options) {
@@ -17,6 +20,7 @@
     packageStartupMessage("   are now ready to use.")
 }
 
+# Copied from "knitr" package, where it is unexported.
 is_blank <- function (x) 
 {
     if (length(x)) 

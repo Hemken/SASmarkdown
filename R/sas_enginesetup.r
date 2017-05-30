@@ -1,4 +1,5 @@
 sas_enginesetup <- function (...) {
+    # utils::globalVariables("hook_orig", "SASmarkdown")
     knitr::knit_engines$set(...)
 
     if (any(names(list(...)) == "sashtml")) {
