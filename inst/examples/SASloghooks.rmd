@@ -10,8 +10,8 @@ In this approach, we use SAS code to save a log file.  In a separate code
 chunk we use R code to read this log file and place it in our document.
 
 ```{r setup, echo=FALSE}
-  # saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
+  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+  # saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
   sasopts <- "-nosplash -ls 75"
   knitr::opts_chunk$set(engine.path=saspath, engine.opts=sasopts, comment="")
 ```
