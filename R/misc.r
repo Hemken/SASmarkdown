@@ -21,9 +21,9 @@
 }
 
 # Copied from "knitr" package, where it is unexported.
-is_blank <- function (x) 
-{
-    if (length(x)) 
-        all(grepl("^\\s*$", x))
-    else TRUE
-}
+# is_blank <- function (x) 
+# {
+#     if (length(x)) 
+#         all(grepl("^\\s*$", x))
+#     else TRUE
+# }

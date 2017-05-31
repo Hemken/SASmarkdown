@@ -8,27 +8,28 @@ When knitr calls SAS to produce various forms of output, that output
 is often more cluttered than what you want to show in your SAS 
 markdown documentation.
 
-This function redefines knitr's \code{engine_output()} function to filter out
-the clutter.
+This function filters the output returned by SAS prior to invoking
+knitr's \code{engine_output()} function.
 }
 \usage{
 sas_output(options, code, out, extra = NULL)
 }
 \arguments{
-\item{options}{options object passed from a sas engine.}
-\item{code}{code object passed from a sas engine.}
-\item{out}{out object passed from a sas engine.}
+\item{options}{options object passed from a SAS engine.}
+\item{code}{code object passed from a SAS engine.}
+\item{out}{out object passed from a SAS engine.}
 \item{extra}{anything else to add to the document.}.
 }
 
 \details{
 This redefinition adds a filter to the standard \code{engine_output()}.
-At present, the same filtering can be used for both SAS ODS
-and SAS log output.  If I do more development, I would add more choice
-and nuance here.  The user should not need to invoke this directly.
+At present, the same filtering is used for both SAS ODS
+and SAS listing output.  
+In the future more choice and nuance could be added here.  
+The user should not need to invoke this directly.
 }
 \value{
-This returns text to insert in a document, like \code{knitr::engine_output} does.
+This returns a call to \code{knitr::engine_output}.
 }
 \author{
 Doug Hemken
