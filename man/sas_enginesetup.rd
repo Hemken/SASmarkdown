@@ -18,7 +18,6 @@ sas_enginesetup(...)
 
 sashtml(options)
 saslog(options)
-sashtmllog(options)
 }
 \arguments{
 \item{...}{arguments to be passed to \code{knit_engines$set(...)}.  
@@ -34,8 +33,8 @@ This is a convenience function that uses
 to define knitr language engines.
 
 \code{sas_enginesetup(...)} passes it's arguments to \code{knit_engines$set()}
-in the form of \code{enginename=enginefunction} pairs.  Three pre-defined
-engine functions are in this package:  \code{sashtml}, \code{sashtmlog}, 
+in the form of \code{enginename=enginefunction} pairs.  Two pre-defined
+engine functions are in this package:  \code{sashtml}
 and \code{saslog}.
 These functions are used as follows.
 
@@ -52,7 +51,7 @@ creates a language engine that returns SAS log output instead
 of the plain code that is usually echoed, as well as listing output.  The engine
 created is called "saslog".}
 \item{
-\code{sas_enginesetup(sashtmllog=sashtmllog)}
+\code{sas_enginesetup(sashtmllog=sashtml)}
 creates a language engine that returns SAS log output instead
 of the plain code that is usually echoed, as well as html output.  The engine
 created is called "sashtmllog".}

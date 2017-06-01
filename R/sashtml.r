@@ -47,6 +47,11 @@ sashtml <- function (options) {
     out.html <- c(readLines(htmlf), out)
   out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
   out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
-
-  sas_output(options, options$code, out.html)
+  out.log <- out.log[-(1:grep("NOTE: Writing HTML Body file: ", out.log))]
+  
+  if (options$engine == "sashtml") {
+      return(sas_output(options, options$code, out.html))
+  } else if (options$engine == "sashtmllog") {
+      return(sas_output(options, out.log, out.html))
+  }
 }

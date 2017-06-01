@@ -4,7 +4,7 @@
 }
 
 .onAttach <- function (libname, pkgname) {
-    knitr::knit_engines$set(sashtml=sashtml, saslog=saslog, sashtmllog=sashtmllog)
+    knitr::knit_engines$set(sashtml=sashtml, saslog=saslog, sashtmllog=sashtml)
 
     knitr::opts_hooks$set(results = function(options) {
         if (options$engine %in% c("sashtml", "sashtmllog") &&
