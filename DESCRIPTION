@@ -4,7 +4,7 @@ Date: 2017-06-1
 Title: SAS Markdown
 Description: Settings and functions to extend the knitr SAS engine.
 Imports: knitr
-Author: Doug Hemken <hemken@wisc.edu>
-Maintainer: Doug Hemken <hemken@wisc.edu>
+Author: Doug Hemken <dehemken@wisc.edu>
+Maintainer: Doug Hemken <dehemken@wisc.edu>
 License: MIT + file LICENSE
 RoxygenNote: 6.0.1
