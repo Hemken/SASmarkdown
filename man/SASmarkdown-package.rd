@@ -16,6 +16,9 @@ document, as well as enabling SAS log output to be returned.  These
 language engines are automatically created when the package is loaded,
 and are called "sashtml", "saslog", and "sashtmllog".
 
+When used with chunk option \code{error=TRUE}, the user can see some
+SAS errors automatically included in their document.
+
 Another function here sets up a chunk hook, that repeats selected 
 code chunks
 at the beginning of later code chunks.  This allows

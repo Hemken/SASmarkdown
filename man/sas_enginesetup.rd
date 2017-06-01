@@ -40,16 +40,24 @@ These functions are used as follows.
 
 \itemize{
 \item{
-\code{sas_enginesetup(sashtml=sashtml)}
-creates a language engine that returns SAS html output
-using SAS's ODS system.  The engine created is called "sashtml".  An additional
-side effect is that the html results are used "asis" - you can hide them or
-you can use them as is.}
+\code{sas_enginesetup(sas=saslog)}
+creates a language engine that returns SAS code, 
+as well as listing output.  The engine
+created is called "sas", and replaces \code{knitr}'s "sas" engine.
+This new engine provides better SAS error handling if you set
+the chunk option \code{error=TRUE}.
+}
 \item{
 \code{sas_enginesetup(saslog=saslog)}
 creates a language engine that returns SAS log output instead
 of the plain code that is usually echoed, as well as listing output.  The engine
 created is called "saslog".}
+\item{
+\code{sas_enginesetup(sashtml=sashtml)}
+creates a language engine that returns SAS html output
+using SAS's ODS system.  The engine created is called "sashtml".  An additional
+side effect is that the html results are used "asis" - you can hide them or
+you can use them as is.}
 \item{
 \code{sas_enginesetup(sashtmllog=sashtml)}
 creates a language engine that returns SAS log output instead
