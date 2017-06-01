@@ -49,9 +49,9 @@ sashtml <- function (options) {
   out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
   out.log <- out.log[-(1:grep("NOTE: Writing HTML Body file: ", out.log))]
   
-  if (options$engine == "sashtml") {
+  if (options$engine == "sashtml" && is.null(attr(out, "status"))) {
       return(sas_output(options, options$code, out.html))
-  } else if (options$engine == "sashtmllog") {
+  } else {
       return(sas_output(options, out.log, out.html))
   }
 }

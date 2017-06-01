@@ -31,5 +31,10 @@ saslog <- function (options) {
   out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
   out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
   
-  return(sas_output(options, out.log, out.listing))
+  if (options$engine == "sas" && is.null(attr(out, "status"))) {
+    return(sas_output(options, options$code, out.listing))
+  } else {
+    return(sas_output(options, out.log, out.listing))
+  }
+  
 }

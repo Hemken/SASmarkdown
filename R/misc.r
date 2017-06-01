@@ -4,7 +4,8 @@
 }
 
 .onAttach <- function (libname, pkgname) {
-    knitr::knit_engines$set(sashtml=sashtml, saslog=saslog, sashtmllog=sashtml)
+    knitr::knit_engines$set(sas=saslog, saslog=saslog, 
+                            sashtml=sashtml, sashtmllog=sashtml)
 
     knitr::opts_hooks$set(results = function(options) {
         if (options$engine %in% c("sashtml", "sashtmllog") &&
@@ -15,15 +16,8 @@
     })
     
     # sas_collectcode()
+    # saslog_hookset()
     
-    packageStartupMessage("saslog, sashtml, and sashtmllog engines")
+    packageStartupMessage("sas, saslog, sashtml, and sashtmllog engines")
     packageStartupMessage("   are now ready to use.")
 }
-
-# Copied from "knitr" package, where it is unexported.
-# is_blank <- function (x) 
-# {
-#     if (length(x)) 
-#         all(grepl("^\\s*$", x))
-#     else TRUE
-# }

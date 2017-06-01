@@ -29,7 +29,7 @@ data class;
     run;
 ```
 ## A later step - using the WORK data.
-```{r procmeans, engine="sas", engine.path=saspath, engine.opts=sasopts, comment="", ls_parent=TRUE}
+```{r procmeans, engine="sas", engine.path=saspath, engine.opts=sasopts, comment=""}
 proc means data=class;
 run;
 ```
