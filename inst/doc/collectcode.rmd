@@ -1,0 +1,40 @@
+---
+title: "Using Collectcode"
+author: "Doug Hemken"
+date: "`r format(Sys.Date(), '%d %b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Put the title of your vignette here}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+## In a first code chunk, set up typical SAS engine configuration.
+```{r setup, message=FALSE}
+require(SASmarkdown)
+sas_collectcode()
+
+if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+} else if (file.exists("D:/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
+} else {
+  saspath <- "sas"
+}
+
+sasopts <- "-nosplash -ls 75"
+
+```
+## Then set up SAS code chunks.
+```{r datastep, engine="sas", collectcode=TRUE, engine.path=saspath, engine.opts=sasopts, comment=""}
+data class;
+    set sashelp.class;
+    keep age;
+    run;
+```
+## A later step - using the WORK data.
+```{r procmeans, engine="sas", engine.path=saspath, engine.opts=sasopts, comment=""}
+proc means data=class;
+run;
+```
+

@@ -1,0 +1,46 @@
+---
+title: "Basic Use of SASmarkdown"
+author: "Doug Hemken"
+date: "`r format(Sys.Date(), '%d %b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Put the title of your vignette here}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+## In a first code chunk, set up typical SAS engine configuration.
+```{r setup, message=FALSE}
+require(SASmarkdown)
+
+if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+} else if (file.exists("D:/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
+} else {
+  saspath <- "sas"
+}
+
+sasopts <- "-nosplash -ls 75"
+
+```
+## Then set up SAS code chunks.
+```{r example1, engine="sas", engine.path=saspath, engine.opts=sasopts, comment=""}
+proc means data=sashelp.class (keep = age);
+run;
+```
+## Rerun with html output.
+```{r example1, engine="sashtml", engine.path=saspath, engine.opts=sasopts, comment="", echo=FALSE}
+```
+## Run an html example with graphics.
+```{r example2, engine="sashtml", engine.path=saspath, engine.opts=sasopts, comment=""}
+proc corr data=sashelp.class nosimple plots=matrix;
+run;
+```
+## And finally a log example.
+```{r example1, engine="saslog", engine.path=saspath, engine.opts=sasopts, comment=""}
+```
+## Repeat with both log and html output.
+```{r example1, engine="sashtmllog", engine.path=saspath, engine.opts=sasopts, comment=""}
+```
+

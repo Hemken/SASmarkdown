@@ -1,8 +1,12 @@
 ---
-title: "A Test of SASmarkdown"
+title: "Basic Use of SASmarkdown"
 author: "Doug Hemken"
-date: "May 25, 2017"
-output: html_document
+date: "`r format(Sys.Date(), '%d %b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Put the title of your vignette here}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
 ## In a first code chunk, set up typical SAS engine configuration.
