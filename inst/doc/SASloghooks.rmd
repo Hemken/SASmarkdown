@@ -1,0 +1,115 @@
+---
+title: "Cleaning Up SAS Log Output"
+author: "Doug Hemken"
+date: "`r format(Sys.Date(), '%d %b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cleaning Up SAS Log Output}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+## An Output Hook for PROC PRINTTO
+In this example I am using the PROC PRINTTO method of capturing the log.
+In this approach, we use SAS code to save a log file.  In a separate code
+chunk we use R code to read this log file and place it in our document.
+
+```{r setup, echo=FALSE}
+if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+} else if (file.exists("D:/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
+} else {
+  saspath <- "sas"
+}
+
+sasopts <- "-nosplash -ls 75"
+  knitr::opts_chunk$set(engine.path=saspath, engine.opts=sasopts, comment="")
+```
+
+In addition to the usual set up code for working with SAS (the \"sas\" or
+\"sashtml\" engines), we need to define an *output* hook.
+```{r outputhook, message=FALSE}
+  require(SASmarkdown)
+  saslog_hookset("output")
+```
+
+Note that **all** R output is run through the output hook, but our alterations
+are specific to the SAS log (none of the things we are searching for
+and removing appear in R output), so SAS output is untouched.
+
+```{r procmeans, engine='sas'}
+proc printto log="saslog.log" new;
+proc means data=sashelp.class;
+run;
+```
+
+The log is then processed when it is shown by a separate code chunk (using
+R commands, not SAS).
+```{r readlog}
+cat(readLines("saslog.log"), sep="\n")
+```
+
+Some variations.  No processing times, SASproctime=FALSE.
+```{r readlog, SASproctime=FALSE, echo=FALSE}
+```
+
+Some variations.  No SAS command echo, SASecho=FALSE.
+```{r readlog, SASecho=FALSE, echo=FALSE}
+```
+
+Some variations.  No SAS NOTES, SASnotes=FALSE.
+```{r readlog, SASnotes=FALSE, echo=FALSE}
+```
+
+Clean up.
+```{r cleanuplog}
+# Do not forget to remove the log file when you are done!
+unlink("saslog.log")
+```
+
+## A Source Hook for the \"saslog\" Engine
+with the \"saslog\" engine, we would need to use the same function as 
+a *source* hook.  Again, the usual SAS set up is needed, as above.
+```{r enginesetup}
+# require(SASmarkdown)
+# sas_enginesetup(saslog=saslog)
+```
+
+### Hook Specification
+Next we redefine how \"source\" is
+displayed. (Notice we reset the \"output\" hook, from above.  In
+general you will NOT need to reset, you will use one or the other.)
+```{r sourcehook, echo=TRUE}
+knitr::knit_hooks$set(output=hook_orig) # just for this example
+
+saslog_hookset("source")
+```
+
+### Hook Use
+First, the code.
+```{r procmeans2, engine='sas'}
+proc means data=sashelp.class;
+run;
+```
+
+And in use.  (Notice there is no file to clean up.)
+(There is also no code echo for PROC PRINTTO.)
+```{r procmeans2, engine='saslog'}
+```
+
+And a variation on the log, no processing times, SASproctime=FALSE.
+```{r procmeans2, engine='saslog', SASproctime=FALSE, results='hide'}
+```
+
+### Interactions (or Lack Thereof)
+Chunks in other languages are unaffected.
+```{r sourcetest1}
+runif(5)
+```
+
+and, with the \"sas\" engine.
+```{r sourcetest2, engine='sas'}
+proc means data=sashelp.class;
+run;
+```

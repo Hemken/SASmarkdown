@@ -24,9 +24,9 @@ saslog <- function (options) {
   else ""
   if (!options$error && !is.null(attr(out, "status")))
     stop(paste(out, collapse = "\n"))
-  if (options$eval &&  file.exists(listf))
+  if (options$eval && file.exists(listf))
     out.listing = c(readLines(listf), out) else out.listing=""
-  if (options$eval &&  file.exists(logf))
+  if (options$eval && file.exists(logf))
     out.log = c(readLines(logf), out)
   out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
   out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]

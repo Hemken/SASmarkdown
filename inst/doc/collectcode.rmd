@@ -1,10 +1,10 @@
 ---
-title: "Using Collectcode"
+title: "Linking Code Chunks Using Collectcode"
 author: "Doug Hemken"
 date: "`r format(Sys.Date(), '%d %b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Put the title of your vignette here}
+  %\VignetteIndexEntry{Linking Code Chunks Using Collectcode}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---

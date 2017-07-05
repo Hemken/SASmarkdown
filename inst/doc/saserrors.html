@@ -14,7 +14,7 @@
 
 <meta name="date" content="2017-07-05" />
 
-<title>Linking Code Chunks Using Collectcode</title>
+<title>Showing of SAS errors</title>
 
 
 
@@ -68,12 +68,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Linking Code Chunks Using Collectcode</h1>
+<h1 class="title toc-ignore">Showing of SAS errors</h1>
 <h4 class="author"><em>Doug Hemken</em></h4>
 <h4 class="date"><em>05 Jul 2017</em></h4>
 
 
 
+<div id="to-see-sas-errors-use-chunk-option-errortrue." class="section level1">
+<h1>To see SAS errors, use chunk option &quot;error=TRUE&quot;.</h1>
+<p>SAS does not always exit with an error when it encounters problems, but when it does, you should see the log in your document instead of the code.</p>
 <div id="in-a-first-code-chunk-set-up-typical-sas-engine-configuration." class="section level2">
 <h2>In a first code chunk, set up typical SAS engine configuration.</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(SASmarkdown)
@@ -89,25 +92,228 @@ if (<span class="kw">file.exists</span>(<span class="st">&quot;C:/Program Files/
 
 sasopts &lt;-<span class="st"> &quot;-nosplash -ls 75&quot;</span></code></pre></div>
 </div>
-<div id="then-set-up-sas-code-chunks." class="section level2">
-<h2>Then set up SAS code chunks.</h2>
-<pre class="sas"><code>data class;
-    set sashelp.class;
-    keep age;
-    run;</code></pre>
-</div>
-<div id="a-later-step---using-the-work-data." class="section level2">
-<h2>A later step - using the WORK data.</h2>
-<pre class="sas"><code>proc means data=class;
-run;</code></pre>
-<pre><code>                            The MEANS Procedure
+<div id="a-semantic-error." class="section level2">
+<h2>A Semantic Error.</h2>
+<p>Try to use WORK data, without setting up data there. SAS produces an ERROR. (No output is produced.)</p>
+<pre class="sas"><code>2          proc means data=class;
+ERROR: File WORK.CLASS.DATA does not exist.
+3          run;
 
-                         Analysis Variable : Age 
- 
-     N            Mean         Std Dev         Minimum         Maximum
-    ------------------------------------------------------------------
-    19      13.3157895       1.4926722      11.0000000      16.0000000
-    ------------------------------------------------------------------</code></pre>
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+ERROR: Errors printed on page 1.</code></pre>
+</div>
+<div id="an-execution-error." class="section level2">
+<h2>An Execution Error.</h2>
+<p>Division by zero.</p>
+<pre class="sas"><code>data class;
+    set sashelp.class(obs=5);
+    age0 = age/0;
+    keep age age0;
+    run;
+
+proc print data=class;
+run;</code></pre>
+<pre><code>                            Obs    Age    age0
+
+                             1      14      . 
+                             2      13      . 
+                             3      13      . 
+                             4      14      . 
+                             5      14      . </code></pre>
+<p>To see the ERROR, switch to &quot;saslog&quot; engine.</p>
+<pre class="saslog"><code>2          data class;
+3              set sashelp.class(obs=5);
+4              age0 = age/0;
+5              keep age age0;
+6              run;
+
+NOTE: Division by zero detected at line 4 column 15.
+Name=Alfred Sex=M Age=14 Height=69 Weight=112.5 age0=. _ERROR_=1 _N_=1
+NOTE: Division by zero detected at line 4 column 15.
+Name=Alice Sex=F Age=13 Height=56.5 Weight=84 age0=. _ERROR_=1 _N_=2
+NOTE: Division by zero detected at line 4 column 15.
+Name=Barbara Sex=F Age=13 Height=65.3 Weight=98 age0=. _ERROR_=1 _N_=3
+NOTE: Division by zero detected at line 4 column 15.
+Name=Carol Sex=F Age=14 Height=62.8 Weight=102.5 age0=. _ERROR_=1 _N_=4
+NOTE: Division by zero detected at line 4 column 15.
+Name=Henry Sex=M Age=14 Height=63.5 Weight=102.5 age0=. _ERROR_=1 _N_=5
+NOTE: Mathematical operations could not be performed at the following 
+      places. The results of the operations have been set to missing 
+      values.
+      Each place is given by: (Number of times) at (Line):(Column).
+      5 at 4:15   
+NOTE: There were 5 observations read from the data set SASHELP.CLASS.
+NOTE: The data set WORK.CLASS has 5 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+7          
+8          proc print data=class;
+9          run;
+
+NOTE: There were 5 observations read from the data set WORK.CLASS.
+NOTE: The PROCEDURE PRINT printed page 1.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+      </code></pre>
+<pre><code>                            Obs    Age    age0
+
+                             1      14      . 
+                             2      13      . 
+                             3      13      . 
+                             4      14      . 
+                             5      14      . </code></pre>
+</div>
+<div id="replicate-in-html." class="section level2">
+<h2>Replicate in HTML.</h2>
+<p>The semantic error.</p>
+<pre class="sashtml"><code>6          proc means data=class;
+ERROR: File WORK.CLASS.DATA does not exist.
+7          run;
+
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+ERROR: Errors printed on page 1.</code></pre>
+<p>And the execution error.</p>
+<pre class="sashtmllog"><code>6          data class;
+7              set sashelp.class(obs=5);
+8              age0 = age/0;
+9              keep age age0;
+10             run;
+
+NOTE: Division by zero detected at line 8 column 15.
+Name=Alfred Sex=M Age=14 Height=69 Weight=112.5 age0=. _ERROR_=1 _N_=1
+NOTE: Division by zero detected at line 8 column 15.
+Name=Alice Sex=F Age=13 Height=56.5 Weight=84 age0=. _ERROR_=1 _N_=2
+NOTE: Division by zero detected at line 8 column 15.
+Name=Barbara Sex=F Age=13 Height=65.3 Weight=98 age0=. _ERROR_=1 _N_=3
+NOTE: Division by zero detected at line 8 column 15.
+Name=Carol Sex=F Age=14 Height=62.8 Weight=102.5 age0=. _ERROR_=1 _N_=4
+NOTE: Division by zero detected at line 8 column 15.
+Name=Henry Sex=M Age=14 Height=63.5 Weight=102.5 age0=. _ERROR_=1 _N_=5
+NOTE: Mathematical operations could not be performed at the following 
+      places. The results of the operations have been set to missing 
+      values.
+      Each place is given by: (Number of times) at (Line):(Column).
+      5 at 8:15   
+NOTE: There were 5 observations read from the data set SASHELP.CLASS.
+NOTE: The data set WORK.CLASS has 5 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+11         
+12         proc print data=class;
+13         run;
+
+NOTE: There were 5 observations read from the data set WORK.CLASS.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.00 seconds
+      </code></pre>
+<div class="branch">
+<a name="IDX"></a>
+<div>
+<div align="center">
+<!--BEGINTABLE-->
+<table class="table" cellspacing="0" cellpadding="7" rules="groups" frame="hsides" summary="Procedure Print: Data Set WORK.CLASS">
+<colgroup>
+<col>
+</colgroup>
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="r header" scope="col">
+Obs
+</th>
+<th class="r header" scope="col">
+Age
+</th>
+<th class="r header" scope="col">
+age0
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="r rowheader" scope="row">
+1
+</th>
+<td class="r data">
+14
+</td>
+<td class="r data">
+.
+</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">
+2
+</th>
+<td class="r data">
+13
+</td>
+<td class="r data">
+.
+</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">
+3
+</th>
+<td class="r data">
+13
+</td>
+<td class="r data">
+.
+</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">
+4
+</th>
+<td class="r data">
+14
+</td>
+<td class="r data">
+.
+</td>
+</tr>
+<tr>
+<th class="r rowheader" scope="row">
+5
+</th>
+<td class="r data">
+14
+</td>
+<td class="r data">
+.
+</td>
+</tr>
+</tbody>
+</table>
+<!--ENDTABLE-->
+</div>
+</div>
+<br>
+</div>
+</div>
 </div>
 
 

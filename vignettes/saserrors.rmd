@@ -1,8 +1,12 @@
 ---
-title: "A Test of SAS errors"
+title: "Showing of SAS errors"
 author: "Doug Hemken"
-date: "June 1, 2017"
-output: html_document
+date: "`r format(Sys.Date(), '%d %b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Showing of SAS errors}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 # To see SAS errors, use chunk option \"error=TRUE\".
 SAS does not always exit with an error when it encounters problems, but

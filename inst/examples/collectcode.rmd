@@ -1,10 +1,10 @@
 ---
-title: "Using Collectcode"
+title: "Linking Code Chunks Using 'collectcode'"
 author: "Doug Hemken"
 date: "`r format(Sys.Date(), '%d %b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Put the title of your vignette here}
+  %\VignetteIndexEntry{Linking Code Chunks Using Collectcode}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -27,7 +27,7 @@ sasopts <- "-nosplash -ls 75"
 ```
 ## Then set up SAS code chunks.
 ```{r datastep, engine="sas", collectcode=TRUE, engine.path=saspath, engine.opts=sasopts, comment=""}
-data class;
+data class; * collectcode;
     set sashelp.class;
     keep age;
     run;

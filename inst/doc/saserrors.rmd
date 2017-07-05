@@ -1,0 +1,62 @@
+---
+title: "Showing of SAS errors"
+author: "Doug Hemken"
+date: "`r format(Sys.Date(), '%d %b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Showing of SAS errors}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+# To see SAS errors, use chunk option \"error=TRUE\".
+SAS does not always exit with an error when it encounters problems, but
+when it does, you should see the log in your document instead of the code.
+
+## In a first code chunk, set up typical SAS engine configuration.
+```{r setup, message=FALSE}
+require(SASmarkdown)
+sas_collectcode()
+
+if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+} else if (file.exists("D:/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
+} else {
+  saspath <- "sas"
+}
+
+sasopts <- "-nosplash -ls 75"
+
+```
+## A Semantic Error.
+Try to use WORK data, without setting up data there.
+SAS produces an ERROR.  (No output is produced.)
+```{r procmeans, engine="sas", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
+proc means data=class;
+run;
+```
+## An Execution Error.
+Division by zero.
+```{r divzero, engine="sas", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
+data class;
+    set sashelp.class(obs=5);
+    age0 = age/0;
+    keep age age0;
+    run;
+
+proc print data=class;
+run;
+```
+
+To see the ERROR, switch to \"saslog\" engine.
+```{r divzero, engine="saslog", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
+```
+
+## Replicate in HTML.
+The semantic error.
+```{r procmeans, engine="sashtml", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
+```
+
+And the execution error.
+```{r divzero, engine="sashtmllog", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
+```

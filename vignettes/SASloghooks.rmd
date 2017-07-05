@@ -1,7 +1,12 @@
 ---
 title: "Cleaning Up SAS Log Output"
 author: "Doug Hemken"
-date: "May 2017"
+date: "`r format(Sys.Date(), '%d %b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cleaning Up SAS Log Output}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
 ## An Output Hook for PROC PRINTTO
@@ -10,9 +15,15 @@ In this approach, we use SAS code to save a log file.  In a separate code
 chunk we use R code to read this log file and place it in our document.
 
 ```{r setup, echo=FALSE}
+if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
   saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-  # saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
-  sasopts <- "-nosplash -ls 75"
+} else if (file.exists("D:/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
+} else {
+  saspath <- "sas"
+}
+
+sasopts <- "-nosplash -ls 75"
   knitr::opts_chunk$set(engine.path=saspath, engine.opts=sasopts, comment="")
 ```
 
@@ -77,7 +88,7 @@ saslog_hookset("source")
 
 ### Hook Use
 First, the code.
-```{r procmeans2, engine='sas', eval=FALSE}
+```{r procmeans2, engine='sas'}
 proc means data=sashelp.class;
 run;
 ```
