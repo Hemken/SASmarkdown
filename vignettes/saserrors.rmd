@@ -8,36 +8,49 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
+```{r backtick, echo=FALSE, results="hide"}
+backtick <- "`"
+```
 # To see SAS errors, use chunk option \"error=TRUE\".
 SAS does not always exit with an error when it encounters problems, but
 when it does, you should see the log in your document instead of the code.
 
-## In a first code chunk, set up typical SAS engine configuration.
+## First, set up your SAS engine configuration.
 ```{r setup, message=FALSE}
 require(SASmarkdown)
-sas_collectcode()
-
 if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
   saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-} else if (file.exists("D:/SASHome/SASFoundation/9.4/sas.exe")) {
-  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
 } else {
   saspath <- "sas"
 }
-
 sasopts <- "-nosplash -ls 75"
-
+sas_collectcode()
 ```
 ## A Semantic Error.
-Try to use WORK data, without setting up data there.
+Semantic errors (typos etc.) cause SAS to return an error
+status when SAS finishes.  Unless you tell R to allow
+errors, this aborts processing your document.
+
+In this example, try to use WORK data, without setting up data there.
 SAS produces an ERROR.  (No output is produced.)
+
+Use chunk option \"error=TRUE\".
+
+    `r backtick```{r procmeans, engine="sas", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
+    proc means data=class;
+    run;
+    `r backtick```
+
+Which produces:
 ```{r procmeans, engine="sas", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
 proc means data=class;
 run;
 ```
 ## An Execution Error.
-Division by zero.
-```{r divzero, engine="sas", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
+Division by zero produces error flags within the DATA step, but does
+**not** cause SAS to return an error code when it finishes.  So even
+if we allow for errors, the \"sas\" engine gives us the usual output.
+```{r divzero, engine="sas", engine.path=saspath, engine.opts=sasopts, comment=""}
 data class;
     set sashelp.class(obs=5);
     age0 = age/0;
@@ -48,15 +61,25 @@ proc print data=class;
 run;
 ```
 
-To see the ERROR, switch to \"saslog\" engine.
+To see the DATA step ERROR, switch to the \"saslog\" engine.  Here the
+chunk option \"error\" is irrelevant.
+
+    `r backtick```{r divzero, engine="saslog", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
+    `r backtick```
+
+Producing both the log and the PROC PRINT output.
 ```{r divzero, engine="saslog", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
 ```
 
 ## Replicate in HTML.
-The semantic error.
+The semantic error, where we need chunk option \"error=TRUE\".  In this
+particular example, the **sas** and **sashtml** engines give us the
+same result, because there is no output produced by either.
 ```{r procmeans, engine="sashtml", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
 ```
 
-And the execution error.
+And the execution error, where the chunk option is irrelevant.  Using 
+the **sashtmllog** engine, we see both the DATA step errors and the
+HTML output.
 ```{r divzero, engine="sashtmllog", engine.path=saspath, engine.opts=sasopts, comment="", error=TRUE}
 ```
