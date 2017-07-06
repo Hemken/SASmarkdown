@@ -12,9 +12,9 @@
 
 <meta name="author" content="Doug Hemken" />
 
-<meta name="date" content="2017-07-05" />
+<meta name="date" content="2017-07-06" />
 
-<title>Linking Code Chunks Using Collectcode</title>
+<title>Linking Code Chunks Using collectcode</title>
 
 
 
@@ -68,9 +68,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Linking Code Chunks Using Collectcode</h1>
+<h1 class="title toc-ignore">Linking Code Chunks Using ‘collectcode’</h1>
 <h4 class="author"><em>Doug Hemken</em></h4>
-<h4 class="date"><em>05 Jul 2017</em></h4>
+<h4 class="date"><em>06 Jul 2017</em></h4>
 
 
 
@@ -91,7 +91,7 @@ sasopts &lt;-<span class="st"> &quot;-nosplash -ls 75&quot;</span></code></pre><
 </div>
 <div id="then-set-up-sas-code-chunks." class="section level2">
 <h2>Then set up SAS code chunks.</h2>
-<pre class="sas"><code>data class;
+<pre class="sas"><code>data class; * collectcode;
     set sashelp.class;
     keep age;
     run;</code></pre>

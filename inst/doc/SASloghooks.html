@@ -12,7 +12,7 @@
 
 <meta name="author" content="Doug Hemken" />
 
-<meta name="date" content="2017-07-05" />
+<meta name="date" content="2017-07-06" />
 
 <title>Cleaning Up SAS Log Output</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Cleaning Up SAS Log Output</h1>
 <h4 class="author"><em>Doug Hemken</em></h4>
-<h4 class="date"><em>05 Jul 2017</em></h4>
+<h4 class="date"><em>06 Jul 2017</em></h4>
 
 
 
@@ -105,7 +105,7 @@ run;</code></pre>
 NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
-      real time           0.04 seconds
+      real time           0.05 seconds
       cpu time            0.03 seconds
       </code></pre>
 <p>Some variations. No processing times, SASproctime=FALSE.</p>
@@ -125,7 +125,7 @@ NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
-      real time           0.04 seconds
+      real time           0.05 seconds
       cpu time            0.03 seconds
       </code></pre>
 <p>Some variations. No SAS NOTES, SASnotes=FALSE.</p>
@@ -136,7 +136,7 @@ NOTE: PROCEDURE MEANS used (Total process time):
 3          proc means data=sashelp.class;
 4          run;
 
-      real time           0.04 seconds
+      real time           0.05 seconds
       cpu time            0.03 seconds
       </code></pre>
 <p>Clean up.</p>
@@ -176,7 +176,7 @@ NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
       real time           0.03 seconds
-      cpu time            0.03 seconds
+      cpu time            0.01 seconds
       
 </code></pre>
 <pre><code>                            The MEANS Procedure
@@ -200,7 +200,7 @@ NOTE: The PROCEDURE MEANS printed page 1.
 <h3>Interactions (or Lack Thereof)</h3>
 <p>Chunks in other languages are unaffected.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dv">5</span>)</code></pre></div>
-<pre><code>[1] 0.2233072 0.3137627 0.4471675 0.8792938 0.4618947</code></pre>
+<pre><code>[1] 0.81213594 0.32204788 0.05449223 0.71430433 0.60479582</code></pre>
 <p>and, with the &quot;sas&quot; engine.</p>
 <pre class="sas"><code>proc means data=sashelp.class;
 run;</code></pre>
