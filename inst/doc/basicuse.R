@@ -1,10 +1,11 @@
+## ----backtick, echo=FALSE, results="hide"--------------------------------
+backtick <- "`"
+
 ## ----setup, message=FALSE------------------------------------------------
 require(SASmarkdown)
 
 if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
   saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-} else if (file.exists("D:/SASHome/SASFoundation/9.4/sas.exe")) {
-  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
 } else {
   saspath <- "sas"
 }

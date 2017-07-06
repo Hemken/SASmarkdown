@@ -1,18 +1,27 @@
-## ----setup, echo=FALSE---------------------------------------------------
+## ----backtick, echo=FALSE, results="hide"--------------------------------
+backtick <- "`"
+
+## ----setup, echo=FALSE, message=FALSE------------------------------------
+require(SASmarkdown)
 if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
   saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-} else if (file.exists("D:/SASHome/SASFoundation/9.4/sas.exe")) {
-  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
 } else {
   saspath <- "sas"
 }
-
 sasopts <- "-nosplash -ls 75"
-  knitr::opts_chunk$set(engine.path=saspath, engine.opts=sasopts, comment="")
+knitr::opts_chunk$set(engine.path=saspath, engine.opts=sasopts, comment="")
 
-## ----outputhook, message=FALSE-------------------------------------------
-  require(SASmarkdown)
-  saslog_hookset("output")
+## ----sourcehook----------------------------------------------------------
+require(SASmarkdown) # if not invoked previously
+saslog_hookset("source")
+
+## ----sourcetest1---------------------------------------------------------
+runif(5)
+
+## ----outputhook, echo=TRUE-----------------------------------------------
+knitr::knit_hooks$set(source=hook_orig) # just for this example
+
+saslog_hookset("output")
 
 ## ----readlog-------------------------------------------------------------
 cat(readLines("saslog.log"), sep="\n")
@@ -29,16 +38,4 @@ cat(readLines("saslog.log"), sep="\n")
 ## ----cleanuplog----------------------------------------------------------
 # Do not forget to remove the log file when you are done!
 unlink("saslog.log")
-
-## ----enginesetup---------------------------------------------------------
-# require(SASmarkdown)
-# sas_enginesetup(saslog=saslog)
-
-## ----sourcehook, echo=TRUE-----------------------------------------------
-knitr::knit_hooks$set(output=hook_orig) # just for this example
-
-saslog_hookset("source")
-
-## ----sourcetest1---------------------------------------------------------
-runif(5)
 

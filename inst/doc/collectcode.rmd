@@ -1,40 +1,62 @@
 ---
-title: "Linking Code Chunks Using 'collectcode'"
+title: "Linking Code Chunks Using 'sas_collectcode'"
 author: "Doug Hemken"
-date: "`r format(Sys.Date(), '%d %b %Y')`"
+date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Linking Code Chunks Using Collectcode}
+  %\VignetteIndexEntry{Linking Code Chunks Using sas_collectcode}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
 
-## In a first code chunk, set up typical SAS engine configuration.
+```{r backtick, echo=FALSE, results="hide"}
+backtick <- "`"
+```
+Linking SAS code chunks makes use of SAS\'s autoexec.sas
+file.  Within R this requires setting up a chunk option
+by invoking the **sas_collectcode** function.
+
+## Configure SAS and call \"sas_collectcode\".
 ```{r setup, message=FALSE}
 require(SASmarkdown)
-sas_collectcode()
-
 if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
   saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-} else if (file.exists("D:/SASHome/SASFoundation/9.4/sas.exe")) {
-  saspath <- "D:/SASHome/SASFoundation/9.4/sas.exe"
 } else {
   saspath <- "sas"
 }
-
 sasopts <- "-nosplash -ls 75"
 
+sas_collectcode()
 ```
 ## Then set up SAS code chunks.
+To have the effects of one code chunk available to use in a later
+code chunk, set the chunk option \"collectcode=TRUE\".
+
+In this example, a data set is copied to the WORK library
+and only one variable is kept.
+
+In Rmarkdown this would look like:
+
+    `r backtick```{r datastep, engine="sas", collectcode=TRUE, engine.path=saspath, engine.opts=sasopts, comment=""}
+    data class;
+        set sashelp.class;
+        keep age;
+        run;
+    `r backtick```
+
+And in your final document it would appear as:
 ```{r datastep, engine="sas", collectcode=TRUE, engine.path=saspath, engine.opts=sasopts, comment=""}
-data class; * collectcode;
+data class;
     set sashelp.class;
     keep age;
     run;
 ```
 ## A later step - using the WORK data.
+Without **collectcode** to link the code chunks, a later
+chunk that referenced the data in the WORK library would
+produce an error, but this now works.  (No special option
+is needed for this later step.)
 ```{r procmeans, engine="sas", engine.path=saspath, engine.opts=sasopts, comment=""}
 proc means data=class;
 run;
 ```
-

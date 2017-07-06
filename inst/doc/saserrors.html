@@ -12,7 +12,6 @@
 
 <meta name="author" content="Doug Hemken" />
 
-<meta name="date" content="2017-07-06" />
 
 <title>Showing of SAS errors</title>
 
@@ -70,31 +69,34 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Showing of SAS errors</h1>
 <h4 class="author"><em>Doug Hemken</em></h4>
-<h4 class="date"><em>06 Jul 2017</em></h4>
+<h4 class="date"><em>Jul 2017</em></h4>
 
 
 
 <div id="to-see-sas-errors-use-chunk-option-errortrue." class="section level1">
 <h1>To see SAS errors, use chunk option &quot;error=TRUE&quot;.</h1>
 <p>SAS does not always exit with an error when it encounters problems, but when it does, you should see the log in your document instead of the code.</p>
-<div id="in-a-first-code-chunk-set-up-typical-sas-engine-configuration." class="section level2">
-<h2>In a first code chunk, set up typical SAS engine configuration.</h2>
+<div id="first-set-up-your-sas-engine-configuration." class="section level2">
+<h2>First, set up your SAS engine configuration.</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(SASmarkdown)
-<span class="kw">sas_collectcode</span>()
-
 if (<span class="kw">file.exists</span>(<span class="st">&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;</span>)) {
   saspath &lt;-<span class="st"> &quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;</span>
-} else if (<span class="kw">file.exists</span>(<span class="st">&quot;D:/SASHome/SASFoundation/9.4/sas.exe&quot;</span>)) {
-  saspath &lt;-<span class="st"> &quot;D:/SASHome/SASFoundation/9.4/sas.exe&quot;</span>
 } else {
   saspath &lt;-<span class="st"> &quot;sas&quot;</span>
 }
-
-sasopts &lt;-<span class="st"> &quot;-nosplash -ls 75&quot;</span></code></pre></div>
+sasopts &lt;-<span class="st"> &quot;-nosplash -ls 75&quot;</span>
+<span class="kw">sas_collectcode</span>()</code></pre></div>
 </div>
 <div id="a-semantic-error." class="section level2">
 <h2>A Semantic Error.</h2>
-<p>Try to use WORK data, without setting up data there. SAS produces an ERROR. (No output is produced.)</p>
+<p>Semantic errors (typos etc.) cause SAS to return an error status when SAS finishes. Unless you tell R to allow errors, this aborts processing your document.</p>
+<p>In this example, try to use WORK data, without setting up data there. SAS produces an ERROR. (No output is produced.)</p>
+<p>Use chunk option &quot;error=TRUE&quot;.</p>
+<pre><code>```{r procmeans, engine=&quot;sas&quot;, engine.path=saspath, engine.opts=sasopts, comment=&quot;&quot;, error=TRUE}
+proc means data=class;
+run;
+```</code></pre>
+<p>Which produces:</p>
 <pre class="sas"><code>2          proc means data=class;
 ERROR: File WORK.CLASS.DATA does not exist.
 3          run;
@@ -109,7 +111,7 @@ ERROR: Errors printed on page 1.</code></pre>
 </div>
 <div id="an-execution-error." class="section level2">
 <h2>An Execution Error.</h2>
-<p>Division by zero.</p>
+<p>Division by zero produces error flags within the DATA step, but does <strong>not</strong> cause SAS to return an error code when it finishes. So even if we allow for errors, the &quot;sas&quot; engine gives us the usual output.</p>
 <pre class="sas"><code>data class;
     set sashelp.class(obs=5);
     age0 = age/0;
@@ -125,7 +127,10 @@ run;</code></pre>
                              3      13      . 
                              4      14      . 
                              5      14      . </code></pre>
-<p>To see the ERROR, switch to &quot;saslog&quot; engine.</p>
+<p>To see the DATA step ERROR, switch to the &quot;saslog&quot; engine. Here the chunk option &quot;error&quot; is irrelevant.</p>
+<pre><code>```{r divzero, engine=&quot;saslog&quot;, engine.path=saspath, engine.opts=sasopts, comment=&quot;&quot;, error=TRUE}
+```</code></pre>
+<p>Producing both the log and the PROC PRINT output.</p>
 <pre class="saslog"><code>2          data class;
 3              set sashelp.class(obs=5);
 4              age0 = age/0;
@@ -174,7 +179,7 @@ NOTE: PROCEDURE PRINT used (Total process time):
 </div>
 <div id="replicate-in-html." class="section level2">
 <h2>Replicate in HTML.</h2>
-<p>The semantic error.</p>
+<p>The semantic error, where we need chunk option &quot;error=TRUE&quot;. In this particular example, the <strong>sas</strong> and <strong>sashtml</strong> engines give us the same result, because there is no output produced by either.</p>
 <pre class="sashtml"><code>6          proc means data=class;
 ERROR: File WORK.CLASS.DATA does not exist.
 7          run;
@@ -182,11 +187,11 @@ ERROR: File WORK.CLASS.DATA does not exist.
 NOTE: The SAS System stopped processing this step because of errors.
 NOTE: PROCEDURE MEANS used (Total process time):
       real time           0.00 seconds
-      cpu time            0.01 seconds
+      cpu time            0.00 seconds
       
 
 ERROR: Errors printed on page 1.</code></pre>
-<p>And the execution error.</p>
+<p>And the execution error, where the chunk option is irrelevant. Using the <strong>sashtmllog</strong> engine, we see both the DATA step errors and the HTML output.</p>
 <pre class="sashtmllog"><code>6          data class;
 7              set sashelp.class(obs=5);
 8              age0 = age/0;
@@ -221,7 +226,7 @@ NOTE: DATA statement used (Total process time):
 
 NOTE: There were 5 observations read from the data set WORK.CLASS.
 NOTE: PROCEDURE PRINT used (Total process time):
-      real time           0.06 seconds
+      real time           0.04 seconds
       cpu time            0.00 seconds
       </code></pre>
 <div class="branch">

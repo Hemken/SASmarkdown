@@ -12,7 +12,6 @@
 
 <meta name="author" content="Doug Hemken" />
 
-<meta name="date" content="2017-07-06" />
 
 <title>Cleaning Up SAS Log Output</title>
 
@@ -70,52 +69,204 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Cleaning Up SAS Log Output</h1>
 <h4 class="author"><em>Doug Hemken</em></h4>
-<h4 class="date"><em>06 Jul 2017</em></h4>
+<h4 class="date"><em>Jul 2017</em></h4>
 
 
 
-<div id="an-output-hook-for-proc-printto" class="section level2">
-<h2>An Output Hook for PROC PRINTTO</h2>
-<p>In this example I am using the PROC PRINTTO method of capturing the log. In this approach, we use SAS code to save a log file. In a separate code chunk we use R code to read this log file and place it in our document.</p>
-<p>In addition to the usual set up code for working with SAS (the &quot;sas&quot; or &quot;sashtml&quot; engines), we need to define an <em>output</em> hook.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">require</span>(SASmarkdown)
-  <span class="kw">saslog_hookset</span>(<span class="st">&quot;output&quot;</span>)</code></pre></div>
-<p>Note that <strong>all</strong> R output is run through the output hook, but our alterations are specific to the SAS log (none of the things we are searching for and removing appear in R output), so SAS output is untouched.</p>
-<pre class="sas"><code>proc printto log=&quot;saslog.log&quot; new;
-proc means data=sashelp.class;
+<p>If you are using the <strong>saslog</strong> or <strong>sashtmllog</strong> engines, or if you are allowing SAS semantic errors to appear in your document, you may not want to show the entire log file. To gain some control over what shows up in your document, you can use &quot;saslog_hookset&quot;.</p>
+<p>The usual SAS set up is needed, as in other vignettes, and is not shown here.</p>
+<div id="a-source-hook-for-the-saslog-engine" class="section level2">
+<h2>A Source Hook for the &quot;saslog&quot; Engine</h2>
+<p>With the <strong>saslog</strong> or <strong>sashtmllog</strong> engines we use the &quot;saslog_hookset&quot; function, specifying<br />
+a <em>source</em> hook. This creates a number of chunk options we can use to filter the SAS log.</p>
+<div id="hook-specification" class="section level3">
+<h3>Hook Specification</h3>
+<p>(This is a &quot;source&quot; hook, because we are showing the SAS log where we usually show the SAS code, the &quot;source&quot;.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(SASmarkdown) <span class="co"># if not invoked previously</span>
+<span class="kw">saslog_hookset</span>(<span class="st">&quot;source&quot;</span>)</code></pre></div>
+</div>
+<div id="hook-use" class="section level3">
+<h3>Hook Use</h3>
+<p>First, we setup some code using &quot;engine='sas'&quot;. We will repeatedly use the same code by repeating the chunk label.</p>
+<pre class="sas"><code>proc means data=sashelp.class(keep=height);
 run;</code></pre>
 <pre><code>                            The MEANS Procedure
 
- Variable    N           Mean        Std Dev        Minimum        Maximum
- -------------------------------------------------------------------------
- Age        19     13.3157895      1.4926722     11.0000000     16.0000000
- Height     19     62.3368421      5.1270752     51.3000000     72.0000000
- Weight     19    100.0263158     22.7739335     50.5000000    150.0000000
- -------------------------------------------------------------------------</code></pre>
+                        Analysis Variable : Height 
+ 
+     N            Mean         Std Dev         Minimum         Maximum
+    ------------------------------------------------------------------
+    19      62.3368421       5.1270752      51.3000000      72.0000000
+    ------------------------------------------------------------------</code></pre>
+<p>If we switch to engine <strong>saslog</strong></p>
+<pre><code>```{r procmeans2, engine='saslog'}
+```</code></pre>
+<p>we don’t get ALL of the SAS log file, but we may be showing more information than we really want to present to the reader.</p>
+<pre class="saslog"><code>2          proc means data=sashelp.class(keep=height);
+3          run;
+
+NOTE: There were 19 observations read from the data set SASHELP.CLASS.
+NOTE: The PROCEDURE MEANS printed page 1.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.03 seconds
+      
+</code></pre>
+<pre><code>                            The MEANS Procedure
+
+                        Analysis Variable : Height 
+ 
+     N            Mean         Std Dev         Minimum         Maximum
+    ------------------------------------------------------------------
+    19      62.3368421       5.1270752      51.3000000      72.0000000
+    ------------------------------------------------------------------</code></pre>
+<p>We can filter the log to suppress processing times by using chunk option &quot;SASproctime=FALSE&quot;.</p>
+<pre><code>```{r procmeans2, engine='saslog', SASproctime=FALSE, results='hide'}
+```</code></pre>
+<pre class="saslog"><code>2          proc means data=sashelp.class(keep=height);
+3          run;
+
+NOTE: There were 19 observations read from the data set SASHELP.CLASS.
+NOTE: The PROCEDURE MEANS printed page 1.
+      
+</code></pre>
+<p>Other filtering options include no SAS command echo with &quot;SASecho=FALSE&quot; and no SAS NOTES with &quot;SASnotes=FALSE&quot;.</p>
+<pre class="saslog"><code>NOTE: There were 19 observations read from the data set SASHELP.CLASS.
+NOTE: The PROCEDURE MEANS printed page 1.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+</code></pre>
+<pre class="saslog"><code>2          proc means data=sashelp.class(keep=height);
+3          run;
+
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+      
+</code></pre>
+</div>
+<div id="interactions-or-lack-thereof" class="section level3">
+<h3>Interactions (or Lack Thereof)</h3>
+<p>Chunks in other languages are unaffected (for example, R).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dv">5</span>)</code></pre></div>
+<pre><code>[1] 0.1712174 0.4788761 0.6818775 0.5059255 0.3921294</code></pre>
+<p>And the <strong>sas</strong> and <strong>sashtml</strong> engines are unaffected, as seen in our intial code chunk and here:</p>
+<pre class="sashtml"><code>proc means data=sashelp.class(keep=height);
+run;</code></pre>
+<div class="branch">
+<a name="IDX"></a>
+<div>
+<div align="center">
+<!--BEGINTABLE-->
+<table class="table" cellspacing="0" cellpadding="7" rules="groups" frame="hsides" summary="Procedure Means: Summary statistics">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="c b header" colspan="5" scope="colgroup">
+Analysis Variable : Height
+</th>
+</tr>
+<tr>
+<th class="r b header" scope="col">
+N
+</th>
+<th class="r b header" scope="col">
+Mean
+</th>
+<th class="r b header" scope="col">
+Std Dev
+</th>
+<th class="r b header" scope="col">
+Minimum
+</th>
+<th class="r b header" scope="col">
+Maximum
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="r data">
+19
+</td>
+<td class="r data">
+62.3368421
+</td>
+<td class="r data">
+5.1270752
+</td>
+<td class="r data">
+51.3000000
+</td>
+<td class="r data">
+72.0000000
+</td>
+</tr>
+</tbody>
+</table>
+<!--ENDTABLE-->
+</div>
+</div>
+<br>
+</div>
+</div>
+</div>
+<div id="an-output-hook-for-proc-printto" class="section level2">
+<h2>An Output Hook for PROC PRINTTO</h2>
+<p>These same filters can be used as &quot;output&quot; hooks.</p>
+<p>Suppose you wanted to process SAS log files separately. You could use SAS's PROC PRINTTO to save the log files, and read them into your document using R commands.</p>
+<p>(For this vignette we reset the &quot;source&quot; hook, from above. In general you will NOT need to reset, you will use one or the other.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr::knit_hooks$<span class="kw">set</span>(<span class="dt">source=</span>hook_orig) <span class="co"># just for this example</span>
+
+<span class="kw">saslog_hookset</span>(<span class="st">&quot;output&quot;</span>)</code></pre></div>
+<p>In this example I am using the PROC PRINTTO method of capturing the log.</p>
+<p>Note that <strong>all</strong> output is run through the output hook, but our alterations are specific to the SAS log None of the text we are filtering appears in ordinary SAS or R output, so SAS output is untouched.</p>
+<pre class="sas"><code>proc printto log=&quot;saslog.log&quot; new;
+proc means data=sashelp.class(keep=weight);
+run;</code></pre>
+<pre><code>                            The MEANS Procedure
+
+                        Analysis Variable : Weight 
+ 
+     N            Mean         Std Dev         Minimum         Maximum
+    ------------------------------------------------------------------
+    19     100.0263158      22.7739335      50.5000000     150.0000000
+    ------------------------------------------------------------------</code></pre>
 <p>The log is then processed when it is shown by a separate code chunk (using R commands, not SAS).</p>
+<pre><code>```{r readlog}
+cat(readLines(&quot;saslog.log&quot;), sep=&quot;\n&quot;)
+```</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(<span class="kw">readLines</span>(<span class="st">&quot;saslog.log&quot;</span>), <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</code></pre></div>
 <pre><code>NOTE: PROCEDURE PRINTTO used (Total process time):
       real time           0.00 seconds
       cpu time            0.00 seconds
       
 
-3          proc means data=sashelp.class;
+3          proc means data=sashelp.class(keep=weight);
 4          run;
 
 NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
-      real time           0.05 seconds
-      cpu time            0.03 seconds
+      real time           0.03 seconds
+      cpu time            0.01 seconds
       </code></pre>
-<p>Some variations. No processing times, SASproctime=FALSE.</p>
-<pre><code>3          proc means data=sashelp.class;
+<p>We can now use the same chunk options as before.<br />
+No processing times, SASproctime=FALSE.</p>
+<pre><code>3          proc means data=sashelp.class(keep=weight);
 4          run;
 
 NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
       </code></pre>
-<p>Some variations. No SAS command echo, SASecho=FALSE.</p>
+<p>No SAS command echo, SASecho=FALSE.</p>
 <pre><code>NOTE: PROCEDURE PRINTTO used (Total process time):
       real time           0.00 seconds
       cpu time            0.00 seconds
@@ -125,94 +276,23 @@ NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
-      real time           0.05 seconds
-      cpu time            0.03 seconds
+      real time           0.03 seconds
+      cpu time            0.01 seconds
       </code></pre>
-<p>Some variations. No SAS NOTES, SASnotes=FALSE.</p>
+<p>No SAS NOTES, SASnotes=FALSE.</p>
 <pre><code>      real time           0.00 seconds
       cpu time            0.00 seconds
       
 
-3          proc means data=sashelp.class;
+3          proc means data=sashelp.class(keep=weight);
 4          run;
 
-      real time           0.05 seconds
-      cpu time            0.03 seconds
-      </code></pre>
-<p>Clean up.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Do not forget to remove the log file when you are done!</span>
-<span class="kw">unlink</span>(<span class="st">&quot;saslog.log&quot;</span>)</code></pre></div>
-</div>
-<div id="a-source-hook-for-the-saslog-engine" class="section level2">
-<h2>A Source Hook for the &quot;saslog&quot; Engine</h2>
-<p>with the &quot;saslog&quot; engine, we would need to use the same function as a <em>source</em> hook. Again, the usual SAS set up is needed, as above.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># require(SASmarkdown)</span>
-<span class="co"># sas_enginesetup(saslog=saslog)</span></code></pre></div>
-<div id="hook-specification" class="section level3">
-<h3>Hook Specification</h3>
-<p>Next we redefine how &quot;source&quot; is displayed. (Notice we reset the &quot;output&quot; hook, from above. In general you will NOT need to reset, you will use one or the other.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr::knit_hooks$<span class="kw">set</span>(<span class="dt">output=</span>hook_orig) <span class="co"># just for this example</span>
-
-<span class="kw">saslog_hookset</span>(<span class="st">&quot;source&quot;</span>)</code></pre></div>
-</div>
-<div id="hook-use" class="section level3">
-<h3>Hook Use</h3>
-<p>First, the code.</p>
-<pre class="sas"><code>proc means data=sashelp.class;
-run;</code></pre>
-<pre><code>                            The MEANS Procedure
-
- Variable    N           Mean        Std Dev        Minimum        Maximum
- -------------------------------------------------------------------------
- Age        19     13.3157895      1.4926722     11.0000000     16.0000000
- Height     19     62.3368421      5.1270752     51.3000000     72.0000000
- Weight     19    100.0263158     22.7739335     50.5000000    150.0000000
- -------------------------------------------------------------------------</code></pre>
-<p>And in use. (Notice there is no file to clean up.) (There is also no code echo for PROC PRINTTO.)</p>
-<pre class="saslog"><code>2          proc means data=sashelp.class;
-3          run;
-
-NOTE: There were 19 observations read from the data set SASHELP.CLASS.
-NOTE: The PROCEDURE MEANS printed page 1.
-NOTE: PROCEDURE MEANS used (Total process time):
       real time           0.03 seconds
       cpu time            0.01 seconds
-      
-</code></pre>
-<pre><code>                            The MEANS Procedure
-
- Variable    N           Mean        Std Dev        Minimum        Maximum
- -------------------------------------------------------------------------
- Age        19     13.3157895      1.4926722     11.0000000     16.0000000
- Height     19     62.3368421      5.1270752     51.3000000     72.0000000
- Weight     19    100.0263158     22.7739335     50.5000000    150.0000000
- -------------------------------------------------------------------------</code></pre>
-<p>And a variation on the log, no processing times, SASproctime=FALSE.</p>
-<pre class="saslog"><code>2          proc means data=sashelp.class;
-3          run;
-
-NOTE: There were 19 observations read from the data set SASHELP.CLASS.
-NOTE: The PROCEDURE MEANS printed page 1.
-      
-</code></pre>
-</div>
-<div id="interactions-or-lack-thereof" class="section level3">
-<h3>Interactions (or Lack Thereof)</h3>
-<p>Chunks in other languages are unaffected.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dv">5</span>)</code></pre></div>
-<pre><code>[1] 0.81213594 0.32204788 0.05449223 0.71430433 0.60479582</code></pre>
-<p>and, with the &quot;sas&quot; engine.</p>
-<pre class="sas"><code>proc means data=sashelp.class;
-run;</code></pre>
-<pre><code>                            The MEANS Procedure
-
- Variable    N           Mean        Std Dev        Minimum        Maximum
- -------------------------------------------------------------------------
- Age        19     13.3157895      1.4926722     11.0000000     16.0000000
- Height     19     62.3368421      5.1270752     51.3000000     72.0000000
- Weight     19    100.0263158     22.7739335     50.5000000    150.0000000
- -------------------------------------------------------------------------</code></pre>
-</div>
+      </code></pre>
+<p>Clean up is necessary in a final R chunk - this is NOT automated.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Do not forget to remove the log file when you are done!</span>
+<span class="kw">unlink</span>(<span class="st">&quot;saslog.log&quot;</span>)</code></pre></div>
 </div>
 
 

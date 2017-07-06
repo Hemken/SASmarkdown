@@ -1,7 +1,7 @@
 ---
 title: "Basic Use of SASmarkdown"
 author: "Doug Hemken"
-date: "`r format(Sys.Date(), '%d %b %Y')`"
+date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Basic Use of SASmarkdown}

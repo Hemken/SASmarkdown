@@ -12,9 +12,8 @@
 
 <meta name="author" content="Doug Hemken" />
 
-<meta name="date" content="2017-07-06" />
 
-<title>Linking Code Chunks Using collectcode</title>
+<title>Linking Code Chunks Using sas_collectcode</title>
 
 
 
@@ -68,36 +67,45 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Linking Code Chunks Using ‘collectcode’</h1>
+<h1 class="title toc-ignore">Linking Code Chunks Using ‘sas_collectcode’</h1>
 <h4 class="author"><em>Doug Hemken</em></h4>
-<h4 class="date"><em>06 Jul 2017</em></h4>
+<h4 class="date"><em>Jul 2017</em></h4>
 
 
 
-<div id="in-a-first-code-chunk-set-up-typical-sas-engine-configuration." class="section level2">
-<h2>In a first code chunk, set up typical SAS engine configuration.</h2>
+<p>Linking SAS code chunks makes use of SAS's autoexec.sas file. Within R this requires setting up a chunk option by invoking the <strong>sas_collectcode</strong> function.</p>
+<div id="configure-sas-and-call-sas_collectcode." class="section level2">
+<h2>Configure SAS and call &quot;sas_collectcode&quot;.</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(SASmarkdown)
-<span class="kw">sas_collectcode</span>()
-
 if (<span class="kw">file.exists</span>(<span class="st">&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;</span>)) {
   saspath &lt;-<span class="st"> &quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;</span>
-} else if (<span class="kw">file.exists</span>(<span class="st">&quot;D:/SASHome/SASFoundation/9.4/sas.exe&quot;</span>)) {
-  saspath &lt;-<span class="st"> &quot;D:/SASHome/SASFoundation/9.4/sas.exe&quot;</span>
 } else {
   saspath &lt;-<span class="st"> &quot;sas&quot;</span>
 }
+sasopts &lt;-<span class="st"> &quot;-nosplash -ls 75&quot;</span>
 
-sasopts &lt;-<span class="st"> &quot;-nosplash -ls 75&quot;</span></code></pre></div>
+<span class="kw">sas_collectcode</span>()</code></pre></div>
 </div>
 <div id="then-set-up-sas-code-chunks." class="section level2">
 <h2>Then set up SAS code chunks.</h2>
-<pre class="sas"><code>data class; * collectcode;
+<p>To have the effects of one code chunk available to use in a later code chunk, set the chunk option &quot;collectcode=TRUE&quot;.</p>
+<p>In this example, a data set is copied to the WORK library and only one variable is kept.</p>
+<p>In Rmarkdown this would look like:</p>
+<pre><code>```{r datastep, engine=&quot;sas&quot;, collectcode=TRUE, engine.path=saspath, engine.opts=sasopts, comment=&quot;&quot;}
+data class;
+    set sashelp.class;
+    keep age;
+    run;
+```</code></pre>
+<p>And in your final document it would appear as:</p>
+<pre class="sas"><code>data class;
     set sashelp.class;
     keep age;
     run;</code></pre>
 </div>
 <div id="a-later-step---using-the-work-data." class="section level2">
 <h2>A later step - using the WORK data.</h2>
+<p>Without <strong>collectcode</strong> to link the code chunks, a later chunk that referenced the data in the WORK library would produce an error, but this now works. (No special option is needed for this later step.)</p>
 <pre class="sas"><code>proc means data=class;
 run;</code></pre>
 <pre><code>                            The MEANS Procedure

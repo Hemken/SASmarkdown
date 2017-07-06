@@ -12,7 +12,6 @@
 
 <meta name="author" content="Doug Hemken" />
 
-<meta name="date" content="2017-07-06" />
 
 <title>Basic Use of SASmarkdown</title>
 
@@ -70,18 +69,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Basic Use of SASmarkdown</h1>
 <h4 class="author"><em>Doug Hemken</em></h4>
-<h4 class="date"><em>06 Jul 2017</em></h4>
+<h4 class="date"><em>Jul 2017</em></h4>
 
 
 
-<div id="in-a-first-code-chunk-set-up-typical-sas-engine-configuration." class="section level2">
-<h2>In a first code chunk, set up typical SAS engine configuration.</h2>
+<p>This discussion assumes you already have a basic understanding of Markdown for document formatting, Rmarkdown to include executable code in a document, and SAS to write the code.</p>
+<div id="in-a-first-code-chunk-set-up-your-sas-engine-configuration." class="section level2">
+<h2>In a first code chunk, set up your SAS engine configuration.</h2>
+<p>This depends on your operating system, the version of SAS, and whether or not you have SAS installed in the default location. This example catches both Windows and linux SAS for me.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(SASmarkdown)
 
 if (<span class="kw">file.exists</span>(<span class="st">&quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;</span>)) {
   saspath &lt;-<span class="st"> &quot;C:/Program Files/SASHome/SASFoundation/9.4/sas.exe&quot;</span>
-} else if (<span class="kw">file.exists</span>(<span class="st">&quot;D:/SASHome/SASFoundation/9.4/sas.exe&quot;</span>)) {
-  saspath &lt;-<span class="st"> &quot;D:/SASHome/SASFoundation/9.4/sas.exe&quot;</span>
 } else {
   saspath &lt;-<span class="st"> &quot;sas&quot;</span>
 }
@@ -90,6 +89,12 @@ sasopts &lt;-<span class="st"> &quot;-nosplash -ls 75&quot;</span></code></pre><
 </div>
 <div id="then-set-up-sas-code-chunks." class="section level2">
 <h2>Then set up SAS code chunks.</h2>
+<p>A simple code chunk in Rmarkdown might look like:</p>
+<pre><code>```{r example1, engine=&quot;sas&quot;, engine.path=saspath, engine.opts=sasopts, comment=&quot;&quot;}
+proc means data=sashelp.class (keep = age);
+run;
+```</code></pre>
+<p>And in your document this would produce:</p>
 <pre class="sas"><code>proc means data=sashelp.class (keep = age);
 run;</code></pre>
 <pre><code>                            The MEANS Procedure
@@ -101,8 +106,13 @@ run;</code></pre>
     19      13.3157895       1.4926722      11.0000000      16.0000000
     ------------------------------------------------------------------</code></pre>
 </div>
-<div id="rerun-with-html-output." class="section level2">
-<h2>Rerun with html output.</h2>
+<div id="to-rerun-with-html-output." class="section level2">
+<h2>To Rerun with HTML output.</h2>
+<p>Switch the &quot;engine&quot; to <strong>sashtml</strong>.</p>
+<p>This example also reuses the previous code chunk by using the same chunk label, &quot;example1&quot;, and suppresses the code echo with the &quot;echo=FALSE&quot; chunk option.</p>
+<pre><code>```{r example1, engine=&quot;sashtml&quot;, engine.path=saspath, engine.opts=sasopts, comment=&quot;&quot;, echo=FALSE}
+```</code></pre>
+Which produces:
 <div class="branch">
 <a name="IDX"></a>
 <div>
@@ -167,7 +177,13 @@ Maximum
 </div>
 </div>
 <div id="run-an-html-example-with-graphics." class="section level2">
-<h2>Run an html example with graphics.</h2>
+<h2>Run an HTML example with graphics.</h2>
+<p>If you use the &quot;sashtml&quot; engine, nothing special is required to include SAS ODS graphics.</p>
+<pre><code>```{r example2, engine=&quot;sashtml&quot;, engine.path=saspath, engine.opts=sasopts, comment=&quot;&quot;}
+proc corr data=sashelp.class nosimple plots=matrix;
+run;
+```</code></pre>
+<p>Producing:</p>
 <pre class="sashtml"><code>proc corr data=sashelp.class nosimple plots=matrix;
 run;</code></pre>
 <div class="branch">
@@ -382,8 +398,12 @@ Weight
 <br>
 </div>
 </div>
-<div id="and-finally-a-log-example." class="section level2">
-<h2>And finally a log example.</h2>
+<div id="show-sas-log-files." class="section level2">
+<h2>Show SAS log files.</h2>
+<p>We can repeat the first example, showing the SAS log instead of the SAS code by using the <strong>saslog</strong> engine.</p>
+<pre><code>```{r example1, engine=&quot;saslog&quot;, engine.path=saspath, engine.opts=sasopts, comment=&quot;&quot;}
+```</code></pre>
+<p>Producing:</p>
 <pre class="saslog"><code>2          proc means data=sashelp.class (keep = age);
 3          run;
 
@@ -391,7 +411,7 @@ NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
       real time           0.04 seconds
-      cpu time            0.03 seconds
+      cpu time            0.01 seconds
       </code></pre>
 <pre><code>                            The MEANS Procedure
 
@@ -404,6 +424,10 @@ NOTE: PROCEDURE MEANS used (Total process time):
 </div>
 <div id="repeat-with-both-log-and-html-output." class="section level2">
 <h2>Repeat with both log and html output.</h2>
+<p>Finally, you can have both the SAS log and the HTML output with the <strong>sashtmllog</strong> engine.</p>
+<pre><code>```{r example1, engine=&quot;sashtmllog&quot;, engine.path=saspath, engine.opts=sasopts, comment=&quot;&quot;}
+```</code></pre>
+<p>Producing:</p>
 <pre class="sashtmllog"><code>6          proc means data=sashelp.class (keep = age);
 7          run;
 
