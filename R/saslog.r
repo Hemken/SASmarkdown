@@ -1,12 +1,19 @@
 saslog <- function (options) {
-  code = {
-    f = basename(tempfile(pattern="sas", tmpdir=".", fileext=".sas"))
+    # print(str(options))
+  code <- {
+    if (is.null(options$saveSAS) || options$saveSAS==FALSE) {
+        f <- basename(tempfile(pattern="sas", tmpdir=".", fileext=".sas"))
+    } else {
+        f <- basename(paste0(options$label, ".sas"))
+    }
     writeLines(c("OPTIONS NONUMBER NODATE PAGESIZE = MAX FORMCHAR = '|----|+|---+=|-/<>*' FORMDLIM=' ';title;",
                  options$code), f)
-    on.exit(unlink(f))
+    if (is.null(options$saveSAS)) 
+        on.exit(unlink(f))
     listf = sub("[.]sas$", ".lst", f)
     logf = sub("[.]sas$", ".log", f)
-    on.exit(unlink(c(logf, listf, f)), add = TRUE)
+    if (is.null(options$saveSAS) || options$saveSAS==FALSE) 
+        on.exit(unlink(c(logf, listf, f)), add = TRUE)
     f
   }
   

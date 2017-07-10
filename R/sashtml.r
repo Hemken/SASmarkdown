@@ -1,11 +1,16 @@
 sashtml <- function (options) {
   #print(options)
   code <- {
-    f <- basename(tempfile(pattern="sas", tmpdir=".", fileext=".sas"))
+    if (is.null(options$saveSAS) || options$saveSAS==FALSE) {
+          f <- basename(tempfile(pattern="sas", tmpdir=".", fileext=".sas"))
+      } else {
+          f <- basename(paste0(options$label, ".sas"))
+      }
     listf <- sub("[.]sas$", ".lst", f)
     logf <- sub("[.]sas$", ".log", f)
     htmlf <- sub("[.]sas$", ".html", f)
-    on.exit(unlink(c(htmlf, logf, listf, f)), add = TRUE)
+    if (is.null(options$saveSAS) || options$saveSAS==FALSE) 
+        on.exit(unlink(c(htmlf, logf, listf, f)), add = TRUE)
     
     if (options$label != "") glabel <- paste("/imagename='", options$label, "'")
     if (length(grep("fig.path", options$params.src, fixed=TRUE))!=0) 

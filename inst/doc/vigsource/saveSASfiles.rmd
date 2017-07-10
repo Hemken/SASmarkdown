@@ -1,0 +1,64 @@
+---
+title: "Saving Intermediate SAS files"
+author: "Doug Hemken"
+date: "`r format(Sys.Date(), '%b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cleaning Up SAS Log Output}
+  %\VignetteEngine{knitr::rmarkdown_notangle}
+  \usepackage[utf8]{inputenc}
+---
+```{r backtick, echo=FALSE, results="hide"}
+backtick <- "`"
+```
+
+```{r setup, echo=FALSE, message=FALSE}
+require(SASmarkdown)
+if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
+  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+} else {
+  saspath <- "sas"
+}
+sasopts <- "-nosplash -ls 75"
+knitr::opts_chunk$set(engine.path=saspath, engine.opts=sasopts, comment="")
+```
+
+You may want to save the intermediate SAS files.  This works with all
+of the SAS engines.
+
+The file names are taken from the code chunk label.
+
+First, we run some code using \"engine=\'sas\'\" without saving
+the intermediate SAS files.  Not shown here, this code chunk
+has label \"procmeans0\".
+```{r procmeans0, engine='sas'}
+proc means data=sashelp.class(keep=height);
+run;
+```
+
+If we invoke the \"saveSAS=TRUE\" option to save the intermediate SAS files:
+
+
+    `r backtick```{r procmeans1, engine='sas', saveSAS=TRUE, results="hide"}
+    proc means data=sashelp.class(keep=height);
+    run;
+    `r backtick```
+
+we will save three intermediate files:  procmeans1.sas,
+procmeans1.log, and procmeans1.lst.
+
+```{r procmeans1, engine='sas', saveSAS=TRUE, results="hide"}
+proc means data=sashelp.class(keep=height);
+run;
+```
+
+If we stopped here you could see these in a file explorer.
+Here we\'ll show them with some R code.
+```{r showfiles}
+list.files(pattern="proc")
+```
+
+Then finally, for this example, we will delete them.
+```{r cleanup}
+unlink("procmeans?.*")
+```

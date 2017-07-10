@@ -1,4 +1,8 @@
 # Rebuilding the SASmarkdown vignettes
+
+To run these vignettes individually, change the output type
+in the YAML header to \"html_document\" (instead of \"html_vignette\").
+
 These vignettes are not fully integrated into the R help system.
 In particular, you cannot find them through the 
 `vignette(package="SASmarkdown")` function, only by clicking through
