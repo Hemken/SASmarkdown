@@ -108,8 +108,8 @@ run;</code></pre>
 NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
-      real time           0.04 seconds
-      cpu time            0.03 seconds
+      real time           0.09 seconds
+      cpu time            0.06 seconds
       
 </code></pre>
 <pre><code>                            The MEANS Procedure
@@ -134,15 +134,15 @@ NOTE: The PROCEDURE MEANS printed page 1.
 <pre class="saslog"><code>NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
-      real time           0.03 seconds
-      cpu time            0.03 seconds
+      real time           0.10 seconds
+      cpu time            0.10 seconds
       
 </code></pre>
 <pre class="saslog"><code>2          proc means data=sashelp.class(keep=height);
 3          run;
 
-      real time           0.04 seconds
-      cpu time            0.01 seconds
+      real time           0.10 seconds
+      cpu time            0.11 seconds
       
 </code></pre>
 </div>
@@ -150,7 +150,7 @@ NOTE: PROCEDURE MEANS used (Total process time):
 <h3>Interactions (or Lack Thereof)</h3>
 <p>Chunks in other languages are unaffected (for example, R).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dv">5</span>)</code></pre></div>
-<pre><code>[1] 0.1712174 0.4788761 0.6818775 0.5059255 0.3921294</code></pre>
+<pre><code>[1] 0.8543188 0.7718499 0.7847809 0.3490489 0.3275551</code></pre>
 <p>And the <strong>sas</strong> and <strong>sashtml</strong> engines are unaffected, as seen in our intial code chunk and here:</p>
 <pre class="sashtml"><code>proc means data=sashelp.class(keep=height);
 run;</code></pre>
@@ -255,8 +255,8 @@ cat(readLines(&quot;saslog.log&quot;), sep=&quot;\n&quot;)
 NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
-      real time           0.03 seconds
-      cpu time            0.01 seconds
+      real time           0.09 seconds
+      cpu time            0.07 seconds
       </code></pre>
 <p>We can now use the same chunk options as before.<br />
 No processing times, SASproctime=FALSE.</p>
@@ -276,8 +276,8 @@ NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: There were 19 observations read from the data set SASHELP.CLASS.
 NOTE: The PROCEDURE MEANS printed page 1.
 NOTE: PROCEDURE MEANS used (Total process time):
-      real time           0.03 seconds
-      cpu time            0.01 seconds
+      real time           0.09 seconds
+      cpu time            0.07 seconds
       </code></pre>
 <p>No SAS NOTES, SASnotes=FALSE.</p>
 <pre><code>      real time           0.00 seconds
@@ -287,8 +287,8 @@ NOTE: PROCEDURE MEANS used (Total process time):
 3          proc means data=sashelp.class(keep=weight);
 4          run;
 
-      real time           0.03 seconds
-      cpu time            0.01 seconds
+      real time           0.09 seconds
+      cpu time            0.07 seconds
       </code></pre>
 <p>Clean up is necessary in a final R chunk - this is NOT automated.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Do not forget to remove the log file when you are done!</span>

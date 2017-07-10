@@ -1,5 +1,7 @@
 # SASmarkdown
-This is a collection of R functions that extends knitr's capability for using SAS as a language engine.
+This is a collection of R functions that extends knitr's capability 
+for using SAS as a language engine.  They have no use if you do not 
+**also** have SAS installed.
 
 You can install these as an R package:
 ```
@@ -8,7 +10,7 @@ devtools::install_github("Hemken/SASmarkdown")
 Then you can check with
 ```
 library(SASmarkdown)
-help(sas_enginesetup)
+help(package="SASmarkdown")
 ```
 If the package installed correctly, you should see an R Help page.
 
