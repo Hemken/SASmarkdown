@@ -41,7 +41,7 @@ spinsas <- function(sasfile, ...) {
     rfile <- sub("[.]sas$", ".r", sasfile)
     
     writeLines(vtext, rfile)
-    on.exit(unlink(rfile))
+    if (!precious) on.exit(unlink(rfile))
     knitr::spin(rfile, ...)
     
 }
