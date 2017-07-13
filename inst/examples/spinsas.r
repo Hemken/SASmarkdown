@@ -43,6 +43,6 @@ spinsas <- function(sasfile, keep=FALSE, ...) {
     writeLines(vtext, rfile)
     if (!keep)
         on.exit(unlink(rfile), add=TRUE)
-    knitr::spin(rfile, precious=keep , ...)
+    knitr::spin(rfile, precious=keep, comment=c("^/[*][*]", "^.*[*]/[*] *$"), ...)
     
 }

@@ -210,7 +210,10 @@ hr {
 <li>&ldquo;** &rdquo;, a double asterisk, signals the beginning of document text.  End with a semi-colon.</li>
 <li>&ldquo;*+ &rdquo;, an asterisk-plus, signals the beginning of a code chunk, and
 specifies the code chunk options.  End with a semi-colon.</li>
-<li><p>&ldquo;*R &rdquo;, an asterisk-R, signals the enclosed code is in R.  End with a semi-colon.</p>
+<li>&ldquo;*R &rdquo;, an asterisk-R, signals the enclosed code is in R.  End with a semi-colon.</li>
+<li><p>&ldquo;/** &rdquo;, comments to &ldquo;spin&rdquo; begin with slash-double-asterisk.
+These do not show up in your document.  End with &ldquo;<em>/</em>&rdquo; at
+the end of a line.</p>
 
 <p>In order to run SAS code, first we specify a path for SAS and set up some options in R.</p></li>
 </ul>
@@ -232,6 +235,10 @@ sasopts &lt;- &#39;-nosplash -ls 75&#39;
 proc means data=sashelp.class /*(keep = age)*/;
 run;
 
+/* lines here are
+ignored by SAS.  At the end of
+your SAS code they must be followed by a semi-colon.
+*/
 ;
 </code></pre>
 

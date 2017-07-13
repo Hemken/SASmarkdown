@@ -7,6 +7,9 @@
 - "*+ ", an asterisk-plus, signals the beginning of a code chunk, and
 specifies the code chunk options.  End with a semi-colon.
 - "*R ", an asterisk-R, signals the enclosed code is in R.  End with a semi-colon.
+- "/** ", comments to "spin" begin with slash-double-asterisk.
+These do not show up in your document.  End with "*/*" at
+the end of a line.
 
   In order to run SAS code, first we specify a path for SAS and set up some options in R.
   ;
@@ -34,8 +37,8 @@ proc means data=sashelp.class /*(keep = age)*/;
 run;
 
 /* lines here are
-ignored by SAS, and also by spinsas,
-i.e. they do not show up in your document
+ignored by SAS.  At the end of
+your SAS code they must be followed by a semi-colon.
 */
 ;
 
