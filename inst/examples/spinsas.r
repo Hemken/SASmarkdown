@@ -10,9 +10,9 @@ spinsas <- function(sasfile, keep=FALSE, ...) {
         vtext <- sub(pattern="^\\n", replacement="", x=vtext)
     }
     
-    sasl <- !grepl(pattern="^\\*", x=vtext)
+    sasl <- !grepl(pattern="^\\*[*+R] ", x=vtext)
     
-    vtext <- sub("^\\* ", "#' ", vtext)     # convert leading "* " to "#'"
+    vtext <- sub("^\\*\\* ", "#' ", vtext)     # convert leading "* " to "#'"
     docl <- grepl(pattern="^#'", x=vtext)   # normal text lines
     vtext[docl] <- gsub("\\n", "\\\n#' ", vtext[docl])     # mark new lines
     vtext[docl] <- sub(";$", "", vtext[docl])     # strip trailing ";"
@@ -43,6 +43,6 @@ spinsas <- function(sasfile, keep=FALSE, ...) {
     writeLines(vtext, rfile)
     if (!keep)
         on.exit(unlink(rfile), add=TRUE)
-    knitr::spin(rfile, precious=keep, ...)
+    knitr::spin(rfile, precious=keep , ...)
     
 }
