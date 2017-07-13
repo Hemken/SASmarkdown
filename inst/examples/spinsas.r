@@ -1,4 +1,4 @@
-spinsas <- function(sasfile, ...) {
+spinsas <- function(sasfile, keep=FALSE, ...) {
     stopifnot(length(sasfile)==1 && file.exists(sasfile))
     vtext <- readLines(sasfile, warn=FALSE)
     
@@ -41,8 +41,8 @@ spinsas <- function(sasfile, ...) {
     rfile <- sub("[.]sas$", ".r", sasfile)
     
     writeLines(vtext, rfile)
-    # if (!exists("precious") || !precious) 
+    if (!keep)
         on.exit(unlink(rfile), add=TRUE)
-    knitr::spin(rfile, ...)
+    knitr::spin(rfile, precious=keep, ...)
     
 }
