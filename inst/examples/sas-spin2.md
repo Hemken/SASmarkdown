@@ -3,13 +3,20 @@ This is a special SAS script which can be used to generate a report.
 
 ### Special Markup
 
-- "** ", a double asterisk, signals the beginning of document text.  End with a semi-colon.
+- "** ", a double asterisk, signals the beginning of document text.  
+End with a semi-colon.
 - "*+ ", an asterisk-plus, signals the beginning of a code chunk, and
 specifies the code chunk options.  End with a semi-colon.
 - "*R ", an asterisk-R, signals the enclosed code is in R.  End with a semi-colon.
 - "/** ", comments to "spin" begin with slash-double-asterisk.
 These do not show up in your document.  End with "*/*" at
 the end of a line.
+
+### Semi-colons
+
+- No semi-colons in your document text.
+- Your chunk of SAS code must end with a semi-colon (not a comment).
+
 
   In order to run SAS code, first we specify a path for SAS and set up some options in R.
   

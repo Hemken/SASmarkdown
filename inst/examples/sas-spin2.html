@@ -207,13 +207,21 @@ hr {
 <h3>Special Markup</h3>
 
 <ul>
-<li>&ldquo;** &rdquo;, a double asterisk, signals the beginning of document text.  End with a semi-colon.</li>
+<li>&ldquo;** &rdquo;, a double asterisk, signals the beginning of document text.<br/>
+End with a semi-colon.</li>
 <li>&ldquo;*+ &rdquo;, an asterisk-plus, signals the beginning of a code chunk, and
 specifies the code chunk options.  End with a semi-colon.</li>
 <li>&ldquo;*R &rdquo;, an asterisk-R, signals the enclosed code is in R.  End with a semi-colon.</li>
-<li><p>&ldquo;/** &rdquo;, comments to &ldquo;spin&rdquo; begin with slash-double-asterisk.
+<li>&ldquo;/** &rdquo;, comments to &ldquo;spin&rdquo; begin with slash-double-asterisk.
 These do not show up in your document.  End with &ldquo;<em>/</em>&rdquo; at
-the end of a line.</p>
+the end of a line.</li>
+</ul>
+
+<h3>Semi-colons</h3>
+
+<ul>
+<li>No semi-colons in your document text.</li>
+<li><p>Your chunk of SAS code must end with a semi-colon (not a comment).</p>
 
 <p>In order to run SAS code, first we specify a path for SAS and set up some options in R.</p></li>
 </ul>
