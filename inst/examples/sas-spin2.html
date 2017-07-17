@@ -208,7 +208,7 @@ hr {
 
 <ul>
 <li>&ldquo;** &rdquo;, a double asterisk, signals the beginning of document text.<br/>
-End with a semi-colon.</li>
+End with a semi-colon, &ldquo;;&rdquo; at the end of a line.</li>
 <li>&ldquo;*+ &rdquo;, an asterisk-plus, signals the beginning of a code chunk, and
 specifies the code chunk options.  End with a semi-colon.</li>
 <li>&ldquo;*R &rdquo;, an asterisk-R, signals the enclosed code is in R.  End with a semi-colon.</li>
@@ -220,8 +220,8 @@ the end of a line.</li>
 <h3>Semi-colons</h3>
 
 <ul>
-<li>No semi-colons in your document text.</li>
-<li><p>Your chunk of SAS code must end with a semi-colon (not a comment).</p>
+<li>No semi-colons <strong><em>at the ends of lines</em></strong> in your document text.</li>
+<li><p>Your chunk of SAS code must end with a semi-colon (not a block comment).</p>
 
 <p>In order to run SAS code, first we specify a path for SAS and set up some options in R.</p></li>
 </ul>
