@@ -1,6 +1,10 @@
-spinsas <- function(sasfile, keep=FALSE, ...) {
-    stopifnot(length(sasfile)==1 && file.exists(sasfile))
-    vtext <- readLines(sasfile, warn=FALSE)
+spinsas <- function(sasfile, text=NULL, keep=FALSE, ...) {
+    # stopifnot((length(sasfile)==1 && file.exists(sasfile))||length(text)==1)
+    if (is.null(text)) {
+        vtext <- readLines(sasfile, warn=FALSE)
+    } else {
+        vtext <- text
+    }
     
     # reshape from R to SAS
     vtext <- unlist(strsplit(paste(vtext, collapse="\n"), ";\\n[[:blank:]]*"))
@@ -46,11 +50,15 @@ spinsas <- function(sasfile, keep=FALSE, ...) {
     # reshape from SAS to R
     vtext <- unlist(strsplit(paste(vtext, collapse=""), "\n"))
     
-    rfile <- sub("[.]sas$", ".r", sasfile)
-    
-    writeLines(vtext, rfile)
-    if (!keep)
-        on.exit(unlink(rfile), add=TRUE)
-    knitr::spin(rfile, precious=keep, comment=c("^/[*][*]", "^.*[*]/[*] *$"), ...)
+    if (is.null(text)) {
+        rfile <- sub("[.]sas$", ".r", sasfile)
+        
+        writeLines(vtext, rfile)
+        if (!keep)
+            on.exit(unlink(rfile), add=TRUE)
+        knitr::spin(rfile, precious=keep, comment=c("^/[*][*]", "^.*[*]/[*] *$"), ...)
+    } else {
+        return(knitr::spin(text=vtext, precious=keep, comment=c("^/[*][*]", "^.*[*]/[*] *$"), ...))
+    }
     
 }

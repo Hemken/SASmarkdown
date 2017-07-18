@@ -19,7 +19,6 @@ The report begins here.
 
 
 ```sas
-
 proc means data=sashelp.class (keep = age);
 run;
 ```

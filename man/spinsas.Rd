@@ -9,11 +9,12 @@ it's comments, and converts it to
 Markdown and HTML documents (or one of several other formats).
 }
 \usage{
-spinsas(sasfile, keep=FALSE, ...)
+spinsas(sasfile, text=NULL, keep=FALSE, ...)
 }
 \arguments{
 \item{sasfile}{A character string with the name of a SAS
 command file, containing markup in it's comments.}
+\item{text}{A character string in place of a file.}
 \item{keep}{Whether to save intermediate files.}
 \item{...}{options passed to \code{knitr::spin}}
 }
@@ -40,6 +41,9 @@ semicolon at the end of a line.
 }
 \value{
 The path to the output file.
+
+If given text instead of a file, the compiled document as a
+character string.
 }
 \author{
 Doug Hemken
@@ -51,28 +55,20 @@ Doug Hemken
 
 \dontrun{
 indoc <- '
----
-title: "Basic SASmarkdown Doc"
-author: "Doug Hemken"
-output: html_document
----
-# In a first code chunk, set up with
-```{r}
-require(SASmarkdown)
-sas_collectcode()
+** # Native SASmarkdown
+First, call the `SASmarkdown`` package in R.;
 
-sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-sasopts <- "-nosplash -ls 75"
-```
-# Then mark SAS code chunks with
-```{r, engine="sas", engine.path=sasexe, engine.opts=sasopts, collectcode=TRUE}
-data class;
-    set sashelp.class;
-    keep age;
-    run;
-```
+*R require(SASmarkdown);
 
+** Then execute some SAS code.  First specify the
+chunk header, then the code.;
+*+ example, engine="sas",
+    engine.path="C:/Program Files/SASHome/SASFoundation/9.4/sas.exe",
+    engine.opts="-nosplash -ls 75";
+proc means data=sashelp.class;
+run;
 '
-spinsas(text=indoc)
+x<-spinsas(text=indoc)
+writeLines(x, "indoc.html")
 }
 }
