@@ -1,6 +1,9 @@
 sas_collectcode <- function() {
     if (file.exists("autoexec.sas")) {
-        stop("You must remove or rename an existing 'autoexec.sas'.")
+        oautoexec <- readLines("autoexec.sas")
+        message("Found an existing 'autoexec.sas'.")
+    } else {
+        oautoexec <- NULL
     }
 knitr::knit_hooks$set(collectcode = function(before, options, envir) {
     if (!before) {
@@ -15,6 +18,11 @@ knitr::knit_hooks$set(collectcode = function(before, options, envir) {
             envir = sys.frame(-9)) 
             # sys.frame(1) or sys.frame(-10) is rmarkdown::render()
             # sys.frame(-9) is knitr::knit()
+        if (!is.null(oautoexec)) {
+            do.call("on.exit",
+                list(quote(writeLines(oautoexec, "autoexec.sas")), add=TRUE),
+                envir = sys.frame(-9))
+        }
         }
     }
 })

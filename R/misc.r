@@ -15,7 +15,7 @@
             options
     })
     
-    # sas_collectcode()
+    sas_collectcode()
     # saslog_hookset()
     
     packageStartupMessage("sas, saslog, sashtml, and sashtmllog engines")
