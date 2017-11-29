@@ -1,10 +1,10 @@
 ---
-title: "Linking Code Chunks Using 'sas_collectcode'"
+title: "Linking Code Chunks Using 'collectcode'"
 author: "Doug Hemken"
 date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Linking Code Chunks Using sas_collectcode}
+  %\VignetteIndexEntry{Linking Code Chunks Using collectcode}
   %\VignetteEngine{knitr::rmarkdown_notangle}
   \usepackage[utf8]{inputenc}
 ---
@@ -13,21 +13,16 @@ vignette: >
 backtick <- "`"
 ```
 Linking SAS code chunks makes use of SAS\'s autoexec.sas
-file.  Within R this requires setting up a chunk option
-by invoking the **sas_collectcode** function.
+file.  When you attach the SASmarkdown library, a chunk
+option is set up to place chunks in an autoexc file.
 
-## Configure SAS and call \"sas_collectcode\".
+## Configure the SAS engine
 ```{r setup, message=FALSE}
-require(SASmarkdown)
-if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
-  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-} else {
-  saspath <- "sas"
-}
+library(SASmarkdown)
+sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"
-
-sas_collectcode()
 ```
+
 ## Then set up SAS code chunks.
 To have the effects of one code chunk available to use in a later
 code chunk, set the chunk option \"collectcode=TRUE\".
@@ -37,7 +32,7 @@ and only one variable is kept.
 
 In Rmarkdown this would look like:
 
-    `r backtick```{r datastep, engine="sas", collectcode=TRUE, engine.path=saspath, engine.opts=sasopts, comment=""}
+    `r backtick```{r datastep, engine="sas", collectcode=TRUE, engine.path=sasexe, engine.opts=sasopts, comment=""}
     data class;
         set sashelp.class;
         keep age;
@@ -45,7 +40,7 @@ In Rmarkdown this would look like:
     `r backtick```
 
 And in your final document it would appear as:
-```{r datastep, engine="sas", collectcode=TRUE, engine.path=saspath, engine.opts=sasopts, comment=""}
+```{r datastep, engine="sas", collectcode=TRUE, engine.path=sasexe, engine.opts=sasopts, comment=""}
 data class;
     set sashelp.class;
     keep age;
@@ -56,7 +51,7 @@ Without **collectcode** to link the code chunks, a later
 chunk that referenced the data in the WORK library would
 produce an error, but this now works.  (No special option
 is needed for this later step.)
-```{r procmeans, engine="sas", engine.path=saspath, engine.opts=sasopts, comment=""}
+```{r procmeans, engine="sas", engine.path=sasexe, engine.opts=sasopts, comment=""}
 proc means data=class;
 run;
 ```
