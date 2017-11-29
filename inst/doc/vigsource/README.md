@@ -1,6 +1,7 @@
 # Rebuilding the SASmarkdown vignettes
 
-To run these vignettes individually, change the output type
+To run these vignettes individually, find the source code file and
+change the output type
 in the YAML header to \"html_document\" (instead of \"html_vignette\").
 
 These vignettes are not fully integrated into the R help system.
@@ -22,10 +23,13 @@ Unpack the package tarball, or download the source code from
 [github/Hemken](https://github.com/Hemken/SASmarkdown).
 
 Move the Rmarkdown (rmd) files from this folder (/doc/vigsource)
-to a new folder in the root of the package, /vignettes.  Also move
+to a new folder in the root of the package, /vignettes.  
+
+Also move
 the DESCRIPTION file from this folder to the root of the package
 (replacing the existing DESCRIPTION file),
-probably updating the version and date information.
+probably updating the version and date information.  This 
+DESCRIPTION is what specifies that the vignettes be rebuilt.
 
 Finally, use your favorite build method to rebuild SASmarkdown from
 your modified source files.

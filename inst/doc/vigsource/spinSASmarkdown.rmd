@@ -1,0 +1,141 @@
+---
+title: "Spin SASmarkdown"
+author: "Doug Hemken"
+date: "`r format(Sys.Date(), '%b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Basic Use of SASmarkdown}
+  %\VignetteEngine{knitr::rmarkdown_notangle}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r backtick, echo=FALSE, results="hide"}
+backtick <- "`"
+```
+`spinsas` is an alternative way of processing dynamic Markdown
+from a SAS command file.  In this form, documents are written
+within the comments of a SAS file.  This enables you to
+run the same file within SAS (to simply execute the commands) and
+through `knitr` (to produce Markdown and HTML files).
+
+This is particularly useful if you already have a number of \*.sas
+files to which you\'d like to add a little text to produce a
+document.
+
+## Special Markup
+Within your SAS command file (\*.sas), you use the following symbols
+to denote plain Markdown text, SAS code chunks, R code chunks, 
+and text to be
+dropped from the document.
+
+Notice that SAS will treat all of these as comments.
+
+- "** ", a double asterisk, signals the beginning of document text.  
+End with a semi-colon, ";" at the end of a line.
+- "*+ ", an asterisk-plus, signals the beginning of a code chunk, and
+specifies the code chunk options.  End with a semi-colon.
+- "*R ", an asterisk-R, signals the enclosed code is in R.  End with a semi-colon.
+- "/** ", comments to "spin" begin with slash-double-asterisk.
+These do not show up in your document.  End with "*/*" at
+the end of a line.
+
+## Semi-colons
+
+- No semi-colons ***at the ends of lines*** in your document text.
+- Your chunk of SAS code must end with a semi-colon (not a block comment).
+
+## Example
+  In order to run SAS code, first we specify a path for SAS and set up some options in R.
+```
+*+ setup, message=FALSE ;
+
+*R 
+library(SASmarkdown)
+sasexe <- 'C:/Program Files/SASHome/SASFoundation/9.4/sas.exe'
+sasopts <- '-nosplash -ls 75'
+;
+```
+Text is then included as a special comment.
+```
+** The report begins here.;
+```
+
+Finally, the executable SAS code is given a line of chunk instructions.
+
+```
+*+  example1, engine='sas', engine.path=saspath, engine.opts=sasopts, 
+comment=NA;
+
+proc means data=sashelp.class /*(keep = age)*/;
+run;
+
+/* lines here are
+ignored by SAS.  If at the end of
+your SAS code chunk they must be followed by a semi-colon.
+*/
+;
+```
+
+You can use the ***usual*** Markdown within the text sections.
+
+The entire document might be:
+```
+*+ setup, message=FALSE ;
+
+*R 
+library(SASmarkdown)
+sasexe <- 'C:/Program Files/SASHome/SASFoundation/9.4/sas.exe'
+sasopts <- '-nosplash -ls 75'
+;
+
+** The report begins here.;
+
+*+  example1, engine='sas', engine.path=sasexe, engine.opts=sasopts, 
+comment=NA;
+
+proc means data=sashelp.class /*(keep = age)*/;
+run;
+
+```
+
+## Processing
+Set up an example file to use:
+```{r ex, comment=NA, results="hide"}
+indoc <- "
+*+ setup, message=FALSE ;
+
+*R 
+library(SASmarkdown)
+sasexe <- 'C:/Program Files/SASHome/SASFoundation/9.4/sas.exe'
+sasopts <- '-nosplash -ls 75'
+;
+
+** The report begins here.;
+
+*+  example1, engine='sas', engine.path=sasexe, engine.opts=sasopts, 
+comment=NA;
+
+proc means data=sashelp.class /*(keep = age)*/;
+run;
+"
+writeLines(indoc, "indoc.sas")
+```
+
+To process this document then, simply use
+
+```{r spin, comment=NA, results="hide"}
+library(SASmarkdown)
+spinsas("indoc.sas")
+```
+
+Which gives a document, \"indoc.html\" that looks like
+
+<hr>
+```{r output, child="indoc.html"}
+```
+
+```{r cleanup, echo=FALSE, results="hide"}
+unlink("indoc.sas")
+unlink("indoc.md")
+unlink("indoc.html")
+```
