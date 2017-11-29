@@ -1,7 +1,7 @@
 \name{sas_collectcode}
 \alias{sas_collectcode}
 \title{
-A function to create a knitr chunk hook for accumlating code.
+Create a knitr chunk hook for accumlating code.
 }
 \description{
 This wrapper function calls \code{knitr::knit_hooks$set()} to
@@ -16,6 +16,11 @@ This may be used with any of the SAS language engines:  "sas",
 sas_collectcode()
 }
 \details{
+This function is automatically invoked when the SASmarkdown
+library is attached.  Normally a user will not need to call
+this function, instead using \code{collectcode=TRUE} as a 
+chunk option - see the example below.
+
 When knitr calls SAS, each code chunk is processed as a separate
 SAS batch job.  Where code in one chunk depends upon the results
 from a prevous chunk, code needs to be repeated and re-evaluated.
@@ -27,11 +32,11 @@ in a temporary SAS \code{autoexec.sas} file.
 }
 \note{
 If there is already an \file{autoexec.sas} in the directory where
-the document source is located, you will not be allowed to set
-this hook - remove or rename \file{autoexec.sas}.
+the source document is located, collected code will be added to it,
+and the original file will be restored after your document is processed.
 }
 \value{
-There are no return values, chunk hook creation is a side effect here..
+There are no return values, chunk hook creation is a side effect here.
 }
 \author{
 Doug Hemken
@@ -52,12 +57,11 @@ output: html_document
 # In a first code chunk, set up with
 ```{r}
 require(SASmarkdown)
-sas_collectcode()
 
 sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"
 ```
-# Then mark SAS code chunks with
+# Then mark SAS code chunks with collectcode=TRUE
 ```{r, engine="sas", engine.path=sasexe, engine.opts=sasopts, collectcode=TRUE}
 data class;
     set sashelp.class;

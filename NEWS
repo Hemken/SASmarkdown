@@ -1,0 +1,6 @@
+Changes in Version 0.4.2
+2017-11-29 (Doug Hemken)
+
+* sas_collectcode() - now handles pre-existing autoexec.sas files, called
+    when the package is attached.
+* spinsas() - turns specially formatted .sas files into Markdown

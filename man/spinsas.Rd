@@ -42,7 +42,7 @@ semicolon at the end of a line.
 \value{
 The path to the output file.
 
-If given text instead of a file, the compiled document as a
+If given text instead of a file, returns the compiled document as a
 character string.
 }
 \author{

@@ -27,6 +27,9 @@ the code in one chunk to use the results of a previous chunk.  See
 
 Another function sets up source hooks, allowing the user to suppress
 parts of the SAS log.  See \code{\link{saslog_hookset}}.
+
+The function \code{spinsas} processes SAS command files that
+include markup within SAS comments.  See \code{\link{spinsas}}.
 }
 \references{
 More documentation and examples: 
