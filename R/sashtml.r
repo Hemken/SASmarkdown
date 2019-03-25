@@ -1,5 +1,5 @@
 sashtml <- function (options) {
-  #print(options)
+#  print(options)
   code <- {
     if (is.null(options$saveSAS) || options$saveSAS==FALSE) {
           f <- basename(tempfile(pattern="sas", tmpdir=".", fileext=".sas"))
@@ -19,7 +19,9 @@ sashtml <- function (options) {
     odsinit <- c("ods noproctitle;",
                  "ods listing close;",
                  paste("ods graphics", glabel, ";"),
-                 paste("ods html gpath='", gpath, "'", 
+                 paste("ods", switch(options$engine, sashtml="html", sashtmllog="html",
+                                     sashtml5="html5", sashtml5log="html5"), 
+                       "gpath='", gpath, "'", 
                        "file='", htmlf,
                        "' (no_top_matter no_bottom_matter) style=journal;"
                  )
@@ -31,7 +33,7 @@ sashtml <- function (options) {
   }
   
   code = paste(code, options$engine.opts)
-  cmd = options$engine.path
+  cmd = options$engine.path[[options$engine]]
   out = if (options$eval) {
     message("running: ", cmd, " ", code)
     tryCatch(system2(cmd, code, stdout = TRUE, stderr = TRUE,
@@ -50,11 +52,11 @@ sashtml <- function (options) {
     out.log <- c(readLines(logf), out)
   if (options$eval &&  file.exists(htmlf))
     out.html <- c(readLines(htmlf), out)
-  out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
-  out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
-  out.log <- out.log[-(1:grep("NOTE: Writing HTML Body file: ", out.log))]
+#  out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
+#  out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
+#  out.log <- out.log[-(1:grep("NOTE: Writing HTML Body file: ", out.log))]
   
-  if (options$engine == "sashtml" && is.null(attr(out, "status"))) {
+  if (options$engine %in% c("sashtml", "sashtml5") && is.null(attr(out, "status"))) {
       return(sas_output(options, options$code, out.html))
   } else {
       return(sas_output(options, out.log, out.html))

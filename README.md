@@ -17,6 +17,4 @@ help(package="SASmarkdown")
 If the package was installed, you should see an R Help page.  Vignettes
 on using the package may be found from `help(package="SASmarkdown")`.
 
-If you would like to contribute to this project, please "fork" it on Github and then clone it back to your working environment.  Make your changes and enhancements, push them back to your Github repository, then initiate a "pull" request.
-
-While this procedure may seem elaborate, this allows us each to keep the parts we like, even if we should disagree!  (I’ve been really happy about this at least twice, as the forking user.)
+If you would like to contribute to this project, please "fork" it on Github.  Or, just email me directly.

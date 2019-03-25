@@ -4,7 +4,7 @@ sas_enginesetup <- function (...) {
 
     if (any(names(list(...)) == "sashtml")) {
         knitr::opts_hooks$set(results = function(options) {
-            if (options$engine %in% c("sashtml", "sashtmllog") &&
+            if (options$engine %in% c("sashtml", "sashtmllog", "sashtml5", "sashtml5log") &&
                 options$results != "hide") {
             options$results = "asis"
             }
