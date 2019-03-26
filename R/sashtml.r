@@ -32,7 +32,7 @@ sashtml <- function (options) {
     f
   }
   
-  code = paste(code, options$engine.opts)
+  code = paste(code, options$engine.opts[[options$engine]])
   cmd = options$engine.path[[options$engine]]
   out = if (options$eval) {
     message("running: ", cmd, " ", code)

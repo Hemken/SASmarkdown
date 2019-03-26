@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 ^.*knit-examples.r$
 ^.*/examples.*$
+^.*/tests.*$

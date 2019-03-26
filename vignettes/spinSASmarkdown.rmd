@@ -4,9 +4,9 @@ author: "Doug Hemken"
 date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Basic Use of SASmarkdown}
+  %\VignetteIndexEntry{Spinning SASmarkdown}
   %\VignetteEngine{knitr::rmarkdown_notangle}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r backtick, echo=FALSE, results="hide"}

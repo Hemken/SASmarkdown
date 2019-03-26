@@ -6,10 +6,10 @@ output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Linking Code Chunks Using collectcode}
   %\VignetteEngine{knitr::rmarkdown_notangle}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r backtick, echo=FALSE, results="hide"}
+```{r backtick, include=FALSE}
 backtick <- "`"
 ```
 Linking SAS code chunks makes use of SAS\'s autoexec.sas
@@ -19,8 +19,12 @@ option is set up to place chunks in an autoexc file.
 ## Configure the SAS engine
 ```{r setup, message=FALSE}
 library(SASmarkdown)
-sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+saspath <- find_sas()
 sasopts <- "-nosplash -ls 75"
+
+knitr::opts_chunk$set(engine.path=list(sas=saspath, saslog=saspath),
+                      engine.opts=list(sas=sasopts, saslog=sasopts),
+                      comment=NA)
 ```
 
 ## Then set up SAS code chunks.
@@ -32,7 +36,7 @@ and only one variable is kept.
 
 In Rmarkdown this would look like:
 
-    `r backtick```{r datastep, engine="sas", collectcode=TRUE, engine.path=sasexe, engine.opts=sasopts, comment=""}
+    `r backtick```{sas datastep, collectcode=TRUE}
     data class;
         set sashelp.class;
         keep age;
@@ -40,7 +44,7 @@ In Rmarkdown this would look like:
     `r backtick```
 
 And in your final document it would appear as:
-```{r datastep, engine="sas", collectcode=TRUE, engine.path=sasexe, engine.opts=sasopts, comment=""}
+```{sas datastep, collectcode=TRUE}
 data class;
     set sashelp.class;
     keep age;
@@ -51,7 +55,7 @@ Without **collectcode** to link the code chunks, a later
 chunk that referenced the data in the WORK library would
 produce an error, but this now works.  (No special option
 is needed for this later step.)
-```{r procmeans, engine="sas", engine.path=sasexe, engine.opts=sasopts, comment=""}
+```{sas procmeans}
 proc means data=class;
 run;
 ```

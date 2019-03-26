@@ -17,8 +17,8 @@ saslog <- function (options) {
     f
   }
   
-  code = paste(code, options$engine.opts)
-  cmd = options$engine.path
+  code = paste(code, options$engine.opts[[options$engine]])
+  cmd = options$engine.path[[options$engine]]
   out = if (options$eval) {
     message("running: ", cmd, " ", code)
     tryCatch(system2(cmd, code, stdout = TRUE, stderr = TRUE,

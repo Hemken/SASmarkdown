@@ -6,21 +6,21 @@ output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Cleaning Up SAS Log Output}
   %\VignetteEngine{knitr::rmarkdown_notangle}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 ```{r backtick, echo=FALSE, results="hide"}
 backtick <- "`"
 ```
 
 ```{r setup, echo=FALSE, message=FALSE}
-require(SASmarkdown)
-if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
-  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-} else {
-  saspath <- "sas"
-}
+library(SASmarkdown)
+saspath <- find_sas()
 sasopts <- "-nosplash -ls 75"
-knitr::opts_chunk$set(engine.path=saspath, engine.opts=sasopts, comment="")
+knitr::opts_chunk$set(engine.path=list(sas=saspath, sashtml=saspath, 
+                                       saslog=saspath, sashtmllog=saspath),
+                      engine.opts=list(sas=sasopts, sashtml=sasopts, 
+                                       saslog=sasopts, sashtmllog=sasopts),
+                      comment=NA)
 ```
 
 If you are using the **saslog** or **sashtmllog** engines, or if you
@@ -48,37 +48,37 @@ saslog_hookset("source")
 ### Hook Use
 First, we setup some code using \"engine=\'sas\'\".  We will
 repeatedly use the same code by repeating the chunk label.
-```{r procmeans2, engine='sas'}
+```{sas procmeans2}
 proc means data=sashelp.class(keep=height);
 run;
 ```
 
 If we switch to engine **saslog**
 
-    `r backtick```{r procmeans2, engine='saslog'}
+    `r backtick```{saslog procmeans2}
     `r backtick```
 
 we don't get ALL of the SAS log file, but we may be showing
 more information than we really want to present to the reader.
-```{r procmeans2, engine='saslog'}
+```{saslog procmeans2}
 ```
 
 We can filter the log to suppress processing times by 
 using chunk option \"SASproctime=FALSE\".
 
-    `r backtick```{r procmeans2, engine='saslog', SASproctime=FALSE, results='hide'}
+    `r backtick```{saslog procmeans2, SASproctime=FALSE, results='hide'}
     `r backtick```
 
-```{r procmeans2, engine='saslog', SASproctime=FALSE, results='hide'}
+```{saslog procmeans2, SASproctime=FALSE, results='hide'}
 ```
 
 Other filtering options include no SAS command echo with
 \"SASecho=FALSE\" and no SAS NOTES with \"SASnotes=FALSE\".
 
-```{r procmeans2, engine='saslog', SASecho=FALSE, results="hide"}
+```{saslog procmeans2, SASecho=FALSE, results="hide"}
 ```
 
-```{r procmeans2, engine='saslog', SASnotes=FALSE, results="hide"}
+```{saslog procmeans2, SASnotes=FALSE, results="hide"}
 ```
 
 ### Interactions (or Lack Thereof)
@@ -89,7 +89,7 @@ runif(5)
 
 And the **sas** and **sashtml** engines are unaffected, as seen
 in our intial code chunk and here:
-```{r procmeans2, engine='sashtml'}
+```{sashtml procmeans2}
 ```
 
 ## An Output Hook for PROC PRINTTO
@@ -114,7 +114,7 @@ Note that **all** output is run through the output hook, but our alterations
 are specific to the SAS log  None of the text we are filtering appears
 in ordinary SAS or R output, so SAS output is untouched.
 
-```{r procmeans, engine='sas'}
+```{sas procmeans}
 proc printto log="saslog.log" new;
 proc means data=sashelp.class(keep=weight);
 run;
