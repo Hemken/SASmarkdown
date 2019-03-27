@@ -4,23 +4,23 @@ author: "Doug Hemken"
 date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Cleaning Up SAS Log Output}
+  %\VignetteIndexEntry{Saving Intermediate SAS files}
   %\VignetteEngine{knitr::rmarkdown_notangle}
   %\VignetteEncoding{UTF-8}
 ---
-```{r backtick, echo=FALSE, results="hide"}
+```{r backtick, include=FALSE}
 backtick <- "`"
 ```
 
-```{r setup, echo=FALSE, message=FALSE}
-require(SASmarkdown)
-if (file.exists("C:/Program Files/SASHome/SASFoundation/9.4/sas.exe")) {
-  saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
-} else {
-  saspath <- "sas"
-}
+```{r setup, include=FALSE}
+library(SASmarkdown)
+saspath <- find_sas()
 sasopts <- "-nosplash -ls 75"
-knitr::opts_chunk$set(engine.path=saspath, engine.opts=sasopts, comment="")
+knitr::opts_chunk$set(engine.path=list(sas=saspath, sashtml=saspath, 
+                                       saslog=saspath, sashtmllog=saspath),
+                      engine.opts=list(sas=sasopts, sashtml=sasopts, 
+                                       saslog=sasopts, sashtmllog=sasopts),
+                      comment=NA)
 ```
 
 You may want to save the intermediate SAS files.  This works with all
@@ -31,7 +31,7 @@ The file names are taken from the code chunk label.
 First, we run some code using \"engine=\'sas\'\" without saving
 the intermediate SAS files.  Not shown here, this code chunk
 has label \"procmeans0\".
-```{r procmeans0, engine='sas'}
+```{sas procmeans0}
 proc means data=sashelp.class(keep=height);
 run;
 ```
@@ -39,7 +39,7 @@ run;
 If we invoke the \"saveSAS=TRUE\" option to save the intermediate SAS files:
 
 
-    `r backtick```{r procmeans1, engine='sas', saveSAS=TRUE, results="hide"}
+    `r backtick```{sas procmeans1, saveSAS=TRUE, results="hide"}
     proc means data=sashelp.class(keep=height);
     run;
     `r backtick```
@@ -47,7 +47,7 @@ If we invoke the \"saveSAS=TRUE\" option to save the intermediate SAS files:
 we will save three intermediate files:  procmeans1.sas,
 procmeans1.log, and procmeans1.lst.
 
-```{r procmeans1, engine='sas', saveSAS=TRUE, results="hide"}
+```{sas procmeans1, saveSAS=TRUE, results="hide"}
 proc means data=sashelp.class(keep=height);
 run;
 ```
