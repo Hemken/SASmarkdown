@@ -36,7 +36,7 @@ and only one variable is kept.
 
 In Rmarkdown this would look like:
 
-    `r backtick```{sas datastep, collectcode=TRUE}
+    ```{sas datastep, collectcode=TRUE}`r `
     data class;
         set sashelp.class;
         keep age;
@@ -55,7 +55,7 @@ Without **collectcode** to link the code chunks, a later
 chunk that referenced the data in the WORK library would
 produce an error, but this now works.  (No special option
 is needed for this later step.)
-```{sas procmeans}
+```{sas procmeans, error=TRUE}
 proc means data=class;
 run;
 ```

@@ -26,18 +26,20 @@ library(SASmarkdown)
 saspath <- find_sas()
 sasopts <- "-nosplash -ls 75"
 
-knitr::opts_chunk$set(engine.path=list(sas=saspath, sashtml=saspath, saslog=saspath, sashtmllog=saspath),
-                      engine.opts=list(sas=sasopts, sashtml=sasopts, saslog=sasopts, sashtmllog=sasopts),
+knitr::opts_chunk$set(engine.path=list(sas=saspath, sashtml=saspath, 
+                                       saslog=saspath, sashtmllog=saspath),
+                      engine.opts=list(sas=sasopts, sashtml=sasopts, 
+                                       saslog=sasopts, sashtmllog=sasopts),
                       comment=NA)
 
 ```
 ## Then set up SAS code chunks.
 A simple code chunk in Rmarkdown might look like:
 
-    `r backtick```{sas example1}
+    ```{sas example1}`r ""`
     proc means data=sashelp.class (keep = age);
     run;
-    `r backtick```
+    ```
 
 And in your document this would produce:
 ```{sas example1}

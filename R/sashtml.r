@@ -32,8 +32,16 @@ sashtml <- function (options) {
     f
   }
   
-  code = paste(code, options$engine.opts[[options$engine]])
-  cmd = options$engine.path[[options$engine]]
+  if (is.list(options$engine.opts)) {
+      code = paste(code, options$engine.opts[[options$engine]])
+  } else { # backwards compatability
+      code = paste(code, options$engine.opts)
+  }
+  if (is.list(options$engine.path)) {
+      cmd = options$engine.path[[options$engine]]
+  } else { # backwards compatability
+      cmd = options$engine.path
+  }
   out = if (options$eval) {
     message("running: ", cmd, " ", code)
     tryCatch(system2(cmd, code, stdout = TRUE, stderr = TRUE,
@@ -52,9 +60,9 @@ sashtml <- function (options) {
     out.log <- c(readLines(logf), out)
   if (options$eval &&  file.exists(htmlf))
     out.html <- c(readLines(htmlf), out)
-#  out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
-#  out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
-#  out.log <- out.log[-(1:grep("NOTE: Writing HTML Body file: ", out.log))]
+ out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
+ out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
+ out.log <- out.log[-(1:grep("NOTE: Writing HTML", out.log))]
   
   if (options$engine %in% c("sashtml", "sashtml5") && is.null(attr(out, "status"))) {
       return(sas_output(options, options$code, out.html))

@@ -63,7 +63,7 @@ Text is then included as a special comment.
 Finally, the executable SAS code is given a line of chunk instructions.
 
 ```
-*+  example1, engine='sas', engine.path=saspath, engine.opts=sasopts, 
+*+  example1, engine='sas', engine.path=list(sas=saspath), engine.opts=list(sas=sasopts), 
 comment=NA;
 
 proc means data=sashelp.class /*(keep = age)*/;
@@ -90,7 +90,7 @@ sasopts <- '-nosplash -ls 75'
 
 ** The report begins here.;
 
-*+  example1, engine='sas', engine.path=sasexe, engine.opts=sasopts, 
+*+  example1, engine='sas', engine.path=list(sas=saspath), engine.opts=list(sas=sasopts),
 comment=NA;
 
 proc means data=sashelp.class /*(keep = age)*/;
@@ -112,7 +112,7 @@ sasopts <- '-nosplash -ls 75'
 
 ** The report begins here.;
 
-*+  example1, engine='sas', engine.path=sasexe, engine.opts=sasopts, 
+*+  example1, engine='sas', engine.path=list(sas=saspath), engine.opts=list(sas=sasopts), 
 comment=NA;
 
 proc means data=sashelp.class /*(keep = age)*/;
