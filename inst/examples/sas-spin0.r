@@ -33,4 +33,5 @@ vtext[Rl] <- sub(";$", "", vtext[Rl])     # strip trailing ";"
 vtext[Rl] <- sub("^\\*R ", "", vtext[Rl])    # convert leading "*R" to " "
 
 writeLines(vtext, "test.r")
+#html <- knitr::spin("test.r")
 html <- spin("test.r")
