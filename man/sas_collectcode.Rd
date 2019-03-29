@@ -56,13 +56,17 @@ output: html_document
 ---
 # In a first code chunk, set up with
 ```{r}
-require(SASmarkdown)
+library(SASmarkdown)
 
-sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+sasexe <- find_sas()
 sasopts <- "-nosplash -ls 75"
+
+knitr::opts_chunk$set(engine.path=list(sas=sasexe, saslog=sasexe),
+  engine.opts=list(sas=sasopts, saslog=sasopts),
+  error=TRUE, comment=NA)
 ```
 # Then mark SAS code chunks with collectcode=TRUE
-```{r, engine="sas", engine.path=sasexe, engine.opts=sasopts, collectcode=TRUE}
+```{sas, collectcode=TRUE}
 data class;
     set sashelp.class;
     keep age;
@@ -70,7 +74,7 @@ data class;
 ```
 
 # A later chunk that depends on the first.
-```{r, engine="sas", engine.path=sasexe, engine.opts=sasopts}
+```{sas}
 proc means data=class; /* not SASHELP.class */
 run;
 ```

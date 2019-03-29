@@ -63,6 +63,9 @@ you can use them as is.}
 creates a language engine that returns SAS log output instead
 of the plain code that is usually echoed, as well as html output.  The engine
 created is called "sashtmllog".}
+\item{
+\code{sas_enginesetup(sashtml5=sashtml, sashtml5log=sashtml)}
+create language engines that produce html output with inline images}
 }
 The end user should not need to use the language engine 
 functions directly.  These are the
@@ -96,14 +99,17 @@ output: html_document
 ---
 # In a first code chunk, set up with
 ```{r}
-require(SASmarkdown)
-sas_enginesetup(sashtml=sashtml)
+library(SASmarkdown)
 
-sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+sasexe <- find_sas()
 sasopts <- "-nosplash -ls 75"
+
+knitr::opts_chunk$set(engine.path=list(sas=sasexe, saslog=sasexe),
+  engine.opts=list(sas=sasopts, saslog=sasopts),
+  error=TRUE, comment=NA)
 ```
 # Then set up SAS code chunks with
-```{r, engine="sashtml", engine.path=sasexe, engine.opts=sasopts}
+```{sas}
 proc means data=sashelp.class;
 run;
 ```

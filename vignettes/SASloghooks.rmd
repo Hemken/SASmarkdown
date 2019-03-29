@@ -12,7 +12,7 @@ vignette: >
 backtick <- "`"
 ```
 
-```{r setup, echo=FALSE, message=FALSE}
+```{r setup, include=FALSE}
 library(SASmarkdown)
 saspath <- find_sas()
 sasopts <- "-nosplash -ls 75"

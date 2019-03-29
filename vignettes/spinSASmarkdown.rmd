@@ -90,7 +90,7 @@ sasopts <- '-nosplash -ls 75'
 
 ** The report begins here.;
 
-*+  example1, engine='sas', engine.path=list(sas=saspath), engine.opts=list(sas=sasopts),
+*+  example1, engine='sas', engine.path=list(sas=sasexe), engine.opts=list(sas=sasopts),
 comment=NA;
 
 proc means data=sashelp.class /*(keep = age)*/;
@@ -112,7 +112,7 @@ sasopts <- '-nosplash -ls 75'
 
 ** The report begins here.;
 
-*+  example1, engine='sas', engine.path=list(sas=saspath), engine.opts=list(sas=sasopts), 
+*+  example1, engine='sas', engine.path=list(sas=sasexe), engine.opts=list(sas=sasopts), 
 comment=NA;
 
 proc means data=sashelp.class /*(keep = age)*/;

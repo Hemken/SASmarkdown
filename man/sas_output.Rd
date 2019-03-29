@@ -49,14 +49,16 @@ output: html_document
 ---
 # In a first code chunk, set up with
 ```{r}
-require(SASmarkdown)
-sas_enginesetup(sashtml=sashtml)
-
-sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+library(SASmarkdown)
+sasexe <- find_sas()
 sasopts <- "-nosplash -ls 75"
+knitr::opts_chunk$set(engine.path=list(sas=sasexe, saslog=sasexe),
+  engine.opts=list(sas=sasopts, saslog=sasopts),
+  error=TRUE, comment=NA)
 ```
+
 # Then set up SAS code chunks with
-```{r, engine="sashtml", engine.path=sasexe, engine.opts=sasopts}
+```{sashtml}
 proc means data=sashelp.class;
 run;
 ```
