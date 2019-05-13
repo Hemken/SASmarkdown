@@ -1,5 +1,18 @@
 \name{NEWS}
 \title{News for Package 'SASmarkdown'}
+\section{Changes in 'SASmarkdown' version 0.5.2 (2019-05-13)}{
+  \subsection{New features: }{
+    \itemize{
+      \item find_sas() - now runs onLoad, and defines engine.path if 
+      the SAS executable is found
+    }
+  }
+  \subsection{Other improvements}{
+    \itemize{
+      \item spinsas - fixed bugs introduced by changes in knitr
+    }
+  }
+}
 \section{Changes in 'SASmarkdown' version 0.5.0 (2019-03-27)}{
   \subsection{New features: }{
     \itemize{

@@ -1,6 +1,6 @@
 Package: SASmarkdown
-Version: 0.5.1
-Date: 2019-03-29
+Version: 0.5.2
+Date: 2019-05-13
 Title: 'SAS' Markdown
 Description: Settings and functions to extend the 'knitr' 'SAS' engine.
 Imports: knitr(>= 1.21), xfun(>= 0.4)

@@ -41,7 +41,6 @@ use to filter the SAS log.
 (This is a \"source\" hook, because we are showing the SAS log
 where we usually show the SAS code, the \"source\".)
 ```{r sourcehook}
-require(SASmarkdown) # if not invoked previously
 saslog_hookset("source")
 ```
 
