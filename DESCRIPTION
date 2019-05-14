@@ -1,6 +1,6 @@
 Package: SASmarkdown
 Version: 0.5.2
-Date: 2019-05-13
+Date: 2019-05-14
 Title: 'SAS' Markdown
 Description: Settings and functions to extend the 'knitr' 'SAS' engine.
 Imports: knitr(>= 1.21), xfun(>= 0.4)
@@ -12,5 +12,5 @@ License: MIT + file LICENSE
 VignetteBuilder: knitr
 Suggests: rmarkdown
 RoxygenNote: 6.1.1
-URL: http://www.ssc.wisc.edu/~hemken/SASworkshops/sas.html#writing-sas-documentation
-BugReports: http://github.com/Hemken/SASmarkdown/issues
+URL: https://www.ssc.wisc.edu/~hemken/SASworkshops/sas.html#writing-sas-documentation
+BugReports: https://github.com/Hemken/SASmarkdown/issues

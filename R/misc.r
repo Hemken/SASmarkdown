@@ -24,6 +24,8 @@
         knitr::opts_chunk$set(engine.path=list(sas=sasexe,
                     saslog=sasexe, sashtml=sasexe, sashtmllog=sasexe,
                     sashtml5=sasexe, sashtml5log=sasexe))
+    } else {
+        warning("The SAS executable was not found.", call.=FALSE)
     }
     sasopts <- "-nosplash -ls 75"
     knitr::opts_chunk$set(engine.opts=list(sas=sasopts,
@@ -32,6 +34,7 @@
     knitr::opts_chunk$set(error=TRUE, comment=NA)
     
     
-    packageStartupMessage("sas, saslog, sashtml, sashtml5, and sashtmllog & sashtml5log engines")
+    packageStartupMessage("sas, saslog, sashtml, sashtmllog")
+    packageStartupMessage("   sashtml5, & sashtml5log engines")
     packageStartupMessage("   are now ready to use.")
 }
