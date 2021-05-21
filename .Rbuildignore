@@ -1,7 +1,3 @@
-^Meta$
-^doc$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^.*knit-examples.r$
-^.*/examples.*$
 ^.*/tests.*$
