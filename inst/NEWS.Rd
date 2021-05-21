@@ -3,8 +3,9 @@
 \section{Changes in 'SASmarkdown' version 0.5.2 (2019-05-13)}{
   \subsection{New features: }{
     \itemize{
-      \item find_sas() - now runs onLoad, and defines engine.path if 
-      the SAS executable is found
+      \item find_sas() - now runs onLoad, defines engine.path if 
+      the SAS executable is found, and warns if not found.
+      \item saslog_hookset() - enabled by default
     }
   }
   \subsection{Other improvements}{
@@ -24,7 +25,7 @@
     \itemize{
       \item engine.path and engine.opts - takes advantage of knitr's newer
         approach to specifying engine paths and engine options
-    }
+      }
   }
 }
 \section{Changes in 'SASmarkdown' version 0.4.2 (2017-11-29)}{

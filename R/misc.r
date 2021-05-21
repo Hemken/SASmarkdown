@@ -17,7 +17,7 @@
     })
     
     sas_collectcode()
-    # saslog_hookset()
+    saslog_hookset()
     
     sasexe <- find_sas()
     if (!is.null(sasexe)) {
@@ -34,7 +34,8 @@
     knitr::opts_chunk$set(error=TRUE, comment=NA)
     
     
-    packageStartupMessage("sas, saslog, sashtml, sashtmllog")
-    packageStartupMessage("   sashtml5, & sashtml5log engines")
-    packageStartupMessage("   are now ready to use.")
+    packageStartupMessage(paste("sas, saslog, sashtml, sashtmllog",
+                                "   sashtml5, & sashtml5log engines",
+                                "   are now ready to use.",
+                                sep="\n"))
 }
