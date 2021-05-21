@@ -62,9 +62,8 @@ First, call the `SASmarkdown`` package in R.;
 
 ** Then execute some SAS code.  First specify the
 chunk header, then the code.;
-*+ example, engine="sas",
-    engine.path="C:/Program Files/SASHome/SASFoundation/9.4/sas.exe",
-    engine.opts="-nosplash -ls 75";
+
+*+ example;
 proc means data=sashelp.class;
 run;
 '

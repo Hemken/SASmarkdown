@@ -5,7 +5,7 @@ date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Cleaning Up SAS Log Output}
-  %\VignetteEngine{knitr::rmarkdown_notangle}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -73,4 +73,8 @@ runif(5)
 And the **sas** and **sashtml** engines are unaffected, as seen
 in our intial code chunk and here:
 ```{sashtml procmeans2}
+```
+
+```{r cleanup, echo=FALSE, results="hide"}
+detach(package:SASmarkdown)
 ```

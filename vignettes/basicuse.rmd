@@ -85,3 +85,6 @@ Producing:
 ```{sashtmllog example1}
 ```
 
+```{r cleanup, echo=FALSE, results="hide"}
+detach(package:SASmarkdown)
+```

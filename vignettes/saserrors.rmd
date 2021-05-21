@@ -5,7 +5,7 @@ date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Showing SAS errors}
-  %\VignetteEngine{knitr::rmarkdown_notangle}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -74,4 +74,8 @@ And the execution error, where the chunk option is irrelevant.  Using
 the **sashtmllog** engine, we see both the DATA step errors and the
 HTML output.
 ```{sashtmllog procmeans, error=TRUE}
+```
+
+```{r cleanup, echo=FALSE, results="hide"}
+detach(package:SASmarkdown)
 ```

@@ -34,9 +34,6 @@ indoc <- '
 ## In a first code chunk, set up with
 ```{r}
 library(SASmarkdown)
-sasexe <- find_sas()
-knitr::opts_chunk$set(engine.path=list(sas=sasexe, saslog=sasexe),
-  error=TRUE, comment=NA)
 ```
 ## Then mark SAS code chunks with
 ```{sas, collectcode=TRUE}

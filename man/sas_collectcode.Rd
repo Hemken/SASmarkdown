@@ -57,14 +57,8 @@ output: html_document
 # In a first code chunk, set up with
 ```{r}
 library(SASmarkdown)
-
-sasexe <- find_sas()
-sasopts <- "-nosplash -ls 75"
-
-knitr::opts_chunk$set(engine.path=list(sas=sasexe, saslog=sasexe),
-  engine.opts=list(sas=sasopts, saslog=sasopts),
-  error=TRUE, comment=NA)
 ```
+
 # Then mark SAS code chunks with collectcode=TRUE
 ```{sas, collectcode=TRUE}
 data class;

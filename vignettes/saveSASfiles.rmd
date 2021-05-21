@@ -5,7 +5,7 @@ date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Saving Intermediate SAS files}
-  %\VignetteEngine{knitr::rmarkdown_notangle}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -51,4 +51,8 @@ list.files(pattern="proc")
 Then finally, for this example, we will delete them.
 ```{r cleanup}
 unlink("procmeans?.*")
+```
+
+```{r cleanup2, echo=FALSE, results="hide"}
+detach(package:SASmarkdown)
 ```

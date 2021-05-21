@@ -5,7 +5,7 @@ date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Linking Code Chunks Using collectcode}
-  %\VignetteEngine{knitr::rmarkdown_notangle}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -49,4 +49,8 @@ is needed for this later step.)
 ```{sas procmeans, error=TRUE}
 proc means data=class;
 run;
+```
+
+```{r cleanup, echo=FALSE, results="hide"}
+detach(package:SASmarkdown)
 ```
