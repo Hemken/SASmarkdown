@@ -8,33 +8,28 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown_notangle}
   %\VignetteEncoding{UTF-8}
 ---
-```{r backtick, echo=FALSE, results="hide"}
-backtick <- "`"
-```
+
 
 ```{r setup, include=FALSE}
 library(SASmarkdown)
 ```
 
+
 If you are using the **saslog** or **sashtmllog** engines, or if you
 are allowing SAS semantic errors to appear in your document, you may
 not want to show the entire log file.  To gain some control over
-what shows up in your document, you can use \"saslog_hookset\".
+what shows up in your document, you can use chunk options.
+
 
 The usual SAS set up is needed, as in other vignettes, and is not
 shown here.
 
-## A Source Hook for the \"saslog\" Engine
-With the **saslog** or **sashtmllog** engines we use the 
-\"saslog_hookset\" function, specifying  
-a *source* hook.  This creates a number of chunk options we can
-use to filter the SAS log.
-
 ### Hook Specification
 These options are set up for you when you load the SASmarkdown library.
 
+
 ### Hook Use
-First, we setup some code using \"engine=\'sas\'\".  We will
+First, we set up some code using the `sas` engine.  We will
 repeatedly use the same code by repeating the chunk label.
 ```{sas procmeans2}
 proc means data=sashelp.class(keep=height);
@@ -43,25 +38,25 @@ run;
 
 If we switch to engine **saslog**
 
-    `r backtick```{saslog procmeans2}
-    `r backtick```
+    ```{saslog procmeans2} `r ''`
+    ```
 
-we don't get ALL of the SAS log file, but we may be showing
+we don't see ALL of the SAS log file, but we may be showing
 more information than we really want to present to the reader.
 ```{saslog procmeans2}
 ```
 
 We can filter the log to suppress processing times by 
-using chunk option \"SASproctime=FALSE\".
+using chunk option `SASproctime=FALSE`.
 
-    `r backtick```{saslog procmeans2, SASproctime=FALSE, results='hide'}
-    `r backtick```
+    ```{saslog procmeans2, SASproctime=FALSE, results='hide'} `r ''`
+    ```
 
 ```{saslog procmeans2, SASproctime=FALSE, results='hide'}
 ```
 
 Other filtering options include no SAS command echo with
-\"SASecho=FALSE\" and no SAS NOTES with \"SASnotes=FALSE\".
+`SASecho=FALSE` and no SAS NOTES with `SASnotes=FALSE`.
 
 ```{saslog procmeans2, SASecho=FALSE, results="hide"}
 ```
@@ -79,62 +74,3 @@ And the **sas** and **sashtml** engines are unaffected, as seen
 in our intial code chunk and here:
 ```{sashtml procmeans2}
 ```
-
-## An Output Hook for PROC PRINTTO
-These same filters can be used as \"output\" hooks.  
-
-Suppose you
-wanted to process SAS log files separately.  You could use
-SAS\'s PROC PRINTTO to save the log files, and read them
-into your document using R commands.
-
-(For this vignette we reset the \"source\" hook, from above.  In
-general you will NOT need to reset, you will use one or the other.)
-```{r outputhook, echo=TRUE}
-knitr::knit_hooks$set(source=hook_orig) # just for this example
-
-saslog_hookset("output")
-```
-
-In this example I am using the PROC PRINTTO method of capturing the log.
-
-Note that **all** output is run through the output hook, but our alterations
-are specific to the SAS log  None of the text we are filtering appears
-in ordinary SAS or R output, so SAS output is untouched.
-
-```{sas procmeans}
-proc printto log="saslog.log" new;
-proc means data=sashelp.class(keep=weight);
-run;
-```
-
-The log is then processed when it is shown by a separate code chunk (using
-R commands, not SAS).
-
-    `r backtick```{r readlog}
-    cat(readLines("saslog.log"), sep="\n")
-    `r backtick```
-
-```{r readlog}
-cat(readLines("saslog.log"), sep="\n")
-```
-
-We can now use the same chunk options as before.  
-No processing times, SASproctime=FALSE.
-```{r readlog, SASproctime=FALSE, echo=FALSE}
-```
-
-No SAS command echo, SASecho=FALSE.
-```{r readlog, SASecho=FALSE, echo=FALSE}
-```
-
-No SAS NOTES, SASnotes=FALSE.
-```{r readlog, SASnotes=FALSE, echo=FALSE}
-```
-
-Clean up is necessary in a final R chunk - this is NOT automated.
-```{r cleanuplog}
-# Do not forget to remove the log file when you are done!
-unlink("saslog.log")
-```
-

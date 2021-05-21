@@ -8,19 +8,9 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown_notangle}
   %\VignetteEncoding{UTF-8}
 ---
-```{r backtick, include=FALSE}
-backtick <- "`"
-```
 
 ```{r setup, include=FALSE}
 library(SASmarkdown)
-saspath <- find_sas()
-sasopts <- "-nosplash -ls 75"
-knitr::opts_chunk$set(engine.path=list(sas=saspath, sashtml=saspath, 
-                                       saslog=saspath, sashtmllog=saspath),
-                      engine.opts=list(sas=sasopts, sashtml=sasopts, 
-                                       saslog=sasopts, sashtmllog=sasopts),
-                      comment=NA)
 ```
 
 You may want to save the intermediate SAS files.  This works with all
@@ -28,7 +18,7 @@ of the SAS engines.
 
 The file names are taken from the code chunk label.
 
-First, we run some code using \"engine=\'sas\'\" without saving
+First, we run some code using the `sas` engine without saving
 the intermediate SAS files.  Not shown here, this code chunk
 has label \"procmeans0\".
 ```{sas procmeans0}
@@ -36,13 +26,13 @@ proc means data=sashelp.class(keep=height);
 run;
 ```
 
-If we invoke the \"saveSAS=TRUE\" option to save the intermediate SAS files:
+If we invoke the `saveSAS=TRUE` option to save the intermediate SAS files:
 
 
-    `r backtick```{sas procmeans1, saveSAS=TRUE, results="hide"}
+    ```{sas procmeans1, saveSAS=TRUE, results="hide"} `r ''`
     proc means data=sashelp.class(keep=height);
     run;
-    `r backtick```
+    ```
 
 we will save three intermediate files:  procmeans1.sas,
 procmeans1.log, and procmeans1.lst.

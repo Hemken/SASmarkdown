@@ -9,9 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r backtick, include=FALSE}
-backtick <- "`"
-```
 Linking SAS code chunks makes use of SAS\'s autoexec.sas
 file.  When you attach the SASmarkdown library, a chunk
 option is set up to place chunks in an autoexc file.
@@ -19,29 +16,23 @@ option is set up to place chunks in an autoexc file.
 ## Configure the SAS engine
 ```{r setup, message=FALSE}
 library(SASmarkdown)
-saspath <- find_sas()
-sasopts <- "-nosplash -ls 75"
-
-knitr::opts_chunk$set(engine.path=list(sas=saspath, saslog=saspath),
-                      engine.opts=list(sas=sasopts, saslog=sasopts),
-                      comment=NA)
 ```
 
 ## Then set up SAS code chunks.
 To have the effects of one code chunk available to use in a later
-code chunk, set the chunk option \"collectcode=TRUE\".
+code chunk, set the chunk option `collectcode=TRUE`.
 
 In this example, a data set is copied to the WORK library
 and only one variable is kept.
 
 In Rmarkdown this would look like:
 
-    ```{sas datastep, collectcode=TRUE}`r `
+    ```{sas datastep, collectcode=TRUE} `r ''`
     data class;
         set sashelp.class;
         keep age;
         run;
-    `r backtick```
+    ```
 
 And in your final document it would appear as:
 ```{sas datastep, collectcode=TRUE}

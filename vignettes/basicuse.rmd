@@ -9,9 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r backtick, include=FALSE}
-backtick <- "`"
-```
 This discussion assumes you already have a basic understanding
 of Markdown for document formatting, Rmarkdown to include executable
 code in a document, and SAS to write the code.
@@ -19,15 +16,15 @@ code in a document, and SAS to write the code.
 ## In a first code chunk, set up your SAS engine configuration.
 This depends on your operating system, the version of SAS, and
 whether or not you have SAS installed in the default location.
-This example catches both Windows and linux SAS for me.
+
 ```{r setup, message=FALSE}
 library(SASmarkdown)
 ```
 
 ## Then set up SAS code chunks.
-A simple code chunk in Rmarkdown might look like:
+A simple code chunk in your document might look like:
 
-    ```{sas example1}`r ""`
+    ```{sas example1} `r ''`
     proc means data=sashelp.class (keep = age);
     run;
     ```
@@ -37,39 +34,42 @@ And in your document this would produce:
 proc means data=sashelp.class (keep = age);
 run;
 ```
+
 ## To Rerun with HTML output.
-Switch the \"engine\" to **sashtml**.  
+Switch the engine to **sashtml**.  
 
 This example also reuses the
 previous code chunk by using the same chunk label, \"example1\", and
-suppresses the code echo with the \"echo=FALSE\" chunk option.
+suppresses the code echo with the `echo=FALSE` chunk option.
 
-    `r backtick```{sashtml example1, echo=FALSE}
-    `r backtick```
+    ```{sashtml example1, echo=FALSE} `r ''`
+    ```
 
 Which produces:
 ```{sashtml example1, echo=FALSE}
 ```
+
 ## Run an HTML example with graphics.
-If you use the \"sashtml\" engine, nothing special is required to
+If you use the `sashtml` engine, nothing special is required to
 include SAS ODS graphics.
 
-    `r backtick```{sashtml example2}
+    ```{sashtml example2} `r ''`
     proc corr data=sashelp.class nosimple plots=matrix;
     run;
-    `r backtick```
+    ```
 
 Producing:
 ```{sashtml example2}
 proc corr data=sashelp.class nosimple plots=matrix;
 run;
 ```
+
 ## Show SAS log files.
 We can repeat the first example, showing the SAS log instead of
 the SAS code by using the **saslog** engine.
 
-    `r backtick```{saslog example1}
-    `r backtick```
+    ```{saslog example1} `r ''`
+    ```
 
 Producing:
 ```{saslog example1}
@@ -78,8 +78,8 @@ Producing:
 Finally, you can have both the SAS log and the HTML output with
 the **sashtmllog** engine.
 
-    `r backtick```{sashtmllog example1}
-    `r backtick```
+    ```{sashtmllog example1} `r ''`
+    ```
 
 Producing:
 ```{sashtmllog example1}
