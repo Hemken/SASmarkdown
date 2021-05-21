@@ -14,13 +14,6 @@ backtick <- "`"
 
 ```{r setup, include=FALSE}
 library(SASmarkdown)
-saspath <- find_sas()
-sasopts <- "-nosplash -ls 75"
-knitr::opts_chunk$set(engine.path=list(sas=saspath, sashtml=saspath, 
-                                       saslog=saspath, sashtmllog=saspath),
-                      engine.opts=list(sas=sasopts, sashtml=sasopts, 
-                                       saslog=sasopts, sashtmllog=sasopts),
-                      comment=NA)
 ```
 
 If you are using the **saslog** or **sashtmllog** engines, or if you
@@ -38,11 +31,7 @@ a *source* hook.  This creates a number of chunk options we can
 use to filter the SAS log.
 
 ### Hook Specification
-(This is a \"source\" hook, because we are showing the SAS log
-where we usually show the SAS code, the \"source\".)
-```{r sourcehook}
-saslog_hookset("source")
-```
+These options are set up for you when you load the SASmarkdown library.
 
 ### Hook Use
 First, we setup some code using \"engine=\'sas\'\".  We will

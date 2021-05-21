@@ -5,7 +5,7 @@ date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Basic Use of SASmarkdown}
-  %\VignetteEngine{knitr::rmarkdown_notangle}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -22,17 +22,8 @@ whether or not you have SAS installed in the default location.
 This example catches both Windows and linux SAS for me.
 ```{r setup, message=FALSE}
 library(SASmarkdown)
-
-saspath <- find_sas()
-sasopts <- "-nosplash -ls 75"
-
-knitr::opts_chunk$set(engine.path=list(sas=saspath, sashtml=saspath, 
-                                       saslog=saspath, sashtmllog=saspath),
-                      engine.opts=list(sas=sasopts, sashtml=sasopts, 
-                                       saslog=sasopts, sashtmllog=sasopts),
-                      comment=NA)
-
 ```
+
 ## Then set up SAS code chunks.
 A simple code chunk in Rmarkdown might look like:
 

@@ -1,5 +1,5 @@
 ---
-title: "Linking Code Chunks Using 'collectcode'"
+title: "Linking Code Chunks Using collectcode"
 author: "Doug Hemken"
 date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette

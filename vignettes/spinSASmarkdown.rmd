@@ -1,11 +1,11 @@
 ---
-title: "Spin SASmarkdown"
+title: "Spinning SASmarkdown"
 author: "Doug Hemken"
 date: "`r format(Sys.Date(), '%b %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Spinning SASmarkdown}
-  %\VignetteEngine{knitr::rmarkdown_notangle}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -138,4 +138,5 @@ Which gives a document, \"indoc.html\" that looks like
 unlink("indoc.sas")
 unlink("indoc.md")
 unlink("indoc.html")
+detach(package:SASmarkdown)
 ```
