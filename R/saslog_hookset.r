@@ -1,6 +1,6 @@
 saslog_hookset <- function (hooktype="source") {
     if (hooktype == "source"){
-        assign("hook_orig", knitr::knit_hooks$get("source"), pos=parent.frame())
+        assign("hook_orig", knitr::knit_hooks$get("source"), pos=2)
         # hook_orig <<- knitr::knit_hooks$get("source")
         knitr::knit_hooks$set(source = SASmarkdown::sasloghook)
     } else if(hooktype == "output") {

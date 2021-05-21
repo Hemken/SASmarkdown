@@ -10,7 +10,7 @@ Authors@R: person("Doug", "Hemken", email="dehemken@wisc.edu",
 Maintainer: Doug Hemken <dehemken@wisc.edu>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
-Suggests: rmarkdown
+Suggests: knitr, rmarkdown, markdown
 RoxygenNote: 6.1.1
 URL: https://www.ssc.wisc.edu/~hemken/SASworkshops/sas.html#writing-sas-documentation
 BugReports: https://github.com/Hemken/SASmarkdown/issues
