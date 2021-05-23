@@ -1,6 +1,6 @@
 Package: SASmarkdown
-Version: 0.5.3
-Date: 2021-05-21
+Version: 0.5.4
+Date: 2021-05-23
 Title: 'SAS' Markdown
 Description: Settings and functions to extend the 'knitr' 'SAS' engine.
 Imports: knitr(>= 1.21), xfun(>= 0.4)
@@ -9,8 +9,6 @@ Authors@R: person("Doug", "Hemken", email="dehemken@wisc.edu",
         role=c("aut", "cre"), comment="SSCC, Univ. of Wisconsin-Madison")
 Maintainer: Doug Hemken <dehemken@wisc.edu>
 License: MIT + file LICENSE
-VignetteBuilder: knitr
-Suggests: rmarkdown, markdown
-RoxygenNote: 6.1.1
+BuildVignettes: no
 URL: https://www.ssc.wisc.edu/~hemken/SASworkshops/sas.html#writing-sas-documentation
 BugReports: https://github.com/Hemken/SASmarkdown/issues

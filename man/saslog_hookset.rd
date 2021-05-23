@@ -60,7 +60,7 @@ Doug Hemken
 
 }
 \examples{
-saslog_hookset("source")
+# saslog_hookset() # called during loading
 
 \dontrun{
 indoc <- '
