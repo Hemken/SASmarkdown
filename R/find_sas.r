@@ -20,7 +20,19 @@ find_sas <- function(message=TRUE) {
           }
         }
       }
-    }
+  }
+  
+  if (is.null(sasexe)) {    
+      # SAS is not found at default location in windows
+      # Try to find it from PATH
+      sasexe <- Sys.which("sas")
+      attr(sasexe, "names") <- NULL    # remove attr so this is plain text like other branch
+      if (nchar(sasexe) > 0) {
+          if (message) message("SAS found at ", sasexe)
+      } else {
+          sasexe <- NULL    # change the 0-length `sasexe` back to `NULL`
+      }
+  }
   
 } else if (Sys.info()["sysname"]=="Darwin") {
   sasexe <- NULL
