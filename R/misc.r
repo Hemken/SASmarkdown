@@ -3,6 +3,11 @@
     utils::globalVariables(c("oautoexec","hook_orig")) # to suppress CHECK note
 }
 
+# .onUnload <- function(libpath) {
+#     # remove("hook_orig", inherits=TRUE)
+#     remove("oautoexec", inherits=TRUE)
+# }
+
 .onAttach <- function (libname, pkgname) {
     knitr::knit_engines$set(sas=saslog, saslog=saslog, 
                             sashtml=sashtml, sashtmllog=sashtml,
