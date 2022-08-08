@@ -45,14 +45,12 @@ the end of a line.
 - Your chunk of SAS code must end with a semi-colon (not a block comment).
 
 ## Example
-  In order to run SAS code, first we specify a path for SAS and set up some options in R.
+  In order to run SAS code, first we load the `SASmarkdown` library so it can automatically set up some necessary options in R.
 ```
 *+ setup, message=FALSE ;
 
 *R 
 library(SASmarkdown)
-sasexe <- 'C:/Program Files/SASHome/SASFoundation/9.4/sas.exe'
-sasopts <- '-nosplash -ls 75'
 ;
 ```
 Text is then included as a special comment.
@@ -63,8 +61,7 @@ Text is then included as a special comment.
 Finally, the executable SAS code is given a line of chunk instructions.
 
 ```
-*+  example1, engine='sas', engine.path=list(sas=saspath), engine.opts=list(sas=sasopts), 
-comment=NA;
+*+  example1, engine='sas', comment=NA;
 
 proc means data=sashelp.class /*(keep = age)*/;
 run;
@@ -84,14 +81,11 @@ The entire document might be:
 
 *R 
 library(SASmarkdown)
-sasexe <- 'C:/Program Files/SASHome/SASFoundation/9.4/sas.exe'
-sasopts <- '-nosplash -ls 75'
 ;
 
 ** The report begins here.;
 
-*+  example1, engine='sas', engine.path=list(sas=sasexe), engine.opts=list(sas=sasopts),
-comment=NA;
+*+  example1, engine='sas', comment=NA;
 
 proc means data=sashelp.class /*(keep = age)*/;
 run;
@@ -106,14 +100,11 @@ indoc <- "
 
 *R 
 library(SASmarkdown)
-sasexe <- 'C:/Program Files/SASHome/SASFoundation/9.4/sas.exe'
-sasopts <- '-nosplash -ls 75'
 ;
 
 ** The report begins here.;
 
-*+  example1, engine='sas', engine.path=list(sas=sasexe), engine.opts=list(sas=sasopts), 
-comment=NA;
+*+  example1, engine='sas', comment=NA;
 
 proc means data=sashelp.class /*(keep = age)*/;
 run;
@@ -123,7 +114,7 @@ writeLines(indoc, "indoc.sas")
 
 To process this document then, simply use
 
-```{r spin, comment=NA, results="hide"}
+```{r spin, comment=NA, results="hide", message=FALSE}
 library(SASmarkdown)
 spinsas("indoc.sas")
 ```
@@ -131,7 +122,7 @@ spinsas("indoc.sas")
 Which gives a document, \"indoc.html\" that looks like
 
 <hr>
-```{r output, child="indoc.html"}
+```{r output, child="indoc.md"}
 ```
 
 ```{r cleanup, echo=FALSE, results="hide"}
