@@ -7,7 +7,7 @@ Imports: knitr(>= 1.21), xfun(>= 0.4)
 SystemRequirements: SAS
 Authors@R: person("Doug", "Hemken", email="dehemken@wisc.edu", 
         role=c("aut", "cre"), comment="SSCC, Univ. of Wisconsin-Madison"),
-        person("Chao", "Cheng", role="ctb", comment="Statistician, Simcere")
+        person("Chao", "Cheng", role="ctb", comment="Statistician, Simcere Pharmaceutical Group Limited")
 Maintainer: Doug Hemken <dehemken@wisc.edu>
 License: MIT + file LICENSE
 BuildVignettes: no
