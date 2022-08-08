@@ -8,6 +8,7 @@ You can install these as an R package:
 install.packages("SASmarkdown")
 # or use
 devtools::install_github("Hemken/SASmarkdown")
+# devtools::install_github("Hemken/SASmarkdown", build_vignettes = TRUE)    # build vignettes locally
 ```
 Then you can check with
 ```
