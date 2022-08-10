@@ -43,8 +43,22 @@ saslog <- function (options) {
     out.listing = c(readLines(listf), out) else out.listing=""
   if (options$eval && file.exists(logf))
     out.log = c(readLines(logf), out)
-  out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
-  out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
+  sasinit <- grep("NOTE: SAS initialization", out.log)
+  if (length(sasinit > 0)) {
+      out.log <- out.log[-(1:sasinit+2)]           # trim log header
+  }
+  autoexec <- grep("NOTE: AUTOEXEC processing completed.", out.log)
+  if (length(autoexec > 0)) {
+      out.log <- out.log[-(1:autoexec+1)]           # trim log header
+  }
+  formdelim <- grep("FORMDLIM", out.log)
+  if (length(formdelim > 0)) {
+      out.log <- out.log[-(1:formdelim)]           # trim log header
+  }
+  sasinstitute <- grep("NOTE: SAS Institute Inc.", out.log)
+  if (length(sasinstitute > 0)) {
+      out.log <- try(out.log[1:(sasinstitute-2)], silent=TRUE) # trim log tail
+  }
   
   if (options$engine == "sas" && is.null(attr(out, "status"))) {
     return(sas_output(options, options$code, out.listing))

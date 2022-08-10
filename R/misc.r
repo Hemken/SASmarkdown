@@ -21,6 +21,27 @@
             options
     })
     
+    knitr::opts_hooks$set(SASproctime = function(options) {
+        engine <- options$engine
+        sasopts <- paste(options$engine.opts[[engine]], "-nostimer")
+        options$engine.opts[[engine]] <- sasopts
+        options
+    })
+    
+    knitr::opts_hooks$set(SASecho = function(options) {
+        engine <- options$engine
+        sasopts <- paste(options$engine.opts[[engine]], "-nosource")
+        options$engine.opts[[engine]] <- sasopts
+        options
+    })
+    
+    knitr::opts_hooks$set(SASnotes = function(options) {
+        engine <- options$engine
+        sasopts <- paste(options$engine.opts[[engine]], "-nonotes")
+        options$engine.opts[[engine]] <- sasopts
+        options
+    })
+    
     sas_collectcode()
     saslog_hookset()
     
