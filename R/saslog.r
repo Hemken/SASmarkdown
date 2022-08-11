@@ -39,10 +39,12 @@ saslog <- function (options) {
   else ""
   if (!options$error && !is.null(attr(out, "status")))
     stop(paste(out, collapse = "\n"))
+  if (is.null(options$encoding))
+      enc <- "latin1" else enc <- options$encoding
   if (options$eval && file.exists(listf))
-    out.listing = c(readLines(listf), out) else out.listing=""
+    out.listing = c(iconv(readLines(listf), from=enc, to="UTF-8"), out) else out.listing=""
   if (options$eval && file.exists(logf))
-    out.log = c(readLines(logf), out)
+    out.log = c(iconv(readLines(logf), from=enc, to="UTF-8"), out)
   sasinit <- grep("NOTE: SAS initialization", out.log)
   if (length(sasinit > 0)) {
       out.log <- out.log[-(1:sasinit+2)]           # trim log header

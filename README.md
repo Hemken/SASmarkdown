@@ -5,10 +5,10 @@ also have SAS installed.
 
 You can install these as an R package:
 ```
-install.packages("SASmarkdown")
-# or use
 devtools::install_github("Hemken/SASmarkdown")
 # devtools::install_github("Hemken/SASmarkdown", build_vignettes = TRUE)    # build vignettes locally
+# or use
+install.packages("SASmarkdown") # old version, on CRAN
 ```
 Then you can check with
 ```
