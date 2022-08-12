@@ -1,7 +1,7 @@
 find_sas <- function(message=TRUE) {
     versionlist <- c("8.0","8.1","8.2","9.0","9.1","9.1.3","9.2","9.2m2",
                      "9.3","9.3m2","9.4","9.4m1","9.4m2","9.4m3","9.4m4",
-                     "9.4m5","9.4m6")
+                     "9.4m5","9.4m6", "9.4m7")
     
   if (.Platform$OS.type == "windows"){
   sasexe <- NULL
