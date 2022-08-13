@@ -10,6 +10,5 @@ Authors@R: c(person("Doug", "Hemken", email="dehemken@wisc.edu",
         person("Chao", "Cheng", role="ctb", comment="Statistician, Simcere Pharmaceutical Group Limited"))
 Maintainer: Doug Hemken <dehemken@wisc.edu>
 License: MIT + file LICENSE
-BuildVignettes: no
 URL: https://www.ssc.wisc.edu/~hemken/SASworkshops/sas.html#writing-sas-documentation
 BugReports: https://github.com/Hemken/SASmarkdown/issues
