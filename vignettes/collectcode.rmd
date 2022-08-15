@@ -1,0 +1,57 @@
+---
+title: "Linking SAS Code Chunks"
+author: "Doug Hemken"
+date: "`r format(Sys.Date(), '%b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Linking SAS Code Chunks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r init, include=FALSE}
+try(detach("package:SASmarkdown"), silent=TRUE)
+```
+
+Linking SAS code chunks makes use of SAS\'s autoexec.sas
+file.  When you attach the SASmarkdown library, a chunk
+option is set up to place chunks in an autoexc file.
+
+## Configure the SAS engine
+```{r setup, message=FALSE}
+library(SASmarkdown)
+```
+
+## Set up to carry over
+To have the result of one code chunk available to use in a later
+code chunk, set the chunk option `collectcode=TRUE`.
+
+In this example, a data set is copied to the WORK library
+and only one variable is kept.
+
+In Rmarkdown this would look like:
+
+    ```{sas datastep, collectcode=TRUE} `r ''`
+    data class;
+        set sashelp.class;
+        keep age;
+        run;
+    ```
+
+And in your final document it would appear as:
+```{sas datastep, collectcode=TRUE}
+data class;
+    set sashelp.class;
+    keep age;
+    run;
+```
+
+## Using the previous code chunk
+Without **collectcode** to link the code chunks, a later
+chunk that referenced the data in the WORK library would
+produce an error, but this now works.  (No special option
+is needed for this later step.)
+```{sas procmeans, error=TRUE}
+proc means data=class;
+run;
+```

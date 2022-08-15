@@ -1,0 +1,130 @@
+---
+title: "Basic Use of SASmarkdown"
+author: "Doug Hemken"
+date: "`r format(Sys.Date(), '%b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Basic Use of SASmarkdown}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r init, include=FALSE}
+try(detach("package:SASmarkdown"), silent=TRUE)
+```
+
+This discussion assumes you have a basic understanding
+of Markdown for document formatting, Rmarkdown to include executable
+code in a document, and SAS to write the code.
+
+SASmarkdown defines six knitr engines, to return different
+combinations of SAS code, SAS listing output, SAS
+HTML output, and SAS log output for use in your document.
+
+SASmarkdown also defines several knitr chunk (code block) options
+for working with SAS output.
+
+## Set up your SAS engine configuration.
+The details depend on your operating system, the version of SAS, and
+whether or not you have SAS installed in a default location.
+
+    ```{r setup, message=FALSE} `r ''`
+    library(SASmarkdown)
+    ```
+
+```{r setup, include=FALSE}
+library(SASmarkdown)
+```
+
+This defines six knitr engines
+
+- *sas* - SAS code and listing output
+- *saslog* - SAS log and listing output
+- *sashtml* - code and HTML output
+- *sashtmllog* - log and HTML output
+- *sashtml5* - code and HTML5 output
+- *sashtml5log* - log and HTML5 output
+
+These are ordinarily used in pairs, to give you access to
+the code, log, and output format you prefer.
+
+**If SAS is not found**, you will have to define the engine path
+and any engine options in your document.  For example
+
+    ```{r enginepath} `r ''`
+    saspath <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+    sasopts <- "-nosplash -ls 75" # '-nosplash' fails in some unix terminals
+    knitr::opts_chunk$set(engine.path=list(sas=saspath, saslog=saspath),
+                      engine.opts=list(sas=sasopts, saslog=sasopts), 
+                      comment=NA)
+    ```
+## Set up SAS code chunks.
+A simple code chunk in your document might look like:
+
+    ```{sas example1} `r ''`
+    proc means data=sashelp.class (keep = age);
+    run;
+    ```
+
+And in your document this would produce:
+```{sas example1}
+proc means data=sashelp.class (keep = age);
+run;
+```
+
+## HTML output.
+HTML gives you a method of embedding SAS tables and graphs
+directly in your document.
+
+Switch the engine specification to **sashtml**.  This example 
+suppresses the code echo with the `echo=FALSE` chunk option.
+
+    ```{sashtml example2, echo=FALSE} `r ''`
+    proc means data=sashelp.class (keep = age);
+    run;
+    ```
+
+Which produces:
+```{sashtml example2, echo=FALSE}
+proc means data=sashelp.class (keep = age);
+run;
+```
+
+## HTML with graphics.
+If you use the `sashtml` engine, nothing special is required to
+include SAS ODS graphics.
+
+    ```{sashtml example3} `r ''`
+    proc corr data=sashelp.class nosimple plots=matrix;
+    run;
+    ```
+
+Producing:
+```{sashtml example3}
+proc corr data=sashelp.class nosimple plots=matrix;
+run;
+```
+
+## Show SAS log files.
+We can repeat the first example, showing the SAS log instead of
+the SAS code by using the **saslog** engine.
+
+    ```{saslog example4} `r ''`
+    ```
+
+Producing:
+```{saslog example4}
+proc means data=sashelp.class (keep = age);
+run;
+```
+
+## Repeat with both log and html output.
+Finally, you can have both the SAS log and the HTML output with
+the **sashtmllog** engine.
+
+    ```{sashtmllog example1} `r ''`
+    ```
+
+Producing:
+```{sashtmllog example1}
+```

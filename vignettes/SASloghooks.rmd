@@ -1,0 +1,60 @@
+---
+title: "Cleaning Up SAS Log Output"
+author: "Doug Hemken"
+date: "`r format(Sys.Date(), '%b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cleaning Up SAS Log Output}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r detach, include=FALSE}
+try(detach("package:SASmarkdown"), silent=TRUE)
+```
+
+```{r setup, include=FALSE}
+library(SASmarkdown)
+```
+
+
+If you are using the **saslog** or **sashtmllog** engines, or if you
+are allowing SAS semantic errors to appear in your document, you may
+not want to show the entire log file.  To gain some control over
+what shows up in your document, you can use chunk options.
+
+### Hook Specification
+These options are set up for you when you load the SASmarkdown library.
+
+### Hook Use
+If we use the engine **saslog**
+
+    ```{saslog procmeans2} `r ''`
+    proc means data=sashelp.class(keep=height);
+    run;
+    ```
+
+we don't see ALL of the SAS log file, but we may be showing
+more information than we really want to present to the reader.
+```{saslog procmeans2}
+proc means data=sashelp.class(keep=height);
+    run;
+```
+
+We can filter the log to suppress processing times by 
+using chunk option `SASproctime=FALSE`.
+
+    ```{saslog procmeans2, SASproctime=FALSE, results='hide'} `r ''`
+    ```
+
+```{saslog procmeans2, SASproctime=FALSE, results='hide'}
+```
+
+Other filtering options include no SAS command echo with
+`SASecho=FALSE` and no SAS NOTES with `SASnotes=FALSE`.
+
+```{saslog procmeans2, SASecho=FALSE, results="hide"}
+```
+
+```{saslog procmeans2, SASnotes=FALSE, results="hide"}
+```

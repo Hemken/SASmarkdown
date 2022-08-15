@@ -1,0 +1,80 @@
+---
+title: "Showing SAS errors"
+author: "Doug Hemken"
+date: "`r format(Sys.Date(), '%b %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Showing SAS errors}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r detach, include=FALSE}
+try(detach("package:SASmarkdown"), silent=TRUE)
+```
+
+SAS does not always exit with an error when it encounters problems, but
+when it does, you should see the log in your document instead of the code.
+
+## First, set up your SAS engine configuration.
+```{r setup, message=FALSE}
+library(SASmarkdown)
+```
+
+## A Semantic Error
+Semantic errors (typos etc.) cause SAS to return an error
+status when SAS finishes.  This will automatically cause 
+SASmarkdown to switch from the `sas` engine to the `saslog`
+engine.
+
+In this example, trying to use WORK data without any data there,
+SAS produces an ERROR, and no output is produced.)
+
+    ```{sas procmeans} `r ''`
+    proc means data=class;
+    run;
+    ```
+
+Which produces:
+```{sas procmeans}
+proc means data=class;
+run;
+```
+## An Execution Error.
+Division by zero produces error flags within the DATA step, but does
+**not** cause SAS to return an error code when it finishes.  The `sas`
+engine gives us the usual output.
+
+To see the DATA step ERROR, switch to the `saslog` engine.
+
+    ```{saslog divzero} `r ''`
+    
+    *--- sas code ---;
+    
+    ```
+
+Producing both the log and the PROC PRINT output.
+```{sas divzero}
+data class;
+    set sashelp.class(obs=5);
+    age0 = age/0;
+    keep age age0;
+    run;
+
+proc print data=class;
+run;
+```
+
+
+## Replicate in HTML
+For a semantic error, which produces no output tables or graphs,
+the **sas** and **sashtml** engines give us the
+same result.
+```{sashtml procmeans, error=TRUE}
+```
+
+For an execution error, using 
+the **sashtmllog** engine, we see both the DATA step errors and the
+HTML output.
+```{sashtmllog procmeans, error=TRUE}
+```
