@@ -4,8 +4,6 @@ Date: 2022-08-15
 Title: 'SAS' Markdown
 Description: Settings and functions to extend the 'knitr' 'SAS' engine.
 Imports: knitr(>= 1.21), xfun(>= 0.4)
-Suggests: rmarkdown
-VignetteBuilder: knitr
 SystemRequirements: SAS
 Authors@R: c(person("Doug", "Hemken", email="dehemken@wisc.edu", 
         role=c("aut", "cre"), comment="SSCC, Univ. of Wisconsin-Madison"),
