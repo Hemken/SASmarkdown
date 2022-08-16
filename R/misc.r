@@ -53,7 +53,12 @@
     } else {
          packageStartupMessage("The SAS executable was not found.", call.=FALSE)
     }
-    sasopts <- "-nosplash -ls 75"
+    
+    if (.Platform$OS.type=="windows") {
+        sasopts <- "-nosplash -ls 75"
+    } else if (.Platform$OS.type=="unix") {
+        sasopts <- "-nonews -ls 75"
+    }
     knitr::opts_chunk$set(engine.opts=list(sas=sasopts,
                     saslog=sasopts, sashtml=sasopts, sashtmllog=sasopts,
                     sashtml5=sasopts, sashtml5log=sasopts))
