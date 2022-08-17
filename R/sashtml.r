@@ -54,16 +54,44 @@ sashtml <- function (options) {
   else ""
   if (!options$error && !is.null(attr(out, "status")))
     stop(paste(out, collapse = "\n"))
-  if (options$eval &&  file.exists(listf))
-    out.listing <- c(readLines(listf), out)
-  if (options$eval &&  file.exists(logf))
-    out.log <- c(readLines(logf), out)
+  # if (options$eval &&  file.exists(listf))
+  #   out.listing <- c(readLines(listf), out)
+  # if (options$eval &&  file.exists(logf))
+  #   out.log <- c(readLines(logf), out)
+  # if (options$eval &&  file.exists(htmlf))
+  #     out.html <- c(readLines(htmlf), out)
+  if (is.null(options$encoding))
+      enc <- "latin1" else enc <- options$encoding
+  if (options$eval && file.exists(listf))
+      out.listing = c(iconv(readLines(listf), from=enc, to="UTF-8"), out) else out.listing=""
+  if (options$eval && file.exists(logf))
+      out.log = c(iconv(readLines(logf), from=enc, to="UTF-8"), out)
   if (options$eval &&  file.exists(htmlf))
-    out.html <- c(readLines(htmlf), out)
- out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
- out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
- out.log <- out.log[-(1:grep("^NOTE: ([[:alpha:]]*) HTML5? Body", out.log))]
-  
+    out.html <- c(iconv(readLines(htmlf), from=enc, to="UTF-8"), out)
+ # out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
+ # out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
+ # out.log <- out.log[-(1:grep("^NOTE: ([[:alpha:]]*) HTML5? Body", out.log))]
+ sasinit <- grep("NOTE: SAS initialization", out.log)
+ if (length(sasinit > 0)) {
+     out.log <- out.log[-(1:sasinit+2)]           # trim log header
+ }
+ autoexec <- grep("NOTE: AUTOEXEC processing completed.", out.log)
+ if (length(autoexec > 0)) {
+     out.log <- out.log[-(1:autoexec+1)]           # trim log header
+ }
+ formdelim <- grep("FORMDLIM", out.log)
+ if (length(formdelim > 0)) {
+     out.log <- out.log[-(1:formdelim)]           # trim log header
+ }
+ sasinstitute <- grep("NOTE: SAS Institute Inc.", out.log)
+ if (length(sasinstitute > 0)) {
+     out.log <- try(out.log[1:(sasinstitute-2)], silent=TRUE) # trim log tail
+ }
+ htmlbody <- grep("^NOTE: .* HTML5? Body", out.log)
+ if (length(htmlbody > 0)) {
+     out.log <- try(out.log[-(1:htmlbody)], silent=TRUE) # trim HTML output note
+ }
+ 
   if (options$engine %in% c("sashtml", "sashtml5") && is.null(attr(out, "status"))) {
       return(sas_output(options, options$code, out.html))
   } else {
