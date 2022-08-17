@@ -1,7 +1,7 @@
 find_sas <- function(message=TRUE) {
     versionlist <- c("8.0","8.1","8.2","9.0","9.1","9.1.3","9.2","9.2m2",
                      "9.3","9.3m2","9.4","9.4m1","9.4m2","9.4m3","9.4m4",
-                     "9.4m5","9.4m6", "9.4m7")
+                     "9.4m5","9.4m6", "9.4m7", "9.4m8")
     
   if (.Platform$OS.type == "windows"){
   sasexe <- NULL
@@ -58,7 +58,7 @@ find_sas <- function(message=TRUE) {
         sasexe <- NULL    # change the 0-length `sasexe` back to `NULL`
     }
     if (is.null(sasexe)){
-        for (d in paste(c("/usr/local/sas","/software/sas"),
+        for (d in paste(c("/usr/bin/sas", "/usr/bin/local/sas", "/usr/local/sas","/software/sas"),
                         "SASFoundation", sep="/")) {
             if (dir.exists(d)) {
                 for (v in versionlist) {
