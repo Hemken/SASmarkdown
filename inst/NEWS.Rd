@@ -1,5 +1,15 @@
 \name{NEWS}
 \title{News for Package 'SASmarkdown'}
+\section{Changes in 'SASmarkdown' version 0.7.3 (2022-08-17)}{
+  \subsection{Other improvements}{
+    \itemize{
+      \item NLS - SAS National Language Support extended to
+      HTML output.
+      \item Unix support - now searches more directories
+      for the SAS executable.
+    }
+  }
+}
 \section{Changes in 'SASmarkdown' version 0.7.1 (2022-08-11)}{
   \subsection{Other improvements}{
     \itemize{
