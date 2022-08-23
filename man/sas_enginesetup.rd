@@ -3,6 +3,8 @@
 \alias{sashtml}
 \alias{saslog}
 \alias{sashtmllog}
+\alias{saspdf}
+\alias{saspdflog}
 \title{Create SAS engines for knitr}
 \description{
 In addition to knitr's built in SAS engine, this function creates
@@ -16,8 +18,9 @@ automatically when \code{SASmarkdown} is loaded.
 \usage{
 sas_enginesetup(...)
 
-sashtml(options)
 saslog(options)
+sashtml(options)
+saspdf(options)
 }
 \arguments{
 \item{...}{arguments to be passed to \code{knit_engines$set(...)}.  
@@ -66,6 +69,9 @@ created is called "sashtmllog".}
 \item{
 \code{sas_enginesetup(sashtml5=sashtml, sashtml5log=sashtml)}
 create language engines that produce html output with inline images}
+\item{
+\code{sas_enginesetup(saspdf=saspdf, saspdflog=saspdf)}
+create language engines that produce LaTeX output, with inline images}
 }
 The end user should not need to use the language engine 
 functions directly.  These are the

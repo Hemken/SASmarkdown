@@ -1,5 +1,13 @@
 \name{NEWS}
 \title{News for Package 'SASmarkdown'}
+\section{Changes in 'SASmarkdown' version 0.8.0 (2022-08-23)}{
+  \subsection{New features: }{
+    \itemize{
+      \item PDF tables - a new engine 'saspdf' produces
+      LaTeX tables.
+    }
+  }
+}
 \section{Changes in 'SASmarkdown' version 0.7.3 (2022-08-17)}{
   \subsection{Other improvements}{
     \itemize{

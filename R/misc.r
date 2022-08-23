@@ -11,10 +11,11 @@
 .onAttach <- function (libname, pkgname) {
     knitr::knit_engines$set(sas=saslog, saslog=saslog, 
                             sashtml=sashtml, sashtmllog=sashtml,
-                            sashtml5=sashtml, sashtml5log=sashtml)
+                            sashtml5=sashtml, sashtml5log=sashtml,
+                            saspdf=saspdf, saspdflog=saspdf)
 
     knitr::opts_hooks$set(results = function(options) {
-        if (options$engine %in% c("sashtml", "sashtmllog", "sashtml5", "sashtml5log") &&
+        if (options$engine %in% c("sashtml", "sashtmllog", "sashtml5", "sashtml5log", "saspdf", "saspdflog") &&
             options$results != "hide") {
             options$results = "asis"
         }
@@ -49,7 +50,8 @@
     if (!is.null(sasexe)) {
         knitr::opts_chunk$set(engine.path=list(sas=sasexe,
                     saslog=sasexe, sashtml=sasexe, sashtmllog=sasexe,
-                    sashtml5=sasexe, sashtml5log=sasexe))
+                    sashtml5=sasexe, sashtml5log=sasexe,
+                    saspdf=sasexe, saspdflog=sasexe))
     } else {
          packageStartupMessage("The SAS executable was not found.", call.=FALSE)
     }
@@ -61,7 +63,8 @@
     }
     knitr::opts_chunk$set(engine.opts=list(sas=sasopts,
                     saslog=sasopts, sashtml=sasopts, sashtmllog=sasopts,
-                    sashtml5=sasopts, sashtml5log=sasopts))
+                    sashtml5=sasopts, sashtml5log=sasopts,
+                    saspdf=sasopts, saspdflog=sasopts))
     knitr::opts_chunk$set(error=TRUE, comment=NA)
     
     
