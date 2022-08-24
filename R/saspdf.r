@@ -53,20 +53,20 @@ saspdf <- function (options) {
   else ""
   if (!options$error && !is.null(attr(out, "status")))
     stop(paste(out, collapse = "\n"))
-  if (options$eval &&  file.exists(listf))
-    out.listing <- c(readLines(listf), out)
-  if (options$eval &&  file.exists(logf))
-    out.log <- c(readLines(logf), out)
+  # if (options$eval &&  file.exists(listf))
+  #   out.listing <- c(readLines(listf), out)
+  # if (options$eval &&  file.exists(logf))
+  #   out.log <- c(readLines(logf), out)
+  # if (options$eval &&  file.exists(texf))
+  #     out.tex <- c(readLines(texf), out)
+  if (is.null(options$encoding))
+      enc <- "latin1" else enc <- options$encoding
+  if (options$eval && file.exists(listf))
+      out.listing = c(iconv(readLines(listf), from=enc, to="UTF-8"), out) else out.listing=""
+  if (options$eval && file.exists(logf))
+      out.log = c(iconv(readLines(logf), from=enc, to="UTF-8"), out)
   if (options$eval &&  file.exists(texf))
-      out.tex <- c(readLines(texf), out)
-  # if (is.null(options$encoding))
-  #     enc <- "latin1" else enc <- options$encoding
-  # if (options$eval && file.exists(listf))
-  #     out.listing = c(iconv(readLines(listf), from=enc, to="UTF-8"), out) else out.listing=""
-  # if (options$eval && file.exists(logf))
-  #     out.log = c(iconv(readLines(logf), from=enc, to="UTF-8"), out)
-  # if (options$eval &&  file.exists(htmlf))
-  #   out.html <- c(iconv(readLines(htmlf), from=enc, to="UTF-8"), out)
+    out.tex <- c(iconv(readLines(texf), from=enc, to="UTF-8"), out)
  # out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
  # out.log <- out.log[1:(grep("SAS Institute Inc.", out.log)-2)]
  # out.log <- out.log[-(1:grep("^NOTE: ([[:alpha:]]*) HTML5? Body", out.log))]
