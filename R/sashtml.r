@@ -65,7 +65,11 @@ sashtml <- function (options) {
         if (options$engine %in% c("sashtml", "sashtmllog")) {
             out.html <- c(iconv(readLines(htmlf), from=enc, to="UTF-8"), out)
         } else if (options$engine %in% c("sashtml5", "sashtml5log")) {
+<<<<<<< HEAD
             out.html <- c(readLines(htmlf, encoding="UTF-8"), out)
+=======
+            out.html <- c(readLines(htmlf), out)
+>>>>>>> 74fe864a223e1500a9910930240f6e2d765f4224
         }
     }
  # out.log <- out.log[-(1:grep("FORMDLIM", out.log))]
