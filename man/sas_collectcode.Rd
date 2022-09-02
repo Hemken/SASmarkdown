@@ -9,8 +9,7 @@ define a chunk hook.  When the chunk hook is later invoked, this
 writes the contents of the current chunk to the end of a SAS
 \code{autoexec.sas} file.
 
-This may be used with any of the SAS language engines:  "sas",
-"sashtml", "saslog",  or "sashtmllog".
+This may be used with any of the SAS language engines.
 }
 \usage{
 sas_collectcode()

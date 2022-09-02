@@ -6,15 +6,14 @@
 \title{Settings and functions to extend the knitr SAS engine.}
 
 \description{
-Using the "sas" language engine in \code{knitr} has a number of limitations.
+Using the "sas" language engine provided in \code{knitr} has a number of limitations.
 Each SAS code chunk is run as a separate batch file, and only the source
 code and the listing output are returned to the document being knit.
 
 The functions in this package set up additional variations on the SAS
-language engine, enabling ODS HTML output to be returned to the
+language engine, enabling ODS HTML, HTML5, and LaTeX output to be returned to the
 document, as well as enabling SAS log output to be returned.  These
-language engines are automatically created when the package is loaded,
-and are called "sashtml", "saslog", and "sashtmllog".
+language engines are automatically created when the package is loaded.
 
 When used with chunk option \code{error=TRUE}, the user can see some
 SAS errors automatically included in their document.

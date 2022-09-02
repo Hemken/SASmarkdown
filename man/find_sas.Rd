@@ -7,6 +7,10 @@ A helper function that seeks to locate your SAS executable.
 This function searches for recent versions of SAS (>= SAS 8),
 in some of the usual default installation locations.
 
+This function is automatically invoked when the SASmarkdown
+library is attached - normally a user will not need to call
+this function.
+
 In the event SAS is not found, you will have to specify the
 correct location yourself.
 
