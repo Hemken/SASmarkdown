@@ -14,7 +14,7 @@ saspdf <- function (options) {
     
     if (options$label != "") 
         glabel <- options$label else
-            glabel <- sasplot.pdf
+            glabel <- "sasplot.pdf"
     if (length(grep("fig.path", options$params.src, fixed=TRUE))!=0) 
       gpath <- paste0(options$fig.path,"/") else 
           gpath <- ""
