@@ -59,6 +59,6 @@ fmd <- file.path(tempdir(), "test.md")
 fhtml <- file.path(tempdir(), "test.html")
 
 knitr::knit(text=indoc, output=fmd)
-markdown::markdownToHTML(fmd, fhtml)
+markdown::mark_html(fmd, fhtml)
 }
 }
