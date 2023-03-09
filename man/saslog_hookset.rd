@@ -62,7 +62,6 @@ Doug Hemken
 \examples{
 # saslog_hookset() # called during loading
 
-\dontrun{
 indoc <- '
 ---
 title: "Basic SASmarkdown Doc"
@@ -74,12 +73,17 @@ output: html_document
 library(SASmarkdown)
 ```
 # Then set up SAS code chunks with
-```{saslog, SASecho=FALSE}
+```{sas}
 proc means data=sashelp.class;
 run;
 ```
 '
-knitr::knit(text=indoc, output="test.md")
-rmarkdown::render("test.md")
+if (!is.null(find_sas())) {
+  # To run this example, remove tempdir().
+  fmd <- file.path(tempdir(), "test.md")
+  fhtml <- file.path(tempdir(), "test.html")
+
+  knitr::knit(text=indoc, output=fmd)
+  rmarkdown::render(fmd, "html_document", fhtml)
 }
 }

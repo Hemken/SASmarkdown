@@ -41,7 +41,6 @@ Doug Hemken
 }
 \examples{
 
-\dontrun{
 indoc <- '
 ---
 title: "Basic SASmarkdown Doc"
@@ -52,14 +51,18 @@ output: html_document
 ```{r}
 library(SASmarkdown)
 ```
-
 # Then set up SAS code chunks with
-```{sashtml}
+```{sas}
 proc means data=sashelp.class;
 run;
 ```
 '
-knitr::knit(text=indoc, output="test.md")
-rmarkdown::render("test.md")
+if (!is.null(find_sas())) {
+  # To run this example, remove tempdir().
+  fmd <- file.path(tempdir(), "test.md")
+  fhtml <- file.path(tempdir(), "test.html")
+
+  knitr::knit(text=indoc, output=fmd)
+  rmarkdown::render(fmd, "html_document", fhtml)
 }
 }

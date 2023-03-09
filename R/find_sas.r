@@ -79,9 +79,9 @@ find_sas <- function(message=TRUE) {
 } else {
     message("Unknown OS.\n Specify the location of your SAS executable.")
 }
-    if (is.null(sasexe)) {
-        message("Specify the location of your SAS executable with `knitr::opts_chunk$set`.")
-        message("In SAS, issue the command ` %put %sysget(SASROOT); ` to find this.")
+if (is.null(sasexe)) {
+    packageStartupMessage("Specify the location of your SAS executable with `knitr::opts_chunk$set`.\n",
+        "In SAS, issue the command ` %put %sysget(SASROOT); ` to find this.")
     }
   return(sasexe)
 }
