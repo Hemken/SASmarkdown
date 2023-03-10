@@ -53,7 +53,7 @@ proc means;
   run;
 ```
 '
-if (!is.null(find_sas())) {
+if (!is.null(SASmarkdown::find_sas())) {
   # To run this example, remove tempdir().
   fmd <- file.path(tempdir(), "test.md")
   fhtml <- file.path(tempdir(), "test.html")
