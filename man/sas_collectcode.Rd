@@ -45,34 +45,40 @@ Doug Hemken
 }
 \examples{
 sas_collectcode()
-
 \dontrun{
 indoc <- '
 ---
-title: "Basic SASmarkdown Doc"
+title: "Linking SASmarkdown Code Chunks"
 author: "Doug Hemken"
 output: html_document
 ---
-# In a first code chunk, set up with
+# An R console example
+## In a first code chunk, set up with
 ```{r}
 library(SASmarkdown)
 ```
-
-# Then mark SAS code chunks with collectcode=TRUE
+## Then mark SAS code chunks with
 ```{sas, collectcode=TRUE}
 data class;
-    set sashelp.class;
-    keep age;
-    run;
+  set sashelp.class;
+  bmi = 703*weight/height**2;
+  run;
 ```
 
-# A later chunk that depends on the first.
+## A later chunk that depends on the first.
 ```{sas}
-proc means data=class; /* not SASHELP.class */
-run;
+proc means;
+  var bmi;
+  run;
 ```
 '
-knitr::knit(text=indoc, output="test.md")
-rmarkdown::render("test.md")
+if (!is.null(SASmarkdown::find_sas())) {
+  # To run this example, remove tempdir().
+  fmd <- file.path(tempdir(), "test.md")
+  fhtml <- file.path(tempdir(), "test.html")
+
+  knitr::knit(text=indoc, output=fmd)
+  rmarkdown::render(fmd, "html_document", fhtml)
+}
 }
 }

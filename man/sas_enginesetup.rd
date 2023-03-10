@@ -96,7 +96,6 @@ Doug Hemken
 \examples{
 sas_enginesetup(sashtml=sashtml, saslog=saslog)
 
-\dontrun{
 indoc <- '
 ---
 title: "Basic SASmarkdown Doc"
@@ -113,7 +112,12 @@ proc means data=sashelp.class;
 run;
 ```
 '
-knitr::knit(text=indoc, output="test.md")
-rmarkdown::render("test.md")
+if (!is.null(SASmarkdown::find_sas())) {
+  # To run this example, remove tempdir().
+  fmd <- file.path(tempdir(), "test.md")
+  fhtml <- file.path(tempdir(), "test.html")
+
+  knitr::knit(text=indoc, output=fmd)
+  rmarkdown::render(fmd, "html_document", fhtml)
 }
 }
