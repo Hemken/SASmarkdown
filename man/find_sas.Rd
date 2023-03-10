@@ -32,7 +32,7 @@ Doug Hemken
 \code{\link{SASmarkdown-package}}
 }
 \examples{
-\dontrun{
+
 indoc <- '
 # An R console example
 ## In a first code chunk, set up with
@@ -54,11 +54,13 @@ proc means;
   run;
 ```
 '
-# To run this example, remove tempdir().
-fmd <- file.path(tempdir(), "test.md")
-fhtml <- file.path(tempdir(), "test.html")
+if (!is.null(SASmarkdown::find_sas())) {
+  # To run this example, remove tempdir().
+  fmd <- file.path(tempdir(), "test.md")
+  fhtml <- file.path(tempdir(), "test.html")
 
-knitr::knit(text=indoc, output=fmd)
-markdown::mark_html(fmd, fhtml)
+  knitr::knit(text=indoc, output=fmd)
+  rmarkdown::render(fmd, "html_document", fhtml)
 }
+
 }
