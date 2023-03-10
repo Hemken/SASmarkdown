@@ -1,6 +1,6 @@
 
 .onLoad <- function (libname, pkgname) {
-    utils::globalVariables(c("oautoexec","hook_orig")) # to suppress CHECK note
+    utils::globalVariables(c("oautoexec","hook_orig"), add=FALSE) # to suppress CHECK note
 }
 
 # .onUnload <- function(libpath) {

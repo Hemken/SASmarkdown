@@ -40,7 +40,7 @@ Doug Hemken
 
 }
 \examples{
-
+\dontrun{
 indoc <- '
 ---
 title: "Basic SASmarkdown Doc"
@@ -64,5 +64,6 @@ if (!is.null(SASmarkdown::find_sas())) {
 
   knitr::knit(text=indoc, output=fmd)
   rmarkdown::render(fmd, "html_document", fhtml)
+}
 }
 }
