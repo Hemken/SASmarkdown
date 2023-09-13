@@ -1,5 +1,12 @@
 \name{NEWS}
 \title{News for Package 'SASmarkdown'}
+\section{Changes in 'SASmarkdown' version 0.8.3 (2023-09-13)}{
+  \subsection{Bug fix: }{
+    \itemize{
+      \item collectcode() - now works with LaTeX output.
+    }
+  }
+}
 \section{Changes in 'SASmarkdown' version 0.8.0 (2022-09-01)}{
   \subsection{New features: }{
     \itemize{
