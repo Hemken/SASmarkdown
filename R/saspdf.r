@@ -21,7 +21,7 @@ saspdf <- function (options) {
     
     odsinit <- c("ods noproctitle;\n",
                  "ods listing close;\n",
-                 paste0("ods tagsets.tablesonlylatex file='", texf,  "' (no_top_matter no_bottom_matter) style=journal;\n"),
+                 paste0("ods tagsets.simplelatex file='", texf,  "' (no_top_matter no_bottom_matter) stylesheet='sasmarkdown.sty'(url='sas2') style=journal;\n"),
                  paste0("ods graphics / imagename='", glabel, "' outputfmt=pdf;")
                  )
     

@@ -1,5 +1,15 @@
 \name{NEWS}
 \title{News for Package 'SASmarkdown'}
+\section{Changes in 'SASmarkdown' version 0.8.4 (2023-09-21)}{
+  \subsection{Enhancement: }{
+    \itemize{
+      \item PDF tables - the 'saspdf' engine now includes SAS'
+      LaTeX stylesheet, which is written to your project folder.
+      Your document YAML should now include 'extra_dependencies: sasmarkdown'
+      for 'pdf_document' output.
+    }
+  }
+}
 \section{Changes in 'SASmarkdown' version 0.8.3 (2023-09-13)}{
   \subsection{Bug fix: }{
     \itemize{
