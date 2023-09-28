@@ -10,10 +10,10 @@ sas_output <- function (options, code, out, extra = NULL)
   }
   if (options$engine %in% c("saspdf", "saspdflog")) {
       out <- gsub("\\pagebreak", " ", out)
-      sty <- readLines("sasmarkdown.sty")
+      sty <- readLines("sas.sty")
       sty2 <- sub("\\newcommand{\\color}[2][]{}", "", sty, fixed=TRUE)
       sty3 <- sub("\\newcommand{\\sascaption}[2][l]{\\marginpar[#1]{\\fbox{\\parbox{0.7in}{\\sasScaption{#2}}}}}",
-                  "\\newcommand{\\sascaption}[2][l]{\\reversemarginpar{\\fbox{\\parbox{0.9in}{\\sasCaption{#2}}}}}",
+                  "\\newcommand{\\sascaption}[2][l]{\\reversemarginpar{\\fbox{\\parbox{0.9in}{\\sasScaption{#2}}}}}",
                   sty2,
                   fixed=TRUE)
       writeLines(sty3, "sasmarkdown.sty")
