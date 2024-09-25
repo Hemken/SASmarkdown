@@ -14,7 +14,7 @@ find_sas <- function(message=TRUE) {
           dvf <- paste(paste(dv, "sas", sep="/"), "exe", sep=".")
             if (file.exists(dvf)) {
               sasexe <- dvf
-              if (message) message("SAS found at ", sasexe)
+              if (message) packageStartupMessage("SAS found at ", sasexe)
               break
             }
           }
@@ -28,7 +28,7 @@ find_sas <- function(message=TRUE) {
       sasexe <- Sys.which("sas")
       attr(sasexe, "names") <- NULL    # remove attr so this is plain text
       if (nchar(sasexe) > 0) {
-          if (message) message("SAS found at ", sasexe)
+          if (message) packageStartupMessage("SAS found at ", sasexe)
       } else {
           sasexe <- NULL    # change the 0-length `sasexe` back to `NULL`
       }
@@ -42,7 +42,7 @@ find_sas <- function(message=TRUE) {
       dvf <- paste(paste(dv, f, sep="/"), "app", sep=".")
       if (file.exists(dvf)) {
         sasexe <- dvf
-        if (message) message("SAS found at ", sasexe)
+        if (message) packageStartupMessage("SAS found at ", sasexe)
         break
       }
     }
@@ -52,7 +52,7 @@ find_sas <- function(message=TRUE) {
     # if (message) message("SAS found at ", sasexe)
     sasexe <- Sys.which("sas")
     if (nchar(sasexe) > 0) {
-        if (message) message("SAS found at ", sasexe)
+        if (message) packageStartupMessage("SAS found at ", sasexe)
         attr(sasexe, "names") <- NULL    # remove attr so this is plain text
     } else {
         sasexe <- NULL    # change the 0-length `sasexe` back to `NULL`
@@ -67,7 +67,7 @@ find_sas <- function(message=TRUE) {
                         dvf <- paste(dv, "sas", sep="/")
                         if (file.exists(dvf)) {
                             sasexe <- dvf
-                            if (message) message("SAS found at ", sasexe)
+                            if (message) packageStartupMessage("SAS found at ", sasexe)
                             break
                         }
                     }
@@ -77,7 +77,7 @@ find_sas <- function(message=TRUE) {
     }
     
 } else {
-    message("Unknown OS.\n Specify the location of your SAS executable.")
+    packageStartupMessage("Unknown OS.\n Specify the location of your SAS executable.")
 }
 if (is.null(sasexe)) {
     packageStartupMessage("Specify the location of your SAS executable with `knitr::opts_chunk$set`.\n",

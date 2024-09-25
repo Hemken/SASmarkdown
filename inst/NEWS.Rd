@@ -1,5 +1,14 @@
 \name{NEWS}
 \title{News for Package 'SASmarkdown'}
+\section{Changes in 'SASmarkdown' version 0.8.6 (2024-09-25)}{
+  \subsection{Bug fixes: }{
+    \itemize{
+      \item eval - fixed 'no out.log' when eval = FALSE
+      \item collectcode - collecting code is now actually
+      suppressed when collectcode = FALSE
+    }
+  }
+}
 \section{Changes in 'SASmarkdown' version 0.8.4 (2023-09-21)}{
   \subsection{Enhancement: }{
     \itemize{

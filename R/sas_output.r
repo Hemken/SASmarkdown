@@ -1,5 +1,6 @@
 sas_output <- function (options, code, out, extra = NULL) 
 {
+  # print("Output object passed to sas_output()")
   # print(out)
   if (options$engine == "saslog" &&
       length(out) > 1L &&
@@ -18,6 +19,7 @@ sas_output <- function (options, code, out, extra = NULL)
                   fixed=TRUE)
       writeLines(sty3, "sasmarkdown.sty")
   }
-  
+  # print(" ... passing on to knitr::engine_output()")
+  # print(knitr::engine_output)
   knitr::engine_output(options, code, out, extra)
 }

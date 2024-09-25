@@ -1,4 +1,4 @@
-sas_collectcode <- function() {
+sas_collectcode <- function() { # initialize collectcode hook
     if (file.exists("autoexec.sas")) {
         assign("oautoexec", readLines("autoexec.sas"), pos=2)
         message("Found an existing 'autoexec.sas'.")
@@ -6,12 +6,18 @@ sas_collectcode <- function() {
         oautoexec <- NULL
     }
     
-knitr::knit_hooks$set(collectcode = function(before, options, envir) {
+    knitr::knit_hooks$set(collectcode = function(before, options, envir) {
+        # print("\n")
+        # print(paste("Chunk label=", options$label))
+        # print(paste("before=", before))
+        # print(paste("collectcode=", options$collectcode))
+        # print(paste("eval=", options$eval))
     if (!before) {
         if (options$engine %in% c("sas", "saslog", 
                                   "sashtml", "sashtmllog", 
                                   "sashtml5", "sashtml5log",
-                                  "saspdf", "saspdflog")) {
+                                  "saspdf", "saspdflog")
+            & options$collectcode==TRUE) {
             autoexec <- file("autoexec.sas", open="at")
             writeLines(options$code, autoexec)
             close(autoexec)

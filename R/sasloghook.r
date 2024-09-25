@@ -28,11 +28,14 @@ sasloghook <- function(x, options) {
     #     }
     # }
        
-    # Ensure a trailing blank line
-    if (length(y)>0 && y[length(y)] != "") { y <- c(y, "") }
-    # Remove blank lines at the top of the SAS log
-    firstline <- min(grep("[[:alnum:]]", y))
-    if (firstline != Inf && firstline > 1) {y <- y[-(1:(firstline-1))]}
+    if (length(y)>0) {
+        # Ensure a trailing blank line
+        if (y[length(y)] != ""){ y <- c(y, "") }
+        # Remove blank lines at the top of the SAS log
+        firstline <- min(grep("[[:alnum:]]", y))
+        if (firstline != Inf && firstline > 1) {y <- y[-(1:(firstline-1))]}
+    } 
+    
     # Now treat the result as regular output
     hook_orig(y, options)
   } else {
