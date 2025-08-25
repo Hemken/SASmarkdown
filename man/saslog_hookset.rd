@@ -56,7 +56,7 @@ Doug Hemken
 }
 
 \seealso{
-\code{\link{knit_hooks}}
+\code{\link[knitr:knit_hooks]{knit_hooks}}
 
 }
 \examples{
